@@ -1,0 +1,415 @@
+﻿
+@{
+    ViewBag.Title = "Đăng ký tài khoản";
+}
+@section Scripts{
+    <script>
+        var is_check = true;
+        var hasReger = {
+            init: function () {
+                hasReger.RegesterEvent();
+                hasReger.LoadTable("");
+            },
+
+            RegesterEvent: function () {
+
+                $(".double-link").off("click").on("click", function () {
+                    $(".nav-link").removeClass("text-danger  font-weight-bold");
+                    $(this).addClass("text-danger  font-weight-bold");
+                });
+                $("#btnSaveUser").off("click").on("click", function () {
+                    hasReger.SaveUserRole();
+                });
+                $("#btnNewHas").off("click").on("click", function () {
+                    $("#ErrorCheck").hide();
+                    is_check = false;
+                    toastr["success"]("Tạo mới thành công!Mời bạn nhập thông tin");
+                });
+                $("#UserName").off("change").on("change", function () {
+                    if (is_check == false) {
+                        if ($("#UserName").val() == "") {
+                            $("#ErrorCheck").show();
+                            $("#ErrorCheck").html("");
+                            $("#ErrorCheck").append("<div class='col-lg-12 text-danger'>Tài khoản không được để trống</div>");
+                            $("#UserName").focus();
+                            return;
+                        }
+                        hasReger.checkHasRoles();
+                    }
+                });
+                $("#Password").off("change").on("change", function () {
+                    if (is_check == false) {
+                        if ($("#Password").val().length < 6) {
+                            $("#ErrorCheck").show();
+                            $("#ErrorCheck").html("");
+                            $("#ErrorCheck").append("<div class='col-lg-12 text-danger'>Mật khẩu không được nhỏ hơn 6 ký tự</div>");
+                            $("#Password").focus();
+                            return;
+                        } else if ($("#Password").val() == "") {
+                            $("#ErrorCheck").show();
+                            $("#ErrorCheck").html("");
+                            $("#ErrorCheck").append("<div class='col-lg-12 text-danger'>Mật khẩu không được để trống</div>");
+                            $("#Password").focus();
+                            return;
+                        }
+                        hasReger.checkHasRoles();
+                    }
+                });
+                $("#PasswordConfirm").off("change").on("change", function () {
+                    if (is_check == false) {
+                        if ($("#PasswordConfirm").val() == "") {
+                            $("#ErrorCheck").show();
+                            $("#ErrorCheck").html("");
+                            $("#ErrorCheck").append("<div class='col-lg-12 text-danger'>Mật khẩu xác nhận không được để trống</div>");
+                            $("#PasswordConfirm").focus();
+                            return;
+                        }
+                        hasReger.checkHasRoles();
+                    }
+                });
+                $("#Email").off("change").on("change", function () {
+                    if (is_check == false) {
+                        if ($("#Email").val() == "") {
+                            $("#ErrorCheck").show();
+                            $("#ErrorCheck").html("");
+                            $("#ErrorCheck").append("<div class='col-lg-12 text-danger'>Email không được để trống</div>");
+                            $("#Email").focus();
+                            return;
+                        }
+                        hasReger.checkHasRoles();
+                    }
+                });
+            },
+
+            restHas: function () {
+
+            },
+
+            checkHasRoles: function () {
+                var UserName = $("#UserName").val();
+                var Password = $("#Password").val();
+                var PasswordConfirm = $("#PasswordConfirm").val();
+                var Email = $("#Email").val();
+
+                $.ajax({
+                    type: 'Get',
+                    datatype: 'json',
+                    data: {
+                        UserName: UserName,
+                        Password: Password,
+                        PasswordConfirm: PasswordConfirm,
+                        Email: Email,
+                    },
+                    url: '/RegesterLogin/checkHasRoles',
+                    success: function (has) {
+                        if (has.status == false) {
+                            $("#ErrorCheck").show();
+                            $("#ErrorCheck").html("");
+                            $("#ErrorCheck").append("<div class='col-lg-12 text-danger'>" + has.message + "</div>");
+                            hasReger.RegesterEvent();
+                        } else {
+                            $("#ErrorCheck").hide();
+                        }
+                    }
+                })
+
+            },
+
+            SaveUserRole: function () {
+                var UserName = $("#UserName").val();
+                var Password = $("#Password").val();
+                var PasswordConfirm = $("#PasswordConfirm").val();
+                var Email = $("#Email").val();
+                var IsEmail = $("#IsEmail").prop('checked');
+
+                $.ajax({
+                    type: 'Post',
+                    datatype: 'json',
+                    data: {
+                        UserName: UserName,
+                        Password: Password,
+                        PasswordConfirm: PasswordConfirm,
+                        Email: Email,
+                        IsEmail: IsEmail,
+                    },
+                    url: '/RegesterLogin/CreateUserRole',
+                    success: function (has) {
+                        if (has.status == true) {
+
+                            hasReger.RegesterEvent();
+                        } else {
+                            $("#ErrorCheck").show();
+                            $("#ErrorCheck").html("");
+                            $("#ErrorCheck").append("<div class='col-lg-12 text-danger'>" + has.message + "</div>");
+
+                        }
+                    }
+                })
+            },
+
+
+            LoadTable: function (txtName) {
+                $.ajax({
+                    type: 'Get',
+                    datatype: 'json',
+                    data: {
+                        txtName: txtName,
+                    },
+                    url: '/RegesterLogin/LoadTable',
+                    success: function (has) {
+                        if (has.status == true) {
+                            var lstAccount = has.lstAccount;
+                            var html = '';
+                            var template = $('#data-template-account').html();
+                            $.each(lstAccount, function (i, item) {
+                                html += Mustache.render(template, {
+                                    UserName: item.UserName,
+                                    Email: item.Email,
+                                    Roles: item.Roles != "" ? item.Roles : "chưa cấp quyền",
+                                    url: "/wwwRoot/images/pages/medal-trial.svg",
+                                });
+                            });
+                            $('#lstAccount').html(html);
+
+                        } else {
+                            toastr["warning"](has.message);
+                        }
+                    }
+                })
+
+            },
+
+            LoadRoles: function () {
+                $('#modal-Roles').modal("show");
+            }
+
+        };
+        hasReger.init();
+    </script>
+}
+
+<!-- [ Main Content ] start -->
+<div class="col-sm-12">
+    <!-- liveline-section start -->
+    <div class="card col-sm-12 p-0 mb-2">
+        <div class="card-body text-center">
+
+            <ul class="list-inline mb-0">
+                <li class="list-inline-item border-right m-0  active"><a href="javascript:hasReger.LoadTable('a')" class="text-muted double-link nav-link  hvr-shrink double-link nav-link  hvr-shrink"> A </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('b')" class="text-muted double-link nav-link  hvr-shrink"> B </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('c')" class="text-muted double-link nav-link  hvr-shrink"> C </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('d')" class="text-muted double-link nav-link  hvr-shrink"> D </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('e')" class="text-muted double-link nav-link  hvr-shrink"> E </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('f')" class="text-muted double-link nav-link  hvr-shrink"> F </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('g')" class="text-muted double-link nav-link  hvr-shrink"> G </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('h')" class="text-muted double-link nav-link  hvr-shrink"> H </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('i')" class="text-muted double-link nav-link  hvr-shrink"> I </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('j')" class="text-muted double-link nav-link  hvr-shrink"> J </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('k')" class="text-muted double-link nav-link  hvr-shrink"> K </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('l')" class="text-muted double-link nav-link  hvr-shrink"> L </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('m')" class="text-muted double-link nav-link  hvr-shrink"> M </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('n')" class="text-muted double-link nav-link  hvr-shrink"> N </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('o')" class="text-muted double-link nav-link  hvr-shrink"> O </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('p')" class="text-muted double-link nav-link  hvr-shrink"> P </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('q')" class="text-muted double-link nav-link  hvr-shrink"> Q </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('r')" class="text-muted double-link nav-link  hvr-shrink"> R </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('s')" class="text-muted double-link nav-link  hvr-shrink"> S </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('t')" class="text-muted double-link nav-link  hvr-shrink"> T </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('u')" class="text-muted double-link nav-link  hvr-shrink"> U </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('v')" class="text-muted double-link nav-link  hvr-shrink"> V </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('w')" class="text-muted double-link nav-link  hvr-shrink"> W </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('x')" class="text-muted double-link nav-link  hvr-shrink"> X </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('y')" class="text-muted double-link nav-link  hvr-shrink"> Y </a></li>
+                <li class="list-inline-item border-right m-0"><a href="javascript:hasReger.LoadTable('z')" class="text-muted double-link nav-link  hvr-shrink"> Z </a></li>
+                <li class="list-inline-item"><a href="javascript:hasReger.LoadTable('')" class="font-weight-bolder"> All </a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="card col-sm-12">
+        <div class="card-header p-2 row">
+            <div class="col-sm-8 mt-2">
+                <button type="button" id="btnNewHas" class="btn-grd-primary btn-sm" data-toggle="modal" data-target="#modal-regester"><i class="feather icon-plus"></i> Tạo mới</button>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group ">
+                    <label class="floating-label" for=""></label>
+                    <input type="text" class="form-control" id="txtSearch" placeholder="Tìm kiếm theo tên tài khoản , quyền ...">
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row" id="lstAccount">
+            </div>
+            <script id="data-template-account" type="x-tmpl-mustache">
+             <div class="col-sm-3 p-1">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <img src="{{url}}" alt="" class="img-fluid w-50">
+                        <h4 class="mt-3">{{UserName}}</h4>
+                        <p class="mb-2">{{Email}}</p>
+                        <p><span class="badge badge-primary">{{Roles}}</span></p>
+                        <hr>
+                        <div class="btn-group mb-2 mr-2">
+							<button class="btn btn-outline-primary dropdown-toggle has-ripple" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-settings"></i> Chức năng</button>
+							<div class="dropdown-menu" style="">
+								<a class="dropdown-item" href="javascript:hasReger.LoadRoles()"><i class="feather icon-edit-2 text-info"></i> Chỉnh sửa</a>
+								<a class="dropdown-item" href="#!"><i class="feather icon-user text-primary"></i> Phân quyền</a>
+								<a class="dropdown-item" href=""><i class="feather icon-trash text-danger"></i> Xóa</a>
+							</div>
+						</div>
+                   </div>
+                </div>
+            </div>
+            </script>
+        </div>
+
+    </div>
+    <!-- [ Main Content ] end -->
+    <div class="modal fade" id="modal-regester" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-image: linear-gradient(to right, #5fadb6 0%, #53ebdd 51%, #7ea7da 100%);">
+                    <h5 class="modal-title text-center text-white">Đăng ký tài khoản</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body p-3">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-danger alert-dismissible fade show p-r-0" role="alert">
+                                <div class="col-sm-12 row p-b-2" style="list-style:none">
+                                    <div class="col-lg-6">⦿ Tối thiểu 6 ký tự</div>
+                                    <div class="col-lg-6">⦿ 01 chữ in hoa (A-Z)</div>
+                                    <div class="col-lg-6">⦿ 01 chữ in thường (a-z)</div>
+                                    <div class="col-lg-6">⦿ 01 ký tự đặc biệt</div>
+                                </div>
+                            </div>
+                            <div class="alert alert-warning alert-dismissible fade show p-r-0" id="ErrorCheck" style="display:none">
+
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="floating-label" for="UserName"><small class="text-danger">* </small>Tài khoản</label>
+                                <input type="text" class="form-control" id="UserName" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="floating-label" for="Password"><small class="text-danger">* </small>Mật khẩu</label>
+                                <input type="password" class="form-control" id="Password" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="floating-label" for="PasswordConfirm"><small class="text-danger">* </small>Xác nhận lại mật khẩu</label>
+                                <input type="password" class="form-control" id="PasswordConfirm" placeholder="">
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="floating-label" for="Email"><small class="text-danger">* </small>Email</label>
+                                <input type="email" class="form-control" id="Email" placeholder="">
+                            </div>
+                        </div>
+                        @*<div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="floating-label" for="cbRoles"><small class="text-danger">* </small>Chọn quyền</label>
+                                    <select class="form-control" id="cbRoles">
+                                        <option value=""></option>
+                                        <option value="User">user</option>
+                                        <option value="Manager">manager</option>
+                                        <option value="Admin">admin</option>
+                                    </select>
+                                </div>
+                            </div>*@
+                        <div class="col-sm-12">
+                            <label class="d-block mb-2">Thông báo email :</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="IsEmail">
+                                <label class="custom-control-label" for="IsEmail"><Yes></Yes></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer-inverse">
+                    <button class="btn btn-sm btn-grd-primary mr-1" id="btnSaveUser"> Lưu dữ liệu </button>
+                    <button class="btn btn-sm btn-grd-danger" data-dismiss="modal" aria-label="Close"> Đóng </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-Roles" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center ">Cấp quyền truy cập</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body p-3">
+                    <div class="row">
+                        <div class="col-sm-12 p-0 m-0">
+                            <div class="alert alert-warning alert-dismissible fade show p-r-0" role="alert">
+                                <div class="col-sm-12 row p-b-2" style="list-style:none">
+                                    <div>⦿ Cấp quyền cho tài khoản , khi sửa đổi cần liên hệ quản trị viên </div>
+                                </div>
+                            </div>
+                            <div class="alert alert-warning alert-dismissible fade show p-r-0" id="ErrorCheck" style="display:none">
+
+                            </div>
+                        </div>
+                        @*<div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="floating-label" for="cbRoles"><small class="text-danger">* </small>Chọn quyền</label>
+                                    <select class="form-control" id="cbRoles">
+                                        <option value=""></option>
+                                        <option value="User">user</option>
+                                        <option value="Manager">manager</option>
+                                        <option value="Admin">admin</option>
+                                    </select>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+                <div class="modal-footer-inverse">
+                    <button class="btn btn-sm btn-grd-primary mr-1" id="btnSaveUser"> Lưu dữ liệu </button>
+                    <button class="btn btn-sm btn-grd-danger" data-dismiss="modal" aria-label="Close"> Đóng </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*<div class="card col-sm-12">
+        <div class="card-header p-2 row">
+            <div class="col-sm-6 text-left m-r-2">
+                <button class="btn btn-grd-primary btn-round btn-sm"><i class="feather icon-plus-circle"></i>Tạo mới </button>
+                <button class="btn btn-grd-success btn-round btn-sm"><i class="feather icon-save"></i>Cập nhập </button>
+                <button class="btn btn-grd-danger btn-round btn-sm"><i class="feather icon-trash"></i>Xóa </button>
+            </div>
+            <div class="col-sm-6 text-right">
+                <h5 class="mb-2 text-muted">Đăng ký tài khoản đăng nhập người dùng</h5>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12 row border-top-1">
+                    <div class="col-sm-6 text-left m-r-2">
+                        <h5 class="mb-2 text-muted">Thông tin đăng ký</h5>
+                    </div>
+                    <div class="col-sm-6 text-left">
+                        <h5 class="mb-2 text-muted">Danh sách đăng ký</h5>
+                    </div>
+                </div>
+                <div class="col-sm-12 row">
+                    <div class="col-sm-6 text-left m-r-2">
+                    </div>
+                    <div class="col-sm-6 text-left">
+                    </div>h
+                </div>
+            </div>
+        </div>
+    </div>*@

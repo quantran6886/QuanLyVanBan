@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "TrungTamTinNhan";
+}
+
+@section Scripts{
+    <script>
+        var px = new PerfectScrollbar('.cust-scroll', {
+            wheelSpeed: .5,
+            swipeEasing: 0,
+            wheelPropagation: 1,
+            minScrollbarLength: 40,
+        });
+
+        var px2 = new PerfectScrollbar('.cust-scroll-chat', {
+            wheelSpeed: .5,
+            swipeEasing: 0,
+            wheelPropagation: 2,
+            minScrollbarLength: 100,
+        });
+    </script>
+    <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Controllers/ajax/TrungTamTinNhan.js"></script>
+}
+<div class="col-lg-6">
+    <div class="card new-cust-card">
+        <div class="card-header">
+            <h5>Message</h5>
+            <div class="card-header-right">
+                <div class="btn-group card-option">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="feather icon-more-horizontal"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="cust-scroll" style="height:415px;position:relative;">
+            <div class="card-body p-b-0" id="lstData">
+                <script id="data-template-User" type="x-tmpl-mustache">
+                    <div class="align-middle m-b-25">
+                            <img src="/wwwRoot/images/user/avatar-1.jpg" alt="user image" class="img-radius align-top m-r-15">
+                            <div class="d-inline-block">
+                                <a href="javaScript:chatController.ChatRevice({{IdDetailUser}})">
+                                    <h6>{{NameUser}}</h6>
+                                </a>
+                                <p class="m-b-0">Cheers!</p>
+                                <span class="status active"></span>
+                            </div>
+                        </div>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-6">
+    <div class="card new-cust-card chat-card">
+        <div class="card-header">
+            <h5>Message</h5>
+            <div class="card-header-right">
+                <div class="btn-group card-option">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="feather icon-more-horizontal"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="cust-scroll-chat" style="height:415px;position:relative;">
+            <div class="card-body p-b-0" id="message-list">
+                <script id="data-template-sendchat" type="x-tmpl-mustache">
+                       <div class="row m-b-20 send-chat">
+                        <div class="col">
+                            <div class="msg">
+                                <p class="m-b-0">{{Content}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </script>
+                <script id="data-template-receivedchat" type="x-tmpl-mustache">
+                       <div class="row m-b-20 received-chat">
+                        <div class="col">
+                            <div class="msg">
+                                <p class="m-b-0">{{Content}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </script>
+            </div>
+        </div>
+        <div class="form-group m-t-20 p-10">
+            <input type="text" name="task-insert" class="form-control" id="message-input" placeholder="nhập tin nhắn ...  ">
+            <div class="form-icon">
+                <button class="btn btn-primary btn-icon" id="send-button">
+                    <i class="feather icon-message-circle"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="text" id="IdRevice" hidden />
+<input type="text" id="IdSend" hidden />
+<input type="text" id="txtNguoiNhan" hidden />
+<input type="text" id="txtNguoiGui" hidden />

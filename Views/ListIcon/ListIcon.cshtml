@@ -1,0 +1,290 @@
+﻿
+@{
+    ViewBag.Title = "Danh mục Icon";
+}
+@section Scripts{
+
+    <script>
+        var myController = {
+            init: function () {
+                $('#Id').val(0);
+                myController.LoadTable();
+                myController.regesterEvent();
+            },
+
+            regesterEvent: function () {
+
+                $('#btnNew').off('click').on('click', function () {
+                    myController.reset();
+                });
+
+                $('#btnSave').off('click').on('click', function () {
+                    myController.SaveData();
+                });
+
+                $('#tblIcon').off('click-row.bs.table').on('click-row.bs.table', function (e, row, $element) {
+                    $('.table-warning').removeClass('table-warning');
+                    $($element).addClass('table-warning');
+                    myController.LoadDetail(row.IdDanhMuc);
+                });
+
+                $('#tblIcon').bootstrapTable()
+                $('#btnXoa').off('click').on('click', function () {
+                    var IdDanhMuc = $('#IdDanhMuc').val();
+                    myController.DeleteData(IdDanhMuc);
+                });
+
+                $('#cb_phan_loai').off('change').on('change', function () {
+                    myController.LoadTable();
+                });
+
+            },
+
+            reset: function () {
+                $('#Id').val(0);
+                $('#NameIcon').val("");
+                $('#CodeIcon').val("");
+                toastr["success"]("Đã tạo mới!Mời bạn nhập thông tin");
+            },
+
+            SaveData: function () {
+                var Id = $('#Id').val();
+                var NameIcon = $('#NameIcon').val();
+                var CodeIcon = $('#CodeIcon').val();
+
+                if (NameIcon == null || NameIcon == "" || NameIcon == undefined) {
+                    toastr["warning"]("Tên Icon không được để trống");
+                    $('#NameIcon').focus();
+                    return;
+                }
+                if (CodeIcon == null || CodeIcon == "" || CodeIcon == undefined) {
+                    toastr["warning"]("Mã code không được để trống");
+                    $('#CodeIcon').focus();
+                    return;
+                }
+                $.ajax({
+                    type: 'Post',
+                    url: '/ListIcon/SaveData',
+                    datatype: 'json',
+                    data: {
+                        Id: Id,
+                        NameIcon: NameIcon,
+                        CodeIcon: CodeIcon,
+                    },
+                    success: function (response) {
+                        if (response.status) {
+                            myController.LoadTable();
+                            toastr["success"]("Đã tạo mới!Mời bạn nhập thông tin");
+                        }
+                    }
+                });
+            },
+
+            LoadTable: function () {
+                $.ajax({
+                    url: '/ListIcon/LoadTable',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status) {
+                            var lstTable = response.lstTable;
+
+                            if (lstTable != null) {
+                                $("#tblIcon").bootstrapTable('load', lstTable);
+                            } else {
+                                $("#tblIcon").bootstrapTable('removeAll');
+                            }
+                        }
+                    }
+                });
+            },
+
+            LoadDetail: function (IdDanhMuc) {
+                $.ajax({
+                    url: '/ListIcon/LoadDetail',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        IdDanhMuc: IdDanhMuc
+                    },
+                    success: function (response) {
+                        if (response.status) {
+                            // lấy cái danh sachs datax từ Controller trả về thông qua response
+                            var data = response.datax;
+                            //nếu data khác null thì lấy giữ liệu từ bảng ra
+                            if (data != null) {
+                                $('#STT').val(data.STT);
+                                $('#TenGoi').val(data.TenGoi);
+                                $('#GhiChu').val(data.GhiChu);
+                                $('#IdDanhMuc').val(IdDanhMuc);
+                            }
+                        }
+                    }
+                });
+            },
+
+            DeleteData: function (IdDanhMuc) {
+                $.ajax({
+                    url: '/ListIcon/DeleteData',
+                    type: 'Post',
+                    dataType: 'json',
+                    data: {
+                        IdDanhMuc: IdDanhMuc
+                    },
+                    success: function (response) {
+                        if (response.status) {
+                            XNoti_ThanhCong("Xóa Thành công");
+                            myController.LoadTable();
+                        }
+                    }
+                });
+            }
+
+
+        };
+        myController.init();
+        function fc_DisLay(e, value, row, index) {
+
+            return [
+                '<div style="width:35px">',
+                '<i class="' + value.NameIcon + '"></i>',
+                '</div>'
+            ].join('');
+        };
+    </script>
+}
+
+<div class="col-xl-7">
+    <div class="card">
+        <div class="card-header">
+            <h5>Danh mục icon</h5>
+        </div>
+        <div class="card-body">
+            <div class="col-sm-12">
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table id="tblIcon"
+                               data-classes="table table-striped table-bordered table-hover"
+                               data-toggle="table"
+                               data-mobile-responsive="true"
+                               data-fixed-columns="true"
+                               data-show-export="true"
+                               data-search="true"
+                               data-pagination="true"
+                               data-page-size="15"
+                               data-page-list="[15, 25, 35, all]">
+                            <thead>
+                                <tr>
+                                    <th data-field="Id">Id</th>
+                                    <th data-field="NameIcon" data-filter-control="input">Tên Icon</th>
+                                    <th data-field="CodeIcon">Mã Code</th>
+                                    <th data-formatter="fc_DisLay" data-width="5" class="text-center">#</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-xl-5">
+    <div class="card">
+        <div class="card-header">
+            <h5>Thêm chi tiết</h5>
+        </div>
+        <div class="card-body">
+            <div class="col-sm-12 row p-0">
+                <input type="hidden" class="form-control" id="Id">
+                <div class="form-group col-sm-12" style="clear:both">
+                    <label>Tên Icon: </label>
+                    <input type="text" placeholder="Nhập tên icon " class="form-control" id="NameIcon">
+                </div>
+                <div class="form-group col-sm-12">
+                    <label>Mã code:</label>
+                    <input type="text" placeholder="Nhập mã code " class="form-control" id="CodeIcon">
+                </div>
+            </div>
+        </div>
+        <div class="line-header card-footer p-1" style="background-image: linear-gradient(to right, #274e52 0%, #43827c 51%, #7ea7da 100%); ">
+            <button type="button" class="btn btn-grd-success btn-round btn-sm" id="btnNew"><i class="feather icon-plus"></i>Tạo mới</button>
+            <button type="button" class="btn btn-grd-danger btn-round btn-sm ml-2" id="btnSave"><i class="feather icon-save"></i> Cập nhập</button>
+        </div>
+    </div>
+</div>
+
+@*<div class="col-lg-12 col-md-12 p-0">
+        <div class="card table-card latest-activity-card">
+            <div class="card-header text-center">
+                <h5>Danh mục hệ thống</h5>
+                <div class="card-header-right">
+                    <div class="btn-group card-option">
+                        <div class="p-r-10 minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> </span><span style="display:none"><i class="feather icon-plus"></i> </span></a></div>
+                        <div class="p-r-10 reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> </a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="form-group row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="panel-body">
+                                    <div class="col-sm-12">
+                                        <div class="ibox-content">
+                                            <div class="table-responsive">
+                                                <table id="tblIcon"
+                                                       data-classes="table table-striped table-bordered table-hover"
+                                                       data-toggle="table"
+                                                       data-mobile-responsive="true"
+                                                       data-fixed-columns="true"
+                                                       data-show-export="true"
+                                                       data-search="true"
+                                                       data-pagination="true"
+                                                       data-page-size="15"
+                                                       data-page-list="[15, 25, 35, all]">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-field="Id">Id</th>
+                                                            <th data-field="NameIcon" data-filter-control="input">Tên Icon</th>
+                                                            <th data-field="CodeIcon">Mã Code</th>
+                                                            <th data-formatter="fc_DisLay" data-width="5" class="text-center">#</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <div class=" line-header card-header" style="color:aqua">
+                                    <button type="button" class="btn btn-grd-info btn-round btn-sm" id="btnNew"><i class="feather icon-plus"></i>Tạo mới</button>
+                                    <button type="button" class="btn btn-grd-success btn-round btn-sm" id="btnSave"><i class="feather icon-save"></i> Cập nhập</button>
+                                </div>
+                                <div class="row form-row col-sm-12 p-3">
+                                    <div class="col-sm-10 row">
+                                        <input type="hidden" class="form-control" id="Id">
+                                        <div class="form-group col-sm-12" style="clear:both">
+                                            <label>Tên Icon: </label>
+                                            <input type="text" placeholder="Nhập tên icon " class="form-control" id="NameIcon">
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                            <label>Mã code:</label>
+                                            <input type="text" placeholder="Nhập mã code " class="form-control" id="CodeIcon">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>*@

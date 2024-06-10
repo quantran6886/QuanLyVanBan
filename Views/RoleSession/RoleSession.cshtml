@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "Cấu hình quyền";
+}
+@section Scripts{
+    <script>
+        function SaveRoles() {
+            var NameRole = $("#NameRole").val();
+            $.ajax({
+                type: 'Post', datatype: 'json', data: { NameRole: NameRole },
+                url: '/RoleSession/SaveRoles', success: function (data) {
+                    if (data.status == true) {
+                        alert("Cập nhập thành công");
+                    }
+                }
+            })
+        }
+
+    </script>
+}
+
+<div class="col-xl-12 col-sm-12">
+    <div class="card latest-update-card form-group">
+        <div class="card-header">
+            <h5>Phân quyền hệ thống</h5>
+            <div class="card-header-right">
+                <div class="btn-group card-option">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="feather icon-more-horizontal"></i>
+                    </button>
+                    <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                        <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+                        <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="card-body m-t-40">
+                    <div class="latest-update-box">
+                        <div class="row p-b-30">
+                            <div class="col-auto text-right update-meta">
+                                <p class="text-muted m-b-0 d-inline-flex">Quyền 1</p>
+                                <i class="feather icon-user bg-twitter update-icon"></i>
+                            </div>
+                            <div class="col">
+                                <a href="#!">
+                                    <h6>Admin</h6>
+                                </a>
+                                <p class="text-muted m-b-0">Admin</p>
+                            </div>
+                        </div>
+                        <div class="row p-b-30">
+                            <div class="col-auto text-right update-meta">
+                                <p class="text-muted m-b-0 d-inline-flex">Quyền 2</p>
+                                <i class="feather icon-user bg-c-red update-icon"></i>
+                            </div>
+                            <div class="col">
+                                <a href="#!">
+                                    <h6>Manager</h6>
+                                </a>
+                                <p class="text-muted m-b-0">Quản lý</p>
+                            </div>
+                        </div>
+                        <div class="row p-b-0">
+                            <div class="col-auto text-right update-meta">
+                                <p class="text-muted m-b-0 d-inline-flex">Quyền 3</p>
+                                <i class="feather icon-user bg-facebook update-icon"></i>
+                            </div>
+                            <div class="col">
+                                <a href="#!">
+                                    <h6>User</h6>
+                                </a>
+                                <p class="text-muted m-b-10">Người dùng</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card user-card user-card-1">
+                    <div class="card-header border-0 p-2 pb-0">
+                        <div class="cover-img-block">
+                            <img src="~/wwwRoot/images/widget/slider5.jpg" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="user-about-block text-center">
+                            <div class="row align-items-end">
+                                <div class="col"></div>
+                                <div class="col"><img class="img-radius img-fluid wid-80" src="~/wwwRoot/images/user/avatar-2.jpg" alt="User image"></div>
+                                <div class="col"></div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h6 class="mb-1 mt-3">Trần Minh Quân</h6>
+                            <p class="mb-3 text-muted">Quyền: Admin</p>
+                        </div>
+                        <hr class="wid-80 b-wid-3 my-4">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="col-lg-12 m-t-10">
+                    <button type="button" class="btn btn-grd-info btn-sm"><i class="feather icon-plus"></i>Tạo mới</button>
+                    <button type="button" onclick="SaveRoles()" class="btn btn-grd-success btn-sm"><i class="feather icon-save"></i>Cập nhập</button>
+                </div>
+                <hr class="b-wid-3 my-4 m-0">
+                <div class="col-lg-12 col-sm-12">
+                    <input type="text" class="form-control" id="NameRole" placeholder="Nhập tên quyền" />
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+

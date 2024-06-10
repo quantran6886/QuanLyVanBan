@@ -1,0 +1,712 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DomainModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspDanhMucHeThong">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sap_xep" Type="int" />
+          <Property Name="ten_goi" Type="nvarchar" MaxLength="250" />
+          <Property Name="ghi_chu" Type="nvarchar" MaxLength="250" />
+          <Property Name="noi_dung" Type="nvarchar" MaxLength="250" />
+          <Property Name="ngay_tao" Type="date" />
+          <Property Name="phan_loai" Type="nvarchar" MaxLength="250" />
+          <Property Name="is_lock" Type="bit" />
+        </EntityType>
+        <EntityType Name="AspDetailUser">
+          <Key>
+            <PropertyRef Name="IdUser" />
+          </Key>
+          <Property Name="IdUser" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ho_ten" Type="nvarchar" MaxLength="250" />
+          <Property Name="UsersId" Type="nvarchar" MaxLength="128" />
+          <Property Name="ngay_sinh" Type="datetime" />
+          <Property Name="gioi_Tinh" Type="nvarchar" MaxLength="250" />
+          <Property Name="so_dien_thoai" Type="nvarchar" MaxLength="250" />
+          <Property Name="is_delete" Type="bit" />
+          <Property Name="url_avatar" Type="nvarchar(max)" />
+          <Property Name="name_avatar" Type="nvarchar" MaxLength="250" />
+          <Property Name="id_don_vi" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="AspFolder">
+          <Key>
+            <PropertyRef Name="IdFoder" />
+          </Key>
+          <Property Name="IdFoder" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameFolder" Type="nvarchar" MaxLength="150" />
+          <Property Name="OderSort" Type="int" />
+          <Property Name="SessionId" Type="bigint" />
+          <Property Name="SeesionRemove" Type="bigint" />
+          <Property Name="IsDeleate" Type="bit" />
+        </EntityType>
+        <EntityType Name="AspHoSoCanBo">
+          <Key>
+            <PropertyRef Name="IdCanBo" />
+          </Key>
+          <Property Name="IdCanBo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ho_ten" Type="nvarchar" MaxLength="250" />
+          <Property Name="ngay_sinh" Type="date" />
+          <Property Name="gioi_tinh" Type="nvarchar" MaxLength="50" />
+          <Property Name="so_dien_thoai" Type="varchar" MaxLength="150" />
+          <Property Name="url_avatar" Type="nvarchar(max)" />
+          <Property Name="name_avatar" Type="nvarchar" MaxLength="250" />
+          <Property Name="email" Type="nvarchar" MaxLength="250" />
+          <Property Name="chuc_vu" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspStoreDocument">
+          <Key>
+            <PropertyRef Name="IdDocument" />
+          </Key>
+          <Property Name="IdDocument" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameDocument" Type="nvarchar" MaxLength="250" />
+          <Property Name="UrlDocument" Type="nvarchar" MaxLength="250" />
+          <Property Name="DateNow" Type="datetime" />
+          <Property Name="IdUser" Type="bigint" />
+          <Property Name="SumCount" Type="int" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="IdFoder" Type="bigint" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'QuanLyVanBan.dbo.View_Session' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="View_Session">
+          <Key>
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="IdUser" />
+          </Key>
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="ho_ten" Type="nvarchar" MaxLength="250" />
+          <Property Name="UsersId" Type="nvarchar" MaxLength="128" />
+          <Property Name="ngay_sinh" Type="datetime" />
+          <Property Name="gioi_Tinh" Type="nvarchar" MaxLength="250" />
+          <Property Name="so_dien_thoai" Type="nvarchar" MaxLength="250" />
+          <Property Name="is_delete" Type="bit" />
+          <Property Name="url_avatar" Type="nvarchar(max)" />
+          <Property Name="name_avatar" Type="nvarchar" MaxLength="250" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IdUser" Type="bigint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AspStoreDocument_AspDetailUser">
+          <End Role="AspDetailUser" Type="Self.AspDetailUser" Multiplicity="0..1" />
+          <End Role="AspStoreDocument" Type="Self.AspStoreDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspDetailUser">
+              <PropertyRef Name="IdUser" />
+            </Principal>
+            <Dependent Role="AspStoreDocument">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspStoreDocument_AspFolder">
+          <End Role="AspFolder" Type="Self.AspFolder" Multiplicity="0..1" />
+          <End Role="AspStoreDocument" Type="Self.AspStoreDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspFolder">
+              <PropertyRef Name="IdFoder" />
+            </Principal>
+            <Dependent Role="AspStoreDocument">
+              <PropertyRef Name="IdFoder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DomainModelStoreContainer">
+          <EntitySet Name="AspDanhMucHeThong" EntityType="Self.AspDanhMucHeThong" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspDetailUser" EntityType="Self.AspDetailUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspFolder" EntityType="Self.AspFolder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspHoSoCanBo" EntityType="Self.AspHoSoCanBo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspStoreDocument" EntityType="Self.AspStoreDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="View_Session" EntityType="Self.View_Session" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Session].[UserName] AS [UserName], 
+    [View_Session].[ho_ten] AS [ho_ten], 
+    [View_Session].[UsersId] AS [UsersId], 
+    [View_Session].[ngay_sinh] AS [ngay_sinh], 
+    [View_Session].[gioi_Tinh] AS [gioi_Tinh], 
+    [View_Session].[so_dien_thoai] AS [so_dien_thoai], 
+    [View_Session].[is_delete] AS [is_delete], 
+    [View_Session].[url_avatar] AS [url_avatar], 
+    [View_Session].[name_avatar] AS [name_avatar], 
+    [View_Session].[Email] AS [Email], 
+    [View_Session].[Id] AS [Id], 
+    [View_Session].[IdUser] AS [IdUser]
+    FROM [dbo].[View_Session] AS [View_Session]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_AspStoreDocument_AspDetailUser" Association="Self.FK_AspStoreDocument_AspDetailUser">
+            <End Role="AspDetailUser" EntitySet="AspDetailUser" />
+            <End Role="AspStoreDocument" EntitySet="AspStoreDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspStoreDocument_AspFolder" Association="Self.FK_AspStoreDocument_AspFolder">
+            <End Role="AspFolder" EntitySet="AspFolder" />
+            <End Role="AspStoreDocument" EntitySet="AspStoreDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DomainModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="XEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspDanhMucHeThongs" EntityType="DomainModel.AspDanhMucHeThong" />
+          <EntitySet Name="AspDetailUsers" EntityType="DomainModel.AspDetailUser" />
+          <EntitySet Name="AspFolders" EntityType="DomainModel.AspFolder" />
+          <EntitySet Name="AspHoSoCanBoes" EntityType="DomainModel.AspHoSoCanBo" />
+          <EntitySet Name="AspNetRoles" EntityType="DomainModel.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="DomainModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="DomainModel.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="DomainModel.AspNetUser" />
+          <EntitySet Name="AspStoreDocuments" EntityType="DomainModel.AspStoreDocument" />
+          <EntitySet Name="sysdiagrams" EntityType="DomainModel.sysdiagram" />
+          <EntitySet Name="View_Session" EntityType="DomainModel.View_Session" />
+          <AssociationSet Name="FK_AspStoreDocument_AspDetailUser" Association="DomainModel.FK_AspStoreDocument_AspDetailUser">
+            <End Role="AspDetailUser" EntitySet="AspDetailUsers" />
+            <End Role="AspStoreDocument" EntitySet="AspStoreDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspStoreDocument_AspFolder" Association="DomainModel.FK_AspStoreDocument_AspFolder">
+            <End Role="AspFolder" EntitySet="AspFolders" />
+            <End Role="AspStoreDocument" EntitySet="AspStoreDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="DomainModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="DomainModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="DomainModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AspDanhMucHeThong">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sap_xep" Type="Int32" />
+          <Property Name="ten_goi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ghi_chu" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="noi_dung" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ngay_tao" Type="DateTime" Precision="0" />
+          <Property Name="phan_loai" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="is_lock" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="AspDetailUser">
+          <Key>
+            <PropertyRef Name="IdUser" />
+          </Key>
+          <Property Name="IdUser" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ho_ten" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="UsersId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ngay_sinh" Type="DateTime" Precision="3" />
+          <Property Name="gioi_Tinh" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="so_dien_thoai" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="is_delete" Type="Boolean" />
+          <Property Name="url_avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="name_avatar" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="id_don_vi" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="AspStoreDocuments" Relationship="DomainModel.FK_AspStoreDocument_AspDetailUser" FromRole="AspDetailUser" ToRole="AspStoreDocument" />
+        </EntityType>
+        <EntityType Name="AspFolder">
+          <Key>
+            <PropertyRef Name="IdFoder" />
+          </Key>
+          <Property Name="IdFoder" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameFolder" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="OderSort" Type="Int32" />
+          <Property Name="SessionId" Type="Int64" />
+          <Property Name="SeesionRemove" Type="Int64" />
+          <Property Name="IsDeleate" Type="Boolean" />
+          <NavigationProperty Name="AspStoreDocuments" Relationship="DomainModel.FK_AspStoreDocument_AspFolder" FromRole="AspFolder" ToRole="AspStoreDocument" />
+        </EntityType>
+        <EntityType Name="AspHoSoCanBo">
+          <Key>
+            <PropertyRef Name="IdCanBo" />
+          </Key>
+          <Property Name="IdCanBo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ho_ten" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ngay_sinh" Type="DateTime" Precision="0" />
+          <Property Name="gioi_tinh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="so_dien_thoai" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="url_avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="name_avatar" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="chuc_vu" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="DomainModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="DomainModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="DomainModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="DomainModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="DomainModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="AspNetRoles" Relationship="DomainModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+        </EntityType>
+        <EntityType Name="AspStoreDocument">
+          <Key>
+            <PropertyRef Name="IdDocument" />
+          </Key>
+          <Property Name="IdDocument" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameDocument" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="UrlDocument" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DateNow" Type="DateTime" Precision="3" />
+          <Property Name="IdUser" Type="Int64" />
+          <Property Name="SumCount" Type="Int32" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdFoder" Type="Int64" />
+          <NavigationProperty Name="AspDetailUser" Relationship="DomainModel.FK_AspStoreDocument_AspDetailUser" FromRole="AspStoreDocument" ToRole="AspDetailUser" />
+          <NavigationProperty Name="AspFolder" Relationship="DomainModel.FK_AspStoreDocument_AspFolder" FromRole="AspStoreDocument" ToRole="AspFolder" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="View_Session">
+          <Key>
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="IdUser" />
+          </Key>
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="ho_ten" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="UsersId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ngay_sinh" Type="DateTime" Precision="3" />
+          <Property Name="gioi_Tinh" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="so_dien_thoai" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="is_delete" Type="Boolean" />
+          <Property Name="url_avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="name_avatar" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IdUser" Type="Int64" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AspStoreDocument_AspDetailUser">
+          <End Type="DomainModel.AspDetailUser" Role="AspDetailUser" Multiplicity="0..1" />
+          <End Type="DomainModel.AspStoreDocument" Role="AspStoreDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspDetailUser">
+              <PropertyRef Name="IdUser" />
+            </Principal>
+            <Dependent Role="AspStoreDocument">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspStoreDocument_AspFolder">
+          <End Type="DomainModel.AspFolder" Role="AspFolder" Multiplicity="0..1" />
+          <End Type="DomainModel.AspStoreDocument" Role="AspStoreDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspFolder">
+              <PropertyRef Name="IdFoder" />
+            </Principal>
+            <Dependent Role="AspStoreDocument">
+              <PropertyRef Name="IdFoder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="DomainModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="DomainModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="DomainModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="DomainModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DomainModelStoreContainer" CdmEntityContainer="XEntities">
+          <EntitySetMapping Name="AspDanhMucHeThongs">
+            <EntityTypeMapping TypeName="DomainModel.AspDanhMucHeThong">
+              <MappingFragment StoreEntitySet="AspDanhMucHeThong">
+                <ScalarProperty Name="is_lock" ColumnName="is_lock" />
+                <ScalarProperty Name="phan_loai" ColumnName="phan_loai" />
+                <ScalarProperty Name="ngay_tao" ColumnName="ngay_tao" />
+                <ScalarProperty Name="noi_dung" ColumnName="noi_dung" />
+                <ScalarProperty Name="ghi_chu" ColumnName="ghi_chu" />
+                <ScalarProperty Name="ten_goi" ColumnName="ten_goi" />
+                <ScalarProperty Name="sap_xep" ColumnName="sap_xep" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspDetailUsers">
+            <EntityTypeMapping TypeName="DomainModel.AspDetailUser">
+              <MappingFragment StoreEntitySet="AspDetailUser">
+                <ScalarProperty Name="id_don_vi" ColumnName="id_don_vi" />
+                <ScalarProperty Name="name_avatar" ColumnName="name_avatar" />
+                <ScalarProperty Name="url_avatar" ColumnName="url_avatar" />
+                <ScalarProperty Name="is_delete" ColumnName="is_delete" />
+                <ScalarProperty Name="so_dien_thoai" ColumnName="so_dien_thoai" />
+                <ScalarProperty Name="gioi_Tinh" ColumnName="gioi_Tinh" />
+                <ScalarProperty Name="ngay_sinh" ColumnName="ngay_sinh" />
+                <ScalarProperty Name="UsersId" ColumnName="UsersId" />
+                <ScalarProperty Name="ho_ten" ColumnName="ho_ten" />
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspFolders">
+            <EntityTypeMapping TypeName="DomainModel.AspFolder">
+              <MappingFragment StoreEntitySet="AspFolder">
+                <ScalarProperty Name="IsDeleate" ColumnName="IsDeleate" />
+                <ScalarProperty Name="SeesionRemove" ColumnName="SeesionRemove" />
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+                <ScalarProperty Name="OderSort" ColumnName="OderSort" />
+                <ScalarProperty Name="NameFolder" ColumnName="NameFolder" />
+                <ScalarProperty Name="IdFoder" ColumnName="IdFoder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspHoSoCanBoes">
+            <EntityTypeMapping TypeName="DomainModel.AspHoSoCanBo">
+              <MappingFragment StoreEntitySet="AspHoSoCanBo">
+                <ScalarProperty Name="chuc_vu" ColumnName="chuc_vu" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="name_avatar" ColumnName="name_avatar" />
+                <ScalarProperty Name="url_avatar" ColumnName="url_avatar" />
+                <ScalarProperty Name="so_dien_thoai" ColumnName="so_dien_thoai" />
+                <ScalarProperty Name="gioi_tinh" ColumnName="gioi_tinh" />
+                <ScalarProperty Name="ngay_sinh" ColumnName="ngay_sinh" />
+                <ScalarProperty Name="ho_ten" ColumnName="ho_ten" />
+                <ScalarProperty Name="IdCanBo" ColumnName="IdCanBo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="DomainModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="DomainModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="DomainModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="DomainModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspStoreDocuments">
+            <EntityTypeMapping TypeName="DomainModel.AspStoreDocument">
+              <MappingFragment StoreEntitySet="AspStoreDocument">
+                <ScalarProperty Name="IdFoder" ColumnName="IdFoder" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="SumCount" ColumnName="SumCount" />
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+                <ScalarProperty Name="DateNow" ColumnName="DateNow" />
+                <ScalarProperty Name="UrlDocument" ColumnName="UrlDocument" />
+                <ScalarProperty Name="NameDocument" ColumnName="NameDocument" />
+                <ScalarProperty Name="IdDocument" ColumnName="IdDocument" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DomainModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Session">
+            <EntityTypeMapping TypeName="DomainModel.View_Session">
+              <MappingFragment StoreEntitySet="View_Session">
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="name_avatar" ColumnName="name_avatar" />
+                <ScalarProperty Name="url_avatar" ColumnName="url_avatar" />
+                <ScalarProperty Name="is_delete" ColumnName="is_delete" />
+                <ScalarProperty Name="so_dien_thoai" ColumnName="so_dien_thoai" />
+                <ScalarProperty Name="gioi_Tinh" ColumnName="gioi_Tinh" />
+                <ScalarProperty Name="ngay_sinh" ColumnName="ngay_sinh" />
+                <ScalarProperty Name="UsersId" ColumnName="UsersId" />
+                <ScalarProperty Name="ho_ten" ColumnName="ho_ten" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="DomainModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

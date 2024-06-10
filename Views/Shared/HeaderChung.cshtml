@@ -1,0 +1,170 @@
+﻿@using AppNetShop.DTO
+@{
+    Layout = null;
+}
+
+<header class="navbar pcoded-header navbar-expand-lg navbar-light header-blue">
+
+
+    <div class="m-header">
+        <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+        <a href="#!" class="b-brand">
+            <h6 style="margin-bottom:0px;color:white">CSDL ĐIỆN TỬ</h6>
+        </a>
+        <a href="#!" class="mob-toggler">
+            <i class="feather icon-more-vertical"></i>
+        </a>
+    </div>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a href="#!" class="pop-search"><i class="feather icon-search"></i></a>
+                <div class="search-bar">
+                    <input type="text" class="form-control border-0 shadow-none" placeholder="Search hear">
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                        <i class="feather icon-grid"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right notification" style="width:450px">
+                        <div class="noti-head">
+                            <h6 class="d-inline-block m-b-0">Menu</h6>
+                        </div>
+                        <ul class="noti-body col-sm-12">
+                            <li class=" p-0">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <input type="text" name="footer-email" class="form-control" placeholder="Tìm kiếm">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="n-title">
+                                <p class="m-b-0">Thống kê</p>
+                            </li>
+                            <li class=" p-0">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <a href="/DashBoard/DashBoard" class="nav-link hvr-shrink">
+                                            <span class="pcoded-micon"><i class="feather icon-pie-chart text-instagram f-22"></i>  Thông kê</span>
+                                            <span class="pcoded-mtext"> <small>Biểu đồ theo dõi thông qua chỉ số ...</small></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class=" p-0">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <a href="animation.html" class="nav-link ">
+                                            <span class="pcoded-micon"><i class="feather icon-bar-chart text-c-green f-22"></i>  Báo cáo</span>
+                                            <span class="pcoded-mtext"> <small>Danh sách,tổng hợp số liệu...</small></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="n-title">
+                                <p class="m-b-0">Tư liệu</p>
+                            </li>
+                            <li class=" p-0">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <a href="/C_QuanLyHienVat/C_QuanLyHienVat" class="nav-link">
+                                            <span class="pcoded-micon"><i class="feather icon-feather text-info f-22"></i>  Quản lý hiện vật</span>
+                                            <span class="pcoded-mtext"> <small>Thông tin tư liệu, hình ảnh hiện vật ...</small></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class=" p-0">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <a href="animation.html" class="nav-link ">
+                                            <span class="pcoded-micon"><i class="feather icon-twitter text-primary f-22"></i>  Phòng trưng bày</span>
+                                            <span class="pcoded-mtext"> <small>Thông tin tư liệu, hình ảnh phòng trưng bày ...</small></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                        <i class="feather icon-message-square"></i>
+                        <span class="badge badge-success position-absolute" style="border-radius:30px" id="lb_so_luong_thong_bao_new">0</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right notification">
+                        <div class="noti-head">
+                            <h6 class="d-inline-block m-b-0">Thông báo</h6>
+                            <div class="float-right">
+                                <a href="#!" class="m-r-10">Xem tất cả</a>
+                                <a href="#!">Xóa</a>
+                            </div>
+                        </div>
+                        <ul class="noti-body">
+                       
+                        </ul>
+                        <div class="noti-footer">
+                            <a href="#!">Trang thông báo</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                        <i class="icon feather icon-bell"></i>
+                        <span class="badge badge-danger position-absolute" style="border-radius:30px" id="lb_so_luong_thong_bao_new">0</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right notification">
+                        <div class="noti-head">
+                            <h6 class="d-inline-block m-b-0">Thông báo</h6>
+                            <div class="float-right">
+                                <a href="#!" class="m-r-10">Xem tất cả</a>
+                                <a href="#!">Xóa</a>
+                            </div>
+                        </div>
+                        <ul class="noti-body">
+                        </ul>
+                        <div class="noti-footer">
+                            <a href="#!">Trang thông báo</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown drp-user">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="feather icon-user"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right profile-notification">
+                        <div class="pro-head">
+                            @if (GetUserSession.getUserLoginSession() != null)
+                            {
+                                <h5 class="text-white">@GetUserSession.getUserLoginSession().NameUser</h5>
+                            }
+                            <a onclick="ShowLogout()" class="dud-logout" title="Thoát">
+                                <i class="feather icon-log-out"></i>
+                            </a>
+                        </div>
+                        <ul class="pro-body">
+                            <li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Thông tin cá nhân</a></li>
+                            <li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> Trung tâm tin nhắn</a></li>
+                            <li><a onclick="LockScreen()" class="dropdown-item"><i class="feather icon-lock"></i> Khóa màn hình</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+</header>

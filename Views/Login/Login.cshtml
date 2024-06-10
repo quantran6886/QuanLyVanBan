@@ -1,0 +1,82 @@
+﻿
+@{
+    Layout = null;
+}
+@model AppNetShop.Models.LoginViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Đăng nhập hệ thống</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/css/main.css">
+    <link rel="stylesheet" href="~/wwwRoot/css/style.css">
+    <link href="~/wwwRoot/css/style2.css" rel="stylesheet" />
+
+</head>
+<body>
+
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-pic js-tilt" data-tilt>
+                    <img src="~/wwwRoot/assetLogin/images/img-slide-6.jpg" alt="IMG">
+                </div>
+
+                @using (Html.BeginForm("Login", "Login", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login100-form validate-form", role = "form" }))
+                {
+                    <h3 class="mb-4 f-w-400">Phần mềm thu chi</h3>
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="wrap-input100 validate-input " data-validate="Bạn chưa nhập tài khoản">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "input100", autofocus = "autofocus", placeholder = "Nhập tài khoản" })
+                        @*@Html.ValidationMessageFor(m => m.UserName, "", new { @class = "focus-input100" })*@
+                        <span class="symbol-input100">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="Bạn chưa nhập mật khẩu">
+                        @Html.PasswordFor(m => m.Password, new { @class = "input100", autofocus = "autofocus", placeholder = "Nhập mật khẩu" })
+                        @*@Html.ValidationMessageFor(m => m.Password, "", new { @class = "focus-input100" })*@
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="custom-control custom-checkbox text-left mb-2 mt-2 ml-2" hidden>
+                        @Html.CheckBoxFor(m => m.RememberMe, new { @class = "custom-control-input",})
+                        <label class="custom-control-label" for="RememberMe">Ghi nhớ.</label>
+                    </div>
+                    <button type="submit" class="btn btn-block btn-round btn-grd-danger mb-4 mt-4">Đăng nhập</button>
+                    <div class="text-center">
+                        <div class="saprator my-4"><span>OR</span></div>
+                        <button class="btn text-white bg-facebook mb-2 mr-2  wid-40 px-0 hei-40 rounded-circle"><i class="fab fa-facebook-f"></i></button>
+                        <button class="btn text-white bg-googleplus mb-2 mr-2 wid-40 px-0 hei-40 rounded-circle"><i class="fab fa-google-plus-g"></i></button>
+                        <button class="btn text-white bg-twitter mb-2  wid-40 px-0 hei-40 rounded-circle"><i class="fab fa-twitter"></i></button>
+                        <p class="mb-2 mt-4 text-muted">Quên mật khẩu? <a href="auth-reset-password-img-side.html" class="f-w-400">Reset</a></p>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+    <script src="~/wwwRoot/assetLogin/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="~/wwwRoot/assetLogin/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/wwwRoot/assetLogin/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/wwwRoot/assetLogin/vendor/select2/select2.min.js"></script>
+    <script src="~/wwwRoot/assetLogin/vendor/tilt/tilt.jquery.min.js"></script>
+    <script>
+        $('.js-tilt').tilt({
+            scale: 1.1
+        })
+    </script>
+    <script src="~/wwwRoot/assetLogin/js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,335 @@
+﻿
+@{
+    ViewBag.Title = "Hồ sơ cán bộ";
+}
+<style>
+    .avatar-wrapper {
+        position: relative;
+        height: 150px;
+        width: 150px;
+        margin: 0 auto;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 1px 1px 15px -5px black;
+        transition: all .3s ease;
+        &:hover
+
+    {
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+
+    &:hover .profile-pic {
+        opacity: .5;
+    }
+
+    .profile-pic {
+        height: 100%;
+        width: 100%;
+        transition: all .3s ease;
+        &:after
+
+    {
+        font-family: FontAwesome;
+        content: "\f007";
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        font-size: 100px;
+        background: #ecf0f1;
+        color: #34495e;
+        text-align: center;
+    }
+
+    }
+
+    .upload-button {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        .fa-arrow-circle-up
+
+    {
+        position: absolute;
+        font-size: 150px;
+        top: 1px;
+        left: 0;
+        text-align: center;
+        opacity: 0;
+        transition: all .3s ease;
+        color: #34495e;
+    }
+
+    &:hover .fa-arrow-circle-up {
+        opacity: .9;
+    }
+
+    }
+    }
+</style>
+@section Scripts{
+
+    <script>
+        var myController = {
+            init: function () {
+                myController.event();
+            },
+            event: function () {
+                $("#btn_new_form").off('click').on('click', function () {
+                    notify('success', 'Thành Công', 'Tạo mới thành công');
+                });
+            },
+
+        }
+        myController.init();
+    </script>
+  
+
+
+}
+
+<h1 class="page-header my-4 mb-0">Hồ sơ cán bộ</h1>
+<div class="panel panel-inverse">
+    <div class="panel-heading bg-cyan-700 text-white ui-sortable-handle">
+        <div class="panel-heading-btn">
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+    </div>
+    <div class="panel-body pt-0">
+        <div id="content" class="app-content p-0 m-0 bg-component">
+            <div class="app-content-padding px-0 py-3">
+                <div class="d-lg-flex mb-2">
+                    <button type="button" id="btn_new_form" class="btn btn-default btn-sm me-1 mb-1" data-bs-toggle="modal" data-bs-target="#modal-ho-so"><span class="fa fa-plus"></span> Thêm mới nhân sự</button>
+                </div>
+                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                <div class="row gx-2 pb-10px">
+                    <div class="col-lg-4">
+                        <div class="position-relative">
+                            <input type="text" class="form-control ps-35px rounded-3" placeholder="Tìm kiếm nhanh..." />
+                            <button class="btn position-absolute start-0 top-0 shadow-none p-3"><i class="fa fa-search fa-lg"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 d-lg-block d-none">
+                        <a href="#" class="btn btn-white d-flex align-items-center rounded-3" data-bs-toggle="dropdown">
+                            <i class="far fa-lg fa-calendar me-10px text-body text-opacity-50 d-none"></i>
+                            <span class="iconify fs-20px my-n1 me-2 ms-n1 text-theme" data-icon="solar:calendar-search-linear"></span>
+                            Date Range
+                            <i class="fa ms-auto fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:calendar-line-duotone"></span> Last 7 Days</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:calendar-line-duotone"></span> Last 30 Days</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:calendar-line-duotone"></span> This Month</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:calendar-line-duotone"></span> Last Month</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:calendar-line-duotone"></span> Custom Range</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 d-lg-block d-none">
+                        <a href="#" class="btn btn-white d-flex align-items-center rounded-3" data-bs-toggle="dropdown">
+                            <i class="fa fa-lg fa-tags me-10px text-body text-opacity-50 d-none"></i>
+                            <span class="iconify fs-20px my-n1 me-2 ms-n1 text-theme" data-icon="solar:tag-linear"></span>
+                            Status
+                            <i class="fa ms-auto fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="fa fa-circle fs-7px me-2 ms-n1 text-success"></i> Active</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="fa fa-circle fs-7px me-2 ms-n1 text-body text-opacity-25"></i> Inactive</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="fa fa-circle fs-7px me-2 ms-n1 text-danger"></i> Removed</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="fa fa-circle fs-7px me-2 ms-n1 text-warning"></i> Pending</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="fa fa-circle fs-7px me-2 ms-n1 text-primary"></i> Archived</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 d-lg-block d-none">
+                        <a href="#" class="btn btn-white d-flex align-items-center rounded-3" data-bs-toggle="dropdown">
+                            <i class="fa fa-lg fa-location-dot me-10px text-body text-opacity-50 d-none"></i>
+                            <span class="iconify fs-20px my-n1 me-2 ms-n1 text-theme" data-icon="solar:map-point-linear"></span>
+                            Location
+                            <i class="fa ms-auto fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:map-point-linear"></span> New York City, New York, USA</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:map-point-linear"></span> London, United Kingdom</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:map-point-linear"></span> Tokyo, Japan</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:map-point-linear"></span> Sydney, Australia</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:map-point-linear"></span> Paris, France</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 d-lg-block d-none">
+                        <a href="#" class="btn btn-white d-flex align-items-center rounded-3" data-bs-toggle="dropdown">
+                            <span class="iconify fs-20px my-n1 me-2 ms-n1 text-theme" data-icon="solar:tuning-linear"></span>
+                            More filters
+                            <i class="fa ms-auto fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">High Priority</a></li>
+                            <li><a class="dropdown-item" href="#">Low Priority</a></li>
+                            <li><a class="dropdown-item" href="#">Overdue</a></li>
+                            <li><a class="dropdown-item" href="#">Completed</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Custom Filter 1</a></li>
+                            <li><a class="dropdown-item" href="#">Custom Filter 2</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="d-lg-flex align-items-center mb-n2">
+                    <div class="d-lg-flex d-none align-items-center text-nowrap">
+                        Results per page:
+                        <select class="form-select form-select-sm ms-2 h-25px py-0 ps-2 pe-30px">
+                            <option>100</option>
+                            <option>50</option>
+                            <option selected>30</option>
+                        </select>
+                    </div>
+                    <div class="d-lg-block d-none ms-2 text-body text-opacity-50">
+                        1,495 results found
+                    </div>
+                    <ul class="pagination pagination-sm mb-0 ms-auto justify-content-center">
+                        <li class="page-item disabled"><a class="page-link">Previous</a></li>
+                        <li class="page-item d-lg-block d-none2"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item d-lg-block d-none2"><a class="page-link bg-theme text-theme-color border border-theme" href="#">2</a></li>
+                        <li class="page-item d-lg-block d-none2"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item d-lg-block d-none2"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item d-lg-block d-none2"><a class="page-link" href="#">5</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="table-responsive" id="table">
+                <table class="table table-thead-sticky table-tfoot-sticky table-tbody-bordered table-px-10px table-py-4px table-sm table-striped text-nowrap mb-0">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="form-check d-flex justify-content-center my-0 mx-n1">
+                                    <input type="checkbox" class="form-check-input" data-toggle="check-all" />
+                                </div>
+                            </th>
+                            <th>TT</th>
+                            <th>Họ tên khai sinh</th>
+                            <th>Giới tính</th>
+                            <th>Môn học dạy</th>
+                            <th>Chức vụ hiện tại</th>
+                            <th>Quê quán</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="form-check d-flex justify-content-center my-0 mx-n1">
+                                    <input type="checkbox" class="form-check-input" />
+                                </div>
+                            </td>
+                            <td>1.</td>
+                            <td>Mobile Phone</td>
+                            <td>iPhone 14 Pro Max - 256gb - Deep Purple</td>
+                            <td>Active</td>
+                            <td>25</td>
+                            <td>$999</td>
+                            <td>$899</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-check d-flex justify-content-center my-0 mx-n1">
+                                    <input type="checkbox" class="form-check-input" />
+                                </div>
+                            </td>
+                            <td>2.</td>
+                            <td>Mobile Phone</td>
+                            <td>iPhone 14 Pro Max - 256gb - Space Black</td>
+                            <td>Active</td>
+                            <td>50</td>
+                            <td>$999</td>
+                            <td>$899</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- #modal-dialog -->
+<div class="modal fade" id="modal-ho-so">
+    <div class="modal-dialog" style="max-width:65%">
+        <div class="modal-content">
+            <div class="panel panel-inverse m-0">
+                <div class="panel-heading  bg-cyan-700 text-white">
+                    <h4 class="panel-title">Thêm mới cán bộ</h4>
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-2 bg-cyan-700">
+                            <div class="avatar-wrapper mt-3">
+                                <img class="profile-pic" src="" />
+                                <div class="upload-button">
+                                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                                </div>
+                                <input class="file-upload" type="file" accept="image/*" />
+                            </div>
+
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label class="form-label mt-1">CMND/Căn cước:<font class="text-danger">*</font></label>
+                                    <input class="form-control" placeholder="Số hiệu giấy tờ" type="text" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label mt-1">Họ tên:<font class="text-danger">*</font></label>
+                                    <input class="form-control" placeholder="Tên cán bộ" type="text" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label mt-1">Giới tính:</label>
+                                    <select class="selectpicker" id="chuc_vu">
+                                        <option value="">Nam</option>
+                                        <option value="">Nữ</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label mt-1">Chức vụ:</label>
+                                    <select class="selectpicker">
+                                        <option value="">Giám đốc</option>
+                                        <option value="">Phó giám đốc</option>
+                                        <option value="">Kế toán</option>
+                                        <option value="">Cán bộ kỹ thuật</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label mt-1">Email:</label>
+                                    <input class="form-control" placeholder="Email" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-0 p-0">
+                    <a class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="fa fa-arrow-rotate-left"></i> Thoát</a>
+                    <a class="btn btn-sm btn-success"><i class="fa fa-save"></i> Cập nhập</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

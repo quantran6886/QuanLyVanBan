@@ -1,0 +1,236 @@
+﻿
+@{
+    ViewBag.Title = "DanhMucHeThong";
+}
+<!-- required files -->
+<link href="../assets/plugins/summernote/dist/summernote-lite.css" rel="stylesheet" />
+@section Scripts{
+    <script src="../assets/plugins/summernote/dist/summernote-lite.min.js"></script>
+    <script>
+        $('.summernote').summernote({
+            height: 150,
+        });
+    </script>
+    <script>
+        var myControl = {
+            init: function () {
+                myControl.Reset();
+                myControl.event();
+            },
+
+            event: function () {
+                $("#btn_new_form").off("click").on("click", function () {
+                    myControl.Reset();
+                    notify('other', 'Thành Công', 'Tạo mới thành công');
+                });
+
+                $("#btn_save_form").off("click").on("click", function () {
+                    myControl.SaveData();
+                });
+
+                $("#phan_loai").off("change").on("change", function () {
+                    myControl.LoadTable();
+                });
+
+            },
+            Reset: function () {
+                $("#IdDanhMuc").val(0);
+                $("#so_thu_tu").val("");
+                $("#ten_goi").val("");
+            },
+
+            LoadTable: function () {
+                $.ajax({
+                    type: 'Get',
+                    datatype: 'json',
+                    data: {
+                        phan_loai: $("#phan_loai").val(),
+                    },
+                    url: '/DanhMucHeThong/LoadTable',
+                    success: function (response) {
+                        if (response.code == true) {
+                            var lstTable = response.find_data;
+
+                            if (lstTable != null) {
+                                $("#tblHeThong").bootstrapTable('load', lstTable);
+                            } else {
+                                $("#tblHeThong").bootstrapTable('removeAll');
+                            }
+                        }
+                    }
+                })
+            },
+
+            SaveData: function () {
+                var Id = $("#IdDanhMuc").val();
+                var so_thu_tu = $("#so_thu_tu").val();
+                var ten_goi = $("#ten_goi").val();
+                var phan_loai = $("#phan_loai").val();
+                if (so_thu_tu == "" || so_thu_tu == undefined) {
+                    notify('warning', 'Cảnh báo', 'Bạn chưa nhập số thứ tự');
+                    $("#so_thu_tu").focus();
+                    return;
+                }
+                if (ten_goi == "" || ten_goi == undefined) {
+                    notify('warning', 'Cảnh báo', 'Bạn chưa nhập tên gọi');
+                    $("#ten_goi").focus();
+                    return;
+                }
+                if (phan_loai == "" || phan_loai == undefined) {
+                    notify('warning', 'Cảnh báo', 'Bạn chưa chọn phân loại');
+                    $("#phan_loai").focus();
+                    return;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '/DanhMucHeThong/SaveData',
+                    data: {
+                        Id: Id,
+                        so_thu_tu: so_thu_tu,
+                        ten_goi: ten_goi,
+                        phan_loai: phan_loai,
+                    },
+                    success: function (response) {
+                        if (response.code == true) {
+                            myControl.LoadTable();
+                            notify('success', 'Thành Công', 'Cập nhập thành công');
+                        } else {
+                            notify('warning', 'Cảnh báo', response.message);
+                        }
+                    },
+                    error: function (response) {
+                        notify('warning', 'Cảnh báo', response.message);
+                    }
+                });
+            },
+            SaveLock: function (Id,check_lock) {
+                if (Id > 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/DanhMucHeThong/SaveLock',
+                        data: {
+                            Id: Id,
+                            check_lock: check_lock,
+                        },
+                        success: function (response) {
+                            if (response.code == true) {
+                                myControl.LoadTable();
+                            } else {
+                                notify('warning', 'Cảnh báo', response.message);
+                            }
+                        },
+                        error: function (response) {
+                            notify('warning', 'Cảnh báo', response.message);
+                        }
+                    });
+                }
+            }
+        };
+
+        myControl.init();
+
+        function fm_apdung(e, value, row, index) {
+            if (value.is_check == true) {
+                return [
+                    '<div class="text-center">',
+                    '<a class="btn btn-sm btn-outline-success hvr-shrink" title="" href="javascript:myControl.SaveLock(' + value.Id + ",1" + ')" ><i class="fa fa-toggle-on f-16 text-center"></i></a>',
+                    '</div>'
+                ].join('');
+            } else {
+                return [
+                    '<div class="text-center">',
+                    '<a class="btn btn-sm btn-outline-primary hvr-shrink" title="" href="javascript:myControl.SaveLock(' + value.Id + ",2" + ')" ><i class="fa fa-toggle-off f-16 text-center"></i></a>',
+                    '</div>'
+                ].join('');
+            }
+
+        };
+    </script>
+
+}
+<h1 class="page-header my-4 mb-0">Danh mục hệ thống</h1>
+<div class="row">
+    <div class="col-sm-5">
+        <div class="panel panel-inverse">
+            <div class="panel-heading bg-cyan-700 text-white ui-sortable-handle">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+            </div>
+            <div class="panel-body pt-0">
+                <div id="content" class="app-content p-0 m-0 bg-component">
+                    <div class="app-content-padding px-0 py-3 pb-0">
+                        <div class="d-lg-flex mb-2">
+                            <button type="button" id="btn_new_form" class="btn btn-default btn-sm me-1 mb-1"><span class="fas fa-spinner fa-spin"></span> Làm mới dữ liệu</button>
+                            <button type="button" id="btn_save_form" class="btn btn-default btn-sm me-1 mb-1"><span class="fa fa-pen"></span> Lưu,Sửa dữ liệu</button>
+                            <button type="button" id="btn_remove_form" class="btn btn-default btn-sm me-1 mb-1"><span class="fa fa-trash"></span> Xóa dữ liệu</button>
+                        </div>
+                        <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" id="IdDanhMuc" hidden />
+                            <div class="col-sm-6">
+                                <label class="form-label mt-1">Số thứ tự:<font class="text-danger">*</font></label>
+                                <input type="text" class="form-control" id="so_thu_tu" placeholder="1,2,3,.." />
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="form-label mt-1">Tên gọi:<font class="text-danger">*</font></label>
+                                <input type="text" class="form-control" id="ten_goi" placeholder="Nhập tên gọi ..." />
+                            </div>
+
+                            <div class="col-sm-12">
+                                <label class="form-label mt-1"> Ghi chú:</label>
+                                <textarea class="summernote" name="content"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-7">
+        <div class="panel panel-inverse">
+            <div class="panel-heading bg-cyan-700 text-white ui-sortable-handle">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+            </div>
+            <div class="panel-body pt-0">
+                <div class="col-sm-12">
+                    <label class="form-label mt-1">Phân loại:<font class="text-danger">*</font></label>
+                    <select id="phan_loai" class="form-control custom-select">
+                        <option value="">-- Chọn phân loại --</option>
+                        <option value="Danh mục chức vụ">Danh mục chức vụ</option>
+                        <option value="Danh mục chữ viết tắt">Danh mục chữ viết tắt</option>
+                    </select>
+                </div>
+                <div id="content" class="app-content p-0 m-0 bg-component">
+                    <table id="tblHeThong"
+                           data-classes="table table-bordered align-middle text-nowrap table-hover"
+                           data-toggle="table"
+                           data-mobile-responsive="true"
+                           data-fixed-columns="true"
+                           data-show-export="true"
+                           data-show-search-button="true"
+                           data-search="true"
+                           data-pagination="true">
+                        <thead>
+                            <tr>
+                                <th data-field="sap_xep" data-width="5">TT</th>
+                                <th data-field="ten_goi">Tên gọi</th>
+                                <th data-field="ghi_chu">Ghi chú</th>
+                                <th data-formatter="fm_apdung" data-width="5" class="text-center">Áp dụng</th>
+                                <th data-field="is_lock" data-width="5" class="text-center">#</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

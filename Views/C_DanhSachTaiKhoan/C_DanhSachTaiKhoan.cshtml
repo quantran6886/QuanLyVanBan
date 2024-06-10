@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách tài khoản";
+}
+
+<h1 class="page-header my-4 mb-0">Danh sách nhân sự</h1>
+
+<div class="panel panel-inverse">
+    <div class="panel-heading bg-cyan-700 text-white ui-sortable-handle">
+        <div class="panel-heading-btn">
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+    </div>
+    <div class="panel-body pt-0">
+        <div id="content" class="app-content p-0 m-0 bg-component">
+            <div class="app-content-padding px-0 py-3">
+                <div class="d-lg-flex mb-2">
+                    <button type="button" id="btn_new_form" class="btn btn-default btn-sm me-1 mb-1" data-bs-toggle="modal" data-bs-target="#modal-ho-so">
+                        <span class="fa fa-plus"></span> Thêm mới cán bộ
+                    </button>
+                    <button type="button" id="btn_new_form" class="btn btn-default btn-sm me-1 mb-1" data-bs-toggle="modal" data-bs-target="#modal-ho-so">
+                        <span class="fas fa-pen-to-square text-success"></span> Tạo tài khoản tự động
+                    </button>
+                </div>
+                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                <div class="tab-overflow">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <ul class="nav nav-tabs nav-tabs-deffault card  border-1 card-border-c-blue" style="width: 100%;">
+                                <li class="nav-item prev-button"><a href="javascript:;" data-click="prev-tab" class="nav-link text-primary"><i class="fa fa-arrow-left"></i></a></li>
+                                <li class="nav-item"><a href="#nav-tab-1" data-bs-toggle="tab" class="nav-link active">Chế độ xem 1</a></li>
+                                <li class="nav-item"><a href="#nav-tab-2" data-bs-toggle="tab" class="nav-link">Chế độ xem 2</a></li>
+                                <li class="nav-item"><a href="#nav-tab-3" data-bs-toggle="tab" class="nav-link">Phân quyền tài khoản</a></li>
+                                <li class="nav-item next-button"><a href="javascript:;" data-click="next-tab" class="nav-link text-primary"><i class="fa fa-arrow-right"></i></a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-lg-5 p-0">
+                            <div class="position-relative" style="margin: 2px;">
+                                <input type="text" class="form-control form-control-xs ps-35px rounded-3" placeholder="Tìm kiếm nhanh..." />
+                                <button class="btn position-absolute start-0 top-0 shadow-none p-3"><i class="fa fa-search fa-lg"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel-body tab-content">
+
+                <div class="tab-pane fade active show" id="nav-tab-1">
+                    <div class="row gx-1">
+                        <div class="col-sm-3 mb-1">
+                            <div class="p-2 d-flex align-items-center card flex-row border-1 rounded">
+                                <a href="javascript:;">
+                                    <img src="../assets/img/user/user-1.jpg" alt="" class="rounded" width="64">
+                                </a>
+                                <div class="flex-1 ps-3">
+                                    <b class="text-dark">Trần minh quân</b>
+                                    <div class="pt-1 pb-1">SH:022186</div>
+                                    <div><span class="badge bg-danger">Khóa</span></div>
+                                </div>
+                                <div>
+                                    <a href="javascript:;" class="btn border-0 w-40px h-40px text-gray-500 rounded-pill d-flex align-items-center justify-content-center" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-cog fa-lg"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-end" style="">
+                                        <a href="javascript:;" class="dropdown-item">Sửa,Đổi thông tin</a>
+                                        <a href="javascript:;" class="dropdown-item">Xóa tài khoản</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="javascript:;" class="dropdown-item">Phân quyền</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 mb-1">
+                            <div class="p-2 d-flex align-items-center card flex-row border-1 rounded">
+                                <a href="javascript:;">
+                                    <img src="../assets/img/user/user-1.jpg" alt="" class="rounded" width="64">
+                                </a>
+                                <div class="flex-1 ps-3">
+                                    <b class="text-dark">Trần minh quân</b>
+                                    <div class="pt-1 pb-1">SH:022186</div>
+                                    <div><span class="badge bg-success">Hoạt động</span></div>
+                                </div>
+                                <div>
+                                    <a href="javascript:;" class="btn border-0 w-40px h-40px text-gray-500 rounded-pill d-flex align-items-center justify-content-center" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-cog fa-lg"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-end" style="">
+                                        <a href="javascript:;" class="dropdown-item">Sửa,Đổi thông tin</a>
+                                        <a href="javascript:;" class="dropdown-item">Xóa tài khoản</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="javascript:;" class="dropdown-item">Phân quyền</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 mb-1">
+                            <div class="p-2 d-flex align-items-center card flex-row border-1 rounded">
+                                <a href="javascript:;">
+                                    <img src="../assets/img/user/user-1.jpg" alt="" class="rounded" width="64">
+                                </a>
+                                <div class="flex-1 ps-3">
+                                    <b class="text-dark">Trần minh quân</b>
+                                    <div class="pt-1 pb-1">SH:022186</div>
+                                    <div><span class="badge bg-danger">Khóa</span></div>
+                                </div>
+                                <div>
+                                    <a href="javascript:;" class="btn border-0 w-40px h-40px text-gray-500 rounded-pill d-flex align-items-center justify-content-center" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-cog fa-lg"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-end" style="">
+                                        <a href="javascript:;" class="dropdown-item">Sửa,Đổi thông tin</a>
+                                        <a href="javascript:;" class="dropdown-item">Xóa tài khoản</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="javascript:;" class="dropdown-item">Phân quyền</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 mb-1">
+                            <div class="p-2 d-flex align-items-center card flex-row border-1 rounded">
+                                <a href="javascript:;">
+                                    <img src="../assets/img/user/user-1.jpg" alt="" class="rounded" width="64">
+                                </a>
+                                <div class="flex-1 ps-3">
+                                    <b class="text-dark">Trần minh quân</b>
+                                    <div class="pt-1 pb-1">SH:022186</div>
+                                    <div><span class="badge bg-danger">Khóa</span></div>
+                                </div>
+                                <div>
+                                    <a href="javascript:;" class="btn border-0 w-40px h-40px text-gray-500 rounded-pill d-flex align-items-center justify-content-center" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-cog fa-lg"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-end" style="">
+                                        <a href="javascript:;" class="dropdown-item">Sửa,Đổi thông tin</a>
+                                        <a href="javascript:;" class="dropdown-item">Xóa tài khoản</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="javascript:;" class="dropdown-item">Phân quyền</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="nav-tab-2">
+                    <h3 class="mt-10px">Nav Tab 2</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Integer ac dui eu felis hendrerit lobortis. Phasellus elementum, nibh eget adipiscing porttitor,
+                        est diam sagittis orci, a ornare nisi quam elementum tortor.
+                        Proin interdum ante porta est convallis dapibus dictum in nibh.
+                        Aenean quis massa congue metus mollis fermentum eget et tellus.
+                        Aenean tincidunt, mauris ut dignissim lacinia, nisi urna consectetur sapien,
+                        nec eleifend orci eros id lectus.
+                    </p>
+                    <p>
+                        Aenean eget odio eu justo mollis consectetur non quis enim.
+                        Vivamus interdum quam tortor, et sollicitudin quam pulvinar sit amet.
+                        Donec facilisis auctor lorem, quis mollis metus dapibus nec. Donec interdum tellus vel mauris vehicula,
+                        at ultrices ex gravida. Maecenas at elit tincidunt, vulputate augue vitae, vulputate neque.
+                        Aenean vel quam ligula. Etiam faucibus aliquam odio eget condimentum.
+                        Cras lobortis, orci nec eleifend ultrices, orci elit pellentesque ex, eu sodales felis urna nec erat.
+                        Fusce lacus est, congue quis nisi quis, sodales volutpat lorem.
+                    </p>
+                </div>
+
+
+                <div class="tab-pane fade" id="nav-tab-3">
+                    <h3 class="mt-10px">Nav Tab 3</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Integer ac dui eu felis hendrerit lobortis. Phasellus elementum, nibh eget adipiscing porttitor,
+                        est diam sagittis orci, a ornare nisi quam elementum tortor.
+                        Proin interdum ante porta est convallis dapibus dictum in nibh.
+                        Aenean quis massa congue metus mollis fermentum eget et tellus.
+                        Aenean tincidunt, mauris ut dignissim lacinia, nisi urna consectetur sapien,
+                        nec eleifend orci eros id lectus.
+                    </p>
+                    <p>
+                        Aenean eget odio eu justo mollis consectetur non quis enim.
+                        Vivamus interdum quam tortor, et sollicitudin quam pulvinar sit amet.
+                        Donec facilisis auctor lorem, quis mollis metus dapibus nec. Donec interdum tellus vel mauris vehicula,
+                        at ultrices ex gravida. Maecenas at elit tincidunt, vulputate augue vitae, vulputate neque.
+                        Aenean vel quam ligula. Etiam faucibus aliquam odio eget condimentum.
+                        Cras lobortis, orci nec eleifend ultrices, orci elit pellentesque ex, eu sodales felis urna nec erat.
+                        Fusce lacus est, congue quis nisi quis, sodales volutpat lorem.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

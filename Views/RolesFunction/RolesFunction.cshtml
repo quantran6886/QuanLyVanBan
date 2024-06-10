@@ -1,0 +1,236 @@
+﻿
+@{
+    ViewBag.Title = "Phân quyền hệ thống";
+}
+
+@section Scripts{
+    <script src="~/wwwRoot/js/pages/todo.js"></script>
+    <script>
+        function checkAll() {
+            var check = $("#checkAll").prop('checked');
+            if (check === true) {
+                $('.allCK').prop('checked', true).iCheck('update');
+            }
+            else {
+                $('.allCK').prop('checked', false).iCheck('update');
+            }
+        };
+    </script>
+    <script>
+        var checkColumn = false;
+        var myController = {
+
+            init: function () {
+                myController.RegesterEvent();
+                myController.LoadTable();
+            },
+
+            RegesterEvent: function () {
+
+                $('#tblUsers').off('click-row.bs.table').on('click-row.bs.table', function (e, row, $element) {
+                    $('.table-primary').removeClass('table-primary');
+                    $($element).addClass('table-primary');
+                    $("#NameUser").val(row.UserName);
+                    myController.LoadMenu(row.UserName);
+                });
+
+                $("#isHideCheck").off('click').on('click', function () {
+                    var check = $("#isHideCheck").prop('checked');
+                    $("#NameUser").val("");
+                    if (check) {
+                        checkColumn = true;
+                        $("#tblUsers").bootstrapTable('showColumn', 'ck_Roles');
+                    } else {
+                        checkColumn = false;
+                        $("#tblUsers").bootstrapTable('hideColumn', 'ck_Roles');
+                    }
+                    myController.LoadTable();
+                });
+
+                $("#btnButton").off('click').on('click', function () {
+
+                    $('#picker').minicolors('value', '#005294')
+
+                });
+
+            },
+
+            LoadMenu: function (UserName) {
+                $.ajax({
+                    url: '/RolesFunction/LoadMenu',
+                    type: 'GET',
+                    data: {
+                        UserName: UserName,
+                    },
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.status == true) {
+
+                            var lstMenu = res.lstMenu;
+                            if (lstMenu != null && lstMenu.length > 0) {
+                                $(".menu_class").removeClass('complete');
+                                $.each(lstMenu, function (index, val) {
+                                    $("#Menu_" + val.IdMenu).toggleClass('complete');
+                                });
+                            } else {
+                                $(".menu_class").removeClass('complete');
+                            }
+
+                        } else {
+                            $("#tblUsers").bootstrapTable('removeall');
+                        }
+                    }
+                });
+            },
+
+            LoadTable: function () {
+                $.ajax({
+                    url: '/RolesFunction/LoadTable',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.status == true) {
+                            var lstTable = res.lstAccount;
+                            if (lstTable != null) {
+                                $("#tblUsers").bootstrapTable('load', lstTable);
+                                if (checkColumn == false) {
+                                    $("#tblUsers").bootstrapTable('hideColumn', 'ck_Roles');
+                                }
+
+                                var lstMenu = res.lstMenu;
+                                var html = '';
+                                var template = $('#data-template-menu').html();
+                                $.each(lstMenu, function (i, item) {
+                                    html += Mustache.render(template, {
+                                        NameMenu: item.NameMenu,
+                                        NameIcon: item.NameIcon,
+                                        NameColor: item.NameColor,
+                                        IdMenu: item.IdMenu,
+                                    });
+                                });
+                                $('#task-list').html(html);
+
+                            } else {
+                                $("#tblUsers").bootstrapTable('removeall');
+                            }
+                        }
+                    }
+                });
+            },
+
+            SaveMenuUser: function (IdMenu) {
+                if (IdMenu < 0) {
+                    return;
+                }
+                var NameUser = $("#NameUser").val();
+                if (NameUser == "" || NameUser == null) {
+                    toastr["warning"]("Bạn chưa chọn tài khoản để phân");
+                    return;
+                }
+                $.ajax({
+                    type: 'Post',
+                    url: '/RolesFunction/SaveMenuUser',
+                    datatype: 'json',
+                    data: {
+                        IdMenu: IdMenu,
+                        NameUser: NameUser,
+                    },
+                    success: function (response) {
+                        if (response.status) {
+                            $("#Menu_" + IdMenu).toggleClass('complete');
+                            toastr["success"]("Cập nhập thành công");
+                        }
+                    }
+                });
+            }
+
+
+        };
+
+        myController.init();
+
+        function FomaterChecked(e, value, row, index) {
+            return [
+                '<div style="text-align:center">',
+                '<input type="checkbox" class="icheckbox_green checked allCK" data-ck_id=' + value.id_phieu + ' id=' + "chk_" + value.id_phieu + '>',
+                '</div>'
+            ].join('');
+        };
+
+        function fc_Context(e, value, row, index) {
+            return [
+                '<div style="width:35px">',
+                '<a class="btn btn-sm btn-outline-primary hvr-shrink" title="Chức năng tích hợp chuột phải" href="javascript:myController.InPhieu(' + value.id_phieu + ')" ><i class="feather icon-toggle-right f-16 text-center"></i></a>',
+                '</div>'
+            ].join('');
+        };
+
+    </script>
+}
+
+<div class="col-xl-7">
+    <div class="card">
+        <div class="card-header">
+            <h5>Tài khoản</h5>
+        </div>
+        <div class="card-body">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="isHideCheck">
+                <label class="custom-control-label" for="isHideCheck">(Bật phân quyền cho nhiều tài khoản ) </label>
+            </div>
+            <div class="ibox-content">
+                <div class="table-responsive">
+                    <table id="tblUsers"
+                           data-classes="table table-striped table-bordered table-hover"
+                           data-toggle="table"
+                           data-mobile-responsive="true"
+                           data-fixed-columns="true"
+                           data-show-export="true"
+                           data-pagination="true"
+                           @*data-show-columns="true"*@
+                           data-page-size="10"
+                           data-page-list="[15, 25, 35, all]">
+                        <thead>
+                            <tr>
+                                <th data-field="ck_Roles" data-formatter="FomaterChecked">
+                                    <div style="text-align:center">
+                                        <input type="checkbox" class="icheckbox_green checked" id="checkAll" onclick="checkAll()" />
+                                    </div>
+                                </th>
+                                <th data-field="UserName">Tài khoản</th>
+                                <th data-field="Email">Email</th>
+                                <th data-field="Lockout">Trạng thái</th>
+                                <th data-field="Roles">Quyền</th>
+                                <th data-field="" data-formatter="fc_Context" class="text-center">Tích hợp</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-xl-5">
+    <div class="card">
+        <div class="card-header">
+            <h5>Phân quyền chức năng cho tài khoản</h5>
+        </div>
+        <div class="input-group mb-3">
+            <div class="alert alert-warning col-lg-12" role="alert">
+                Tích chọn chức năng bạn muốn sử dụng (<span class="text-danger">bằng cách bấm vào các chức năng bên dưới</span>)
+            </div>
+        </div>
+        <section id="task-container" class="col-lg-12">
+            <input type="text" id="NameUser" hidden />
+            <ul id="task-list">
+            </ul>
+            <script id="data-template-menu" type="x-tmpl-mustache">
+            <li id="Menu_{{IdMenu}}" class="p-3 menu_class" style="width:100%">
+                <a href="javaScript:myController.SaveMenuUser({{IdMenu}})"><p class="f-15"><i class="{{NameIcon}}" style="color:{{NameColor}}"></i> {{NameMenu}}</p></a>
+            </li>
+            </script>
+        </section>
+    </div>
+</div>
+

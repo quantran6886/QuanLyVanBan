@@ -1,0 +1,328 @@
+﻿
+@{
+    ViewBag.Title = "ListMenu";
+}
+<style>
+    .fa {
+        font-weight: 900;
+        font-size: 16px;
+    }
+</style>
+<link href="~/wwwRoot/Support/Chosen/chosen.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/wwwRoot/css/plugins/jquery.minicolors.css">
+@section Scripts{
+    <script src="~/wwwRoot/js/plugins/jquery.minicolors.min.js"></script>
+    <script src="~/wwwRoot/js/pages/form-picker-custom.js"></script>
+    <script src="~/wwwRoot/Support/Chosen/chosen.jquery.js"></script>
+    <script>
+        var checkColumn = false;
+        var myController = {
+            init: function () {
+                myController.LoadData();
+                myController.RegesterEvent();
+            },
+
+            RegesterEvent: function () {
+
+                $(".chosen").chosen();
+                $(".chosen-results").css('font-size', '14px');
+                $(".chosen-results").css('font-family', 'FontAwesome');
+                $(".chosen-container").css('width', '100%');
+
+                $('#btnNew').off('click').on('click', function () {
+                    myController.reset();
+                    toastr["success"]("Đã tạo mới!Mời bạn nhập thông tin");
+                });
+
+                $('#btnSave').off('click').on('click', function () {
+                    myController.SaveData();
+                });
+
+                $('#Controller').off('change').on('change', function () {
+                    var Controller = $('#Controller').val();
+                    $('#Action').val(Controller);
+                });
+
+            },
+            reset: function () {
+                $('#IdMenu').val(0);
+                $('#Url').val("c-h-e-c-k-m-e-n-u");
+                $('#Controller').val("");
+                $('#Action').val("");
+                $('#NameIcon').val("").trigger('chosen:updated');;
+                $('#NameColor').minicolors('value', '#000000')
+                $('#NameMenu').val("");
+            },
+
+            LoadData: function () {
+                $.ajax({
+                    url: '/ListMenu/LoadData',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.status == true) {
+
+                            var lstIcon = res.lstIcon;
+
+                            if (lstIcon != null) {
+                                var optionIcon = "<option value=''>-- Chọn icon --</option>";
+                                $.each(lstIcon, function (index, val) {
+                                    optionIcon += "<option value='" + val.NameIcon + "'>" + val.NameIcon + "   " + "( &#x" + val.CodeIcon + " )" + "</option>";
+                                });
+
+                                $("#NameIcon").html(optionIcon).trigger('chosen:updated');
+                            }
+
+                            myController.LoadTable();
+                            myController.reset();
+
+                        } else {
+                            $("#tblUsers").bootstrapTable('removeall');
+                        }
+                    }
+                });
+            },
+
+            SaveData: function () {
+                var IdMenu = $('#IdMenu').val();
+                var Url = $('#Url').val();
+                var Controller = $('#Controller').val();
+                var Action = $('#Action').val();
+                var NameIcon = $('#NameIcon').val();
+                var NameColor = $('#NameColor').val();
+                var NameMenu = $('#NameMenu').val();
+
+                if (NameMenu == null || NameMenu == "" || NameMenu == undefined) {
+                    toastr["warning"]("Tên menu không được để trống");
+                    $('#NameMenu').focus();
+                    return;
+                }
+                if (Url == null || Url == "" || Url == undefined) {
+                    toastr["warning"]("Đường dẫn không được để trống");
+                    $('#Url').focus();
+                    return;
+                }
+
+                var data = {
+                    IdMenu: IdMenu,
+                    Url: Url,
+                    Controller: Controller,
+                    Action: Action,
+                    NameIcon: NameIcon,
+                    NameColor: NameColor,
+                    NameMenu: NameMenu,
+                }
+
+                $.ajax({
+                    type: 'Post',
+                    url: '/ListMenu/SaveData',
+                    datatype: 'json',
+                    data: {
+                        strData: JSON.stringify(data),
+                    },
+                    success: function (response) {
+                        if (response.status) {
+                            myController.LoadTable();
+                            toastr["success"]("Cập nhập thành công");
+                        }
+                    }
+                });
+            },
+
+            LoadTable: function () {
+                $.ajax({
+                    url: '/ListMenu/LoadTable',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status) {
+                            var lstTable = response.lstTable;
+
+                            if (lstTable != null) {
+                                $("#tblMenu").bootstrapTable('load', lstTable);
+                            } else {
+                                $("#tblMenu").bootstrapTable('removeAll');
+                            }
+                        }
+                    }
+                });
+            },
+
+            LoadDetail: function (IdMenu) {
+                $.ajax({
+                    url: '/ListMenu/LoadDetail',
+                    type: 'GET',
+                    data: {
+                        IdMenu: IdMenu,
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status) {
+                            var data = response.data;
+
+                            if (data != null) {
+                                $('#IdMenu').val(data.IdMenu);
+                                $('#Url').val(data.Url);
+                                $('#Controller').val(data.Controller);
+                                $('#Action').val(data.Action);
+                                $('#NameIcon').val(data.NameIcon).trigger('chosen:updated');
+                                $('#NameColor').minicolors('value', data.NameColor)
+                                $('#NameMenu').val(data.NameMenu);
+                            }
+                         
+                        }
+                    }
+                });
+            },
+
+            DeleteMenu: function (IdMenu) {
+                bootbox.confirm({
+                    message: '<div class="alert alert-warning col-lg-12 f-16" role="alert">Bạn có muốn xóa không? <font class="text-danger font-bold">Lưu ý : mọi quyết định sẽ được lưu lại và bạn không thể thay đổi</font></div>',
+                    closeButton: null,
+                    title: "Xác nhận biểu mẫu",
+                    buttons: {
+                        confirm: {
+                            label: '<i class="feather icon-check"></i> Tôi đồng ý',
+                            className: 'btn-sm btn-round btn-grd-success'
+                        },
+                        cancel: {
+                            label: '<i class="feather icon-loader"></i> Thoát',
+                            className: 'btn-sm btn-round btn-grd-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result == true) {
+                            $.ajax({
+                                type: 'post',
+                                datatype: 'json',
+                                data: {
+                                    IdMenu: IdMenu
+                                },
+                                url: '/ListMenu/DeleteMenu',
+                                success: function (response) {
+                                    if (response.status == true) {
+                                        toastr["success"]("Cập nhập thành công");
+                                        myController.LoadTable();
+                                    } else {
+                                        toastr["info"]("Menu này đang được sử dụng bởi user!");
+                                    }
+                                },
+                            });
+                        }
+                    }
+                });
+            },
+        };
+        function fc_NameMenu(e, value, row, index) {
+
+            return [
+                '<div style="">',
+                '<i style="color:' + value.NameColor + '" class="' + value.NameIcon + '"></i><span> ' + value.NameMenu + '</span>',
+                '</div>'
+            ].join('');
+        };
+
+        function ChucNang(e, value, row, index) {
+            return [
+                '<div style="width:55px">',
+                '<a href="javaScript:myController.LoadDetail(' + value.IdMenu + ')" class="btn btn-primary btn-sm"><i class="feather icon-edit mr-0"></i></a>',
+                '<a href="javaScript:myController.DeleteMenu(' + value.IdMenu + ')" class="btn btn-danger btn-sm ml-1"><i class="feather icon-trash-2 mr-0"></i></a>',
+                '</div>'
+            ].join('');
+        };
+
+        myController.init();
+    </script>
+}
+<div class="col-lg-12 col-md-12 p-0">
+    <div class="card table-card latest-activity-card">
+        <div class="card-header text-center">
+            <h5>Danh mục menu</h5>
+            <div class="card-header-right">
+                <div class="btn-group card-option">
+                    <div class="p-r-10 minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> </span><span style="display:none"><i class="feather icon-plus"></i> </span></a></div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="form-group row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="panel-body">
+                                <div class="col-sm-12">
+                                    <div class="ibox-content">
+                                        <div class="table-responsive">
+                                            <table id="tblMenu"
+                                                   data-classes="table table-striped table-bordered table-hover"
+                                                   data-toggle="table"
+                                                   data-mobile-responsive="true"
+                                                   data-fixed-columns="true"
+                                                   data-show-export="true"
+                                                   data-search="true"
+                                                   data-show-columns="true"
+                                                   data-page-size="10"
+                                                   data-page-list="[15, 25, 35, all]">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-field="Url">Url</th>
+                                                        <th data-field="NameMenu" data-formatter="fc_NameMenu">Tên menu</th>
+                                                        <th data-formatter="ChucNang" data-width="5">#</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row form-row col-sm-12 p-3">
+                                <div class="col-sm-12 row">
+                                    <input type="hidden" class="form-control" id="IdMenu">
+                                    <div class="form-group col-sm-12" style="clear:both">
+                                        <label>Tên Menu: <font class="text-danger">*</font> </label>
+                                        <input type="text" placeholder="Nhập tên menu ..." class="form-control" id="NameMenu">
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label>Icon:</label>
+                                        <select class="col-sm-12 chosen" id="NameIcon">
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label>Chọn màu icon:</label>
+                                        <input type="text" id="NameColor" class="form-control demo mb-1 minicolors-input" value="#000000" size="7">
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label>Tên đường dẫn:<font class="text-danger">*</font></label>
+                                        <input type="text" value="c-h-e-c-k-m-e-n-u" class="form-control" id="Url" readonly>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label>Tên Controller:</label>
+                                        <input type="text" placeholder="Controller ..." class="form-control" id="Controller">
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label>Tên View:</label>
+                                        <input type="text" placeholder="View ..." class="form-control" id="Action" readonly>
+                                    </div>
+                                </div>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <div class=" line-header card-footer col-lg-12 p-1" style="color: aqua; border-top: 1px solid #0080ff;">
+                                        <button type="button" class="btn btn-grd-success btn-round btn-sm col-lg-3" id="btnNew"><i class="feather icon-plus"></i>Tạo mới</button>
+                                        <button type="button" class="btn btn-grd-primary btn-round btn-sm col-lg-6" id="btnSave"><i class="feather icon-save"></i> Cập nhập</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

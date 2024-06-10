@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "ThuMucLuuTru";
+}
+<link href="~/wwwRoot/Support/bootstrap-fileinput-master/css/fileinput-rtl.css" rel="stylesheet" />
+<link href="~/wwwRoot/Support/bootstrap-fileinput-master/css/fileinput.css" rel="stylesheet" />
+<!-- ekko-lightbox css -->
+<link rel="stylesheet" href="~/wwwRoot/css/plugins/ekko-lightbox.css">
+<link rel="stylesheet" href="~/wwwRoot/css/plugins/lightbox.min.css">
+@section Scripts{
+    <script src="~/wwwRoot/Support/bootstrap-fileinput-master/js/fileinput.js" type="text/javascript"></script>
+    <script src="~/wwwRoot/Support/bootstrap-fileinput-master/themes/fa5/theme.js" type="text/javascript"></script>
+    <script src="~/wwwRoot/js/plugins/ekko-lightbox.min.js"></script>
+    <script src="~/wwwRoot/js/plugins/lightbox.min.js"></script>
+    <script src="~/wwwRoot/js/pages/ac-lightbox.js"></script>
+    <script src="~/Controllers/ajax/Document.js"></script>
+}
+
+<!-- [ file-upload ] start -->
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-header p-2">
+            <div class="col-sm-8">
+                <button type="button" id="btnUpload" class="btn btn-grd-success btn-round btn-sm"><i class="feather icon-upload"></i> Uload dữ liệu</button>
+                <button type="button" id="btnFileDinhKem" class="btn btn-grd-primary btn-round btn-sm" data-toggle="modal" data-target="#modal-file"><i class="feather icon-file"></i> File đính kèm (<span id="CountList"></span> tệp đính kèm)</button>
+            </div>
+        </div>
+        <div class="card-body row">
+            <div class="col-lg-12">
+                <form enctype="multipart/form-data">
+                    <div class="file-loading">
+                        <input id="duong_dan_tai_lieu" class="file" type="file" multiple data-min-file-count="1" data-theme="fa5">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="card-footer" style="background-image: linear-gradient(to right, #ccddcd 0%, #e3f5f4 51%, #becfbe 100%);">
+            <h5 class="text-center">Lưu trữ tài liệu &hình ảnh</h5>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-file" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 90%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tệp đính kèm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body p-3">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-sm-12  row mb-2">
+                            <div class="input-group col-lg-9 mb-3">
+                                <input type="text" class="form-control-sm form-control" placeholder="Tìm kiếm tên file ...">
+                                <div class="input-group-append">
+                                    <button class="btn btn-sm btn-success has-ripple" type="button"><i class="feather icon-search"></i> Tìm kiếm</button>
+                                    <button type="button" id="btnRemoveFile" class="btn btn-grd-danger btn-sm btn-round"><i class="feather icon-trash"></i> Xóa File</button>
+                                    <button type="button" id="btnDowloadFile" class="btn btn-grd-primary btn-sm btn-round"><i class="feather icon-folder"></i> Nén File dạng .Zip</button>
+                                    <a href="" class="btn btn-grd-inverse btn-sm btn-round" id="dowloadZip" style="display:none"><i class="feather icon-download"></i> Tải File ảnh .Zip</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="card bg-pattern">
+                            <div class="card-header p-2" style=" background-image: linear-gradient(to right, #1a90b3 0%, #cfd1d1 51%, #4b91c9 100%);">
+                                <h5 class="text-white">1. Hình ảnh & video (Tích chọn tất cả) <input type="checkbox" class="icheckbox_green checked" id="checkAll"></h5>
+                            </div>
+                            <div class="card-body text-center pt-1 pb-1">
+                                <div class="row  text-center" id="lstImage">
+                                </div>
+                                <script id="data-template-Image" type="x-tmpl-mustache">
+                                    <div class="col-sm-1 p-1 ml-3" style="border: 2px solid #aeaeae;">
+                                        <a href="{{url}}" data-toggle="lightbox" data-gallery="mixedgallery"><img src="{{url}}"  data-action="ContextMenuEdit" class="img-fluid" alt=""></a>
+                                     <input type="checkbox" class="icheckbox_green checked allCK" id="{{IdDocument}}" style="position: absolute;bottom: 0;left: 0;">
+                                    </div>
+                                </script>
+
+                            </div>
+                        </div>
+                        <div class="card bg-pattern">
+                            <div class="card-header p-2" style=" background-image: linear-gradient(to right, #1a90b3 0%, #cfd1d1 51%, #4b91c9 100%);">
+                                <h5 class="text-white">2. Tài liệu & văn bản</h5>
+                            </div>
+                            <div class="card-body py-5 text-center">
+                                <a href="{{url}}"  data-toggle="lightbox" data-gallery="mixedgallery"><img src="{{url}}" class="img-fluid" alt=""></a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer-inverse">
+                <button class="btn btn-sm btn-grd-danger" data-dismiss="modal" aria-label="Close"> <i class="feather icon-loader"></i> Chuyển & Đóng </button>
+            </div>
+        </div>
+    </div>
+</div>
