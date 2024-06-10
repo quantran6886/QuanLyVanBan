@@ -1165,6 +1165,7 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="UpdateSQL\SCRIPTS.SQL" />
     <Content Include="wwwRoot\Support\SignalR\jquery.signalR-2.4.3.js" />
     <Content Include="wwwRoot\Support\SignalR\jquery.signalR-2.4.3.min.js" />
     <Content Include="wwwRoot\assetLogin\css\main.css" />
