@@ -933,6 +933,7 @@
     <Content Include="assets\img\version\svelte.jpg" />
     <Content Include="assets\img\version\vuejs.jpg" />
     <Content Include="assets\js\app.min.js" />
+    <Content Include="assets\js\autoNumeric.js" />
     <Content Include="assets\js\demo\calendar.demo.js" />
     <Content Include="assets\js\demo\chart-apex.demo.js" />
     <Content Include="assets\js\demo\chart-d3.demo.js" />
