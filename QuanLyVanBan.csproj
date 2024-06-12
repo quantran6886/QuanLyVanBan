@@ -1180,6 +1180,7 @@
     <Content Include="assets\Farmwork\bootstrap-sweetalert\sweetalert.css" />
     <Content Include="assets\Farmwork\bootstrap-sweetalert\sweetalert.js" />
     <Content Include="assets\Farmwork\bootstrap-sweetalert\sweetalert.min.js" />
+    <Content Include="UpdateSql\TextFile1.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
