@@ -6,10 +6,10 @@ using System.Web.Mvc;
 
 namespace AppNetShop.Controllers
 {
-    public class LockScreenController : Controller
+    public class C_PhieuThuController : Controller
     {
-        // GET: LockScreen
-        public ActionResult LockScreen()
+        // GET: C_PhieuThu
+        public ActionResult C_PhieuThu()
         {
             return View();
         }

@@ -103,7 +103,7 @@
                     }
                 });
             },
-            SaveLock: function (Id,check_lock) {
+            SaveLock: function (Id, check_lock) {
                 if (Id > 0) {
                     $.ajax({
                         type: "POST",
@@ -143,7 +143,14 @@
                     '</div>'
                 ].join('');
             }
+        };
 
+        function fm_xoa(e, value, row, index) {
+            return [
+                '<div class="text-center">',
+                '<a class="btn btn-sm btn-outline-danger hvr-shrink" title="" href="javascript:myControl.Delete(' + value.Id + ')" ><i class="fa fa-trash f-16 text-center"></i></a>',
+                '</div>'
+            ].join('');
         };
     </script>
 
@@ -165,7 +172,6 @@
                         <div class="d-lg-flex mb-2">
                             <button type="button" id="btn_new_form" class="btn btn-default btn-sm me-1 mb-1"><span class="fas fa-spinner fa-spin"></span> Làm mới dữ liệu</button>
                             <button type="button" id="btn_save_form" class="btn btn-default btn-sm me-1 mb-1"><span class="fa fa-pen"></span> Lưu,Sửa dữ liệu</button>
-                            <button type="button" id="btn_remove_form" class="btn btn-default btn-sm me-1 mb-1"><span class="fa fa-trash"></span> Xóa dữ liệu</button>
                         </div>
                         <hr class="mb-10px mt-0 bg-gray-600 text-danger">
                     </div>
@@ -224,8 +230,9 @@
                                 <th data-field="sap_xep" data-width="5">TT</th>
                                 <th data-field="ten_goi">Tên gọi</th>
                                 <th data-field="ghi_chu">Ghi chú</th>
-                                <th data-formatter="fm_apdung" data-width="5" class="text-center">Áp dụng</th>
                                 <th data-field="is_lock" data-width="5" class="text-center">#</th>
+                                <th data-formatter="fm_apdung" data-width="5" class="text-center">Áp dụng</th>
+                                <th data-formatter="fm_xoa" data-width="5" class="text-center"><font class="fas fa-trash pb-1"></font></th>
                             </tr>
                         </thead>
                     </table>

@@ -6,77 +6,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Đăng nhập hệ thống</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/vendor/animate/animate.css">
-    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/vendor/css-hamburgers/hamburgers.min.css">
-    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/vendor/select2/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/css/util.css">
-    <link rel="stylesheet" type="text/css" href="~/wwwRoot/assetLogin/css/main.css">
-    <link rel="stylesheet" href="~/wwwRoot/css/style.css">
-    <link href="~/wwwRoot/css/style2.css" rel="stylesheet" />
-
+    <meta charset="utf-8" />
+    <title>Color Admin | Login</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content name="description" />
+    <meta content name="author" />
+    <link href="../assets/css/vendor.min.css" rel="stylesheet" />
+    <link href="../assets/css/default/app.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://www.iconpacks.net/icons/2/free-reddit-logo-icon-2436-thumb.png" rel="icon" />
+    <style>
+        .show-btn-pass {
+            position: absolute;
+            top: 19px;
+            right: 20px;
+        }
+        #btn_hiden_pass{
+            cursor:pointer
+        }
+    </style>
 </head>
-<body>
-
-    <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100">
-                <div class="login100-pic js-tilt" data-tilt>
-                    <img src="~/wwwRoot/assetLogin/images/img-slide-6.jpg" alt="IMG">
+<body class="pace-top">
+    <div id="app" class="app">
+        <div class="login login-v1">
+            <div class="login-container">
+                <div class="login-header">
+                    <div class="brand">
+                        <div class="d-flex align-items-center">
+                            <span class="logo"></span> <b class="me-1">P/M</b>Quản Lý Thu Chi
+                        </div>
+                        <small>Phần mềm mang lại tiện ích,tính toán ,...</small>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-lock"></i>
+                    </div>
                 </div>
 
-                @using (Html.BeginForm("Login", "Login", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login100-form validate-form", role = "form" }))
-                {
-                    <h3 class="mb-4 f-w-400">Phần mềm thu chi</h3>
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="wrap-input100 validate-input " data-validate="Bạn chưa nhập tài khoản">
-                        @Html.TextBoxFor(m => m.UserName, new { @class = "input100", autofocus = "autofocus", placeholder = "Nhập tài khoản" })
-                        @*@Html.ValidationMessageFor(m => m.UserName, "", new { @class = "focus-input100" })*@
-                        <span class="symbol-input100">
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <div class="wrap-input100 validate-input" data-validate="Bạn chưa nhập mật khẩu">
-                        @Html.PasswordFor(m => m.Password, new { @class = "input100", autofocus = "autofocus", placeholder = "Nhập mật khẩu" })
-                        @*@Html.ValidationMessageFor(m => m.Password, "", new { @class = "focus-input100" })*@
-                        <span class="symbol-input100">
-                            <i class="fa fa-lock" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <div class="custom-control custom-checkbox text-left mb-2 mt-2 ml-2" hidden>
-                        @Html.CheckBoxFor(m => m.RememberMe, new { @class = "custom-control-input",})
-                        <label class="custom-control-label" for="RememberMe">Ghi nhớ.</label>
-                    </div>
-                    <button type="submit" class="btn btn-block btn-round btn-grd-danger mb-4 mt-4">Đăng nhập</button>
-                    <div class="text-center">
-                        <div class="saprator my-4"><span>OR</span></div>
-                        <button class="btn text-white bg-facebook mb-2 mr-2  wid-40 px-0 hei-40 rounded-circle"><i class="fab fa-facebook-f"></i></button>
-                        <button class="btn text-white bg-googleplus mb-2 mr-2 wid-40 px-0 hei-40 rounded-circle"><i class="fab fa-google-plus-g"></i></button>
-                        <button class="btn text-white bg-twitter mb-2  wid-40 px-0 hei-40 rounded-circle"><i class="fab fa-twitter"></i></button>
-                        <p class="mb-2 mt-4 text-muted">Quên mật khẩu? <a href="auth-reset-password-img-side.html" class="f-w-400">Reset</a></p>
-                    </div>
-                }
 
+                <div class="login-body">
+
+                    <div class="login-content fs-13px">
+                        @using (Html.BeginForm("Login", "Login", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "validate-form", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-floating mb-20px " data-validate="Bạn chưa nhập tài khoản">
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control fs-13px h-45px", autofocus = "autofocus", placeholder = "Nhập tài khoản" })
+                                <label for="emailAddress" class="d-flex align-items-center">Tài khoản</label>
+                                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "focus-input100" })
+                            </div>
+                            <div class="form-floating mb-20px" data-validate="Bạn chưa nhập mật khẩu">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control fs-13px h-45px",@id="pass", autofocus = "autofocus", placeholder = "Nhập mật khẩu" })
+                                <label for="password" class="d-flex align-items-center">Mật khẩu</label>
+                                <span class="show-btn-pass"><i class="fas fa-eye" id="btn_hiden_pass"></i></span>
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "focus-input100" })
+                            </div>
+                            <div class="custom-control custom-checkbox text-left mb-2 mt-2 ml-2" hidden>
+                                @Html.CheckBoxFor(m => m.RememberMe, new { @class = "custom-control-input", })
+                                <label class="custom-control-label" for="RememberMe">Ghi nhớ.</label>
+                            </div>
+                            <div class="form-check mb-20px">
+                                <input class="form-check-input" type="checkbox" value id="rememberMe" />
+                                <label class="form-check-label" for="rememberMe">
+                                    Remember Me
+                                </label>
+                            </div>
+                            <div class="login-buttons">
+                                <button type="submit" class="btn btn-theme h-45px d-block w-100 btn-lg">Đăng nhập</button>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <script src="~/wwwRoot/assetLogin/vendor/jquery/jquery-3.2.1.min.js"></script>
-    <script src="~/wwwRoot/assetLogin/vendor/bootstrap/js/popper.js"></script>
-    <script src="~/wwwRoot/assetLogin/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/wwwRoot/assetLogin/vendor/select2/select2.min.js"></script>
-    <script src="~/wwwRoot/assetLogin/vendor/tilt/tilt.jquery.min.js"></script>
-    <script>
-        $('.js-tilt').tilt({
-            scale: 1.1
-        })
-    </script>
-    <script src="~/wwwRoot/assetLogin/js/main.js"></script>
+    <script src="../assets/js/vendor.min.js" type="b01940c4d4e739628b421df8-text/javascript"></script>
+    <script src="../assets/js/app.min.js" type="b01940c4d4e739628b421df8-text/javascript"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y3Q0VGQKY3" type="b01940c4d4e739628b421df8-text/javascript"></script>
+    <script type="b01940c4d4e739628b421df8-text/javascript">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'G-Y3Q0VGQKY3');
+    </script>
+    <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="b01940c4d4e739628b421df8-|49" defer></script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vef91dfe02fce4ee0ad053f6de4f175db1715022073587" integrity="sha512-sDIX0kl85v1Cl5tu4WGLZCpH/dV9OHbA4YlKCuCiMmOQIk4buzoYDZSFj+TvC71mOBLh8CDC/REgE0GX0xcbjA==" data-cf-beacon='{"rayId":"88f1f423eec4e6ae","r":1,"version":"2024.4.1","token":"4db8c6ef997743fda032d4f73cfeff63"}' crossorigin="anonymous"></script>
+    <script>
+        const passField = document.getElementById("pass");
+        const showBtn = document.getElementById("btn_hiden_pass");
+        showBtn.onclick = (() => {
+            if (passField.type === "password") {
+                passField.type = "text";
+            } else {
+                passField.type = "password";
+            }
+        });
+    </script>
 </body>
 </html>

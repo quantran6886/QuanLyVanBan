@@ -6,8 +6,8 @@
         closeOnConfirm: false,
         showLoaderOnConfirm: true,
         cancelButtonText: "Đóng [ X ]",
-        cancelButtonClass: "btn-sm btn-grd-inverse btn-round",
-        confirmButtonClass: "btn-sm btn-round btn-grd-primary",
+        cancelButtonClass: "btn-sm btn-inverse btn-round",
+        confirmButtonClass: "btn-sm btn-round btn-primary",
         confirmButtonText: "Đăng xuất",
     }, function () {
         setTimeout(function () {

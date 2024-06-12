@@ -28,9 +28,10 @@ namespace AppNetShop
                 Provider = new CookieAuthenticationProvider
                 {
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes(30),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
-                }
+                    validateInterval: TimeSpan.FromHours(30),
+                    regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                },
+                ExpireTimeSpan = TimeSpan.FromHours(24) // Ví dụ: Cookie tồn tại trong 1 giờ
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
             app.UseTwoFactorSignInCookie(DefaultAuthenticationTypes.TwoFactorCookie, TimeSpan.FromDays(1));

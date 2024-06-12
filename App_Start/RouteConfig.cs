@@ -12,6 +12,7 @@ namespace AppNetShop
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.MapRoute(name: "quan-ly-phieu-thu", url: "quan-ly-phieu-thu", defaults: new { controller = "C_PhieuThu", action = "C_PhieuThu", id = UrlParameter.Optional });
             routes.MapRoute(name: "danh-sach-tai-khoan", url: "danh-sach-tai-khoan",defaults: new { controller = "C_DanhSachTaiKhoan", action = "C_DanhSachTaiKhoan", id = UrlParameter.Optional });
             routes.MapRoute(name: "ho-so-can-bo", url: "ho-so-can-bo",defaults: new { controller = "C_HoSoCanBo", action = "C_HoSoCanBo", id = UrlParameter.Optional });
             routes.MapRoute( name: "trung-tam-tin-nhan", url: "trung-tam-tin-nhan",defaults: new { controller = "TrungTamTinNhan", action = "TrungTamTinNhan", id = UrlParameter.Optional });
@@ -25,16 +26,8 @@ namespace AppNetShop
             routes.MapRoute(name: "dang-ky-tai-khoan",url: "dang-ky-tai-khoan", defaults: new { controller = "RegesterLogin", action = "RegesterLogin", id = UrlParameter.Optional });
             routes.MapRoute( name: "danh-muc-he-thong", url: "danh-muc-he-thong",defaults: new { controller = "DanhMucHeThong", action = "DanhMucHeThong", id = UrlParameter.Optional });
             routes.MapRoute(name: "t-r-a-n-g-c-h-u", url: "t-r-a-n-g-c-h-u",defaults: new { controller = "DashBoard", action = "DashBoard", id = UrlParameter.Optional });
-            routes.MapRoute(
-             name: "dang-nhap-he-thong",
-             url: "dang-nhap-he-thong",
-             defaults: new { controller = "Login", action = "Login", id = UrlParameter.Optional }
-             );
-            routes.MapRoute(
-            name: "not-found",
-            url: "not-found",
-            defaults: new { controller = "Error", action = "E404", id = UrlParameter.Optional }
-            );
+            routes.MapRoute(name: "dang-nhap-he-thong", url: "dang-nhap-he-thong",defaults: new { controller = "Login", action = "Login", id = UrlParameter.Optional });
+            routes.MapRoute(name: "not-found",url: "not-found",defaults: new { controller = "Error", action = "E404", id = UrlParameter.Optional });
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
