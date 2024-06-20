@@ -15,7 +15,6 @@
     <link href="../assets/plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" />
     <link href="../assets/plugins/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css" rel="stylesheet" />
     <link href="../assets/plugins/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" />
-    <link href="../assets/plugins/select-picker/dist/picker.min.css" rel="stylesheet" />
     <link href="../assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
     <link href="../assets/plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" />
     <link href="../assets/plugins/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" />
@@ -23,15 +22,7 @@
     <link href="../assets/Farmwork/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet" />
     <link href="../assets/Farmwork/bootstrap-sweetalert/sweetalert.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
-    <style>
-        option {
-            font-weight: normal;
-            display: block;
-            min-height: 1.4em;
-            padding: 0px 2px 1px;
-            white-space: nowrap;
-        }
-    </style>
+    <link href="~/assets/Farmwork/custom-select/picker.css" rel="stylesheet" />
 </head>
 <body class="pace-done theme-red">
     <div id="loader" class="app-loader">
@@ -53,6 +44,7 @@
     </div>
     <!-- jQuery -->
     @Html.Partial("~/Views/Shared/ScriptsRender.cshtml")
+    <script src="~/assets/Farmwork/custom-select/Picker.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

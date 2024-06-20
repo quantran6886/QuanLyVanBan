@@ -12,6 +12,8 @@ namespace AppNetShop
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.MapRoute(name: "du-lieu-da-xoa", url: "du-lieu-da-xoa", defaults: new { controller = "C_KhoiPhucDuLieu", action = "C_KhoiPhucDuLieu", id = UrlParameter.Optional });
+            routes.MapRoute(name: "quan-ly-phieu-chi", url: "quan-ly-phieu-chi", defaults: new { controller = "C_PhieuChi", action = "C_PhieuChi", id = UrlParameter.Optional });
             routes.MapRoute(name: "quan-ly-phieu-thu", url: "quan-ly-phieu-thu", defaults: new { controller = "C_PhieuThu", action = "C_PhieuThu", id = UrlParameter.Optional });
             routes.MapRoute(name: "danh-sach-tai-khoan", url: "danh-sach-tai-khoan",defaults: new { controller = "C_DanhSachTaiKhoan", action = "C_DanhSachTaiKhoan", id = UrlParameter.Optional });
             routes.MapRoute(name: "ho-so-can-bo", url: "ho-so-can-bo",defaults: new { controller = "C_HoSoCanBo", action = "C_HoSoCanBo", id = UrlParameter.Optional });

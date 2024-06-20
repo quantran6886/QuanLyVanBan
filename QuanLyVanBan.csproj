@@ -437,6 +437,8 @@
     <Compile Include="Controllers\CheckMenuController.cs" />
     <Compile Include="Controllers\C_DanhSachTaiKhoanController.cs" />
     <Compile Include="Controllers\C_HoSoCanBoController.cs" />
+    <Compile Include="Controllers\C_KhoiPhucDuLieuController.cs" />
+    <Compile Include="Controllers\C_PhieuChiController.cs" />
     <Compile Include="Controllers\C_PhieuThuController.cs" />
     <Compile Include="Controllers\DanhMucHeThongController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
@@ -452,6 +454,9 @@
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DomainModal\AspDetailUser.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModal\AspDSDTThuChi.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DomainModal\AspFolder.cs">
@@ -738,11 +743,14 @@
     <Content Include="assets\Farmwork\bootstrap-table\dist\themes\semantic\bootstrap-table-semantic.min.js" />
     <Content Include="assets\Farmwork\css\notify.css" />
     <Content Include="assets\Farmwork\css\notify.min.css" />
+    <Content Include="assets\Farmwork\custom-select\picker.css" />
     <Content Include="assets\Farmwork\custom-select\custom-select.css" />
+    <Content Include="assets\Farmwork\custom-select\Picker.js" />
     <Content Include="assets\Farmwork\js\notify.js" />
     <Content Include="assets\Farmwork\js\notify.min.js" />
     <Content Include="assets\img\Avatar.jpg" />
     <Content Include="assets\img\cover\cover-scrum-board.png" />
+    <Content Include="assets\img\file.png" />
     <Content Include="assets\img\flag\cn.jpg" />
     <Content Include="assets\img\flag\de.jpg" />
     <Content Include="assets\img\flag\fr.jpg" />
@@ -857,6 +865,7 @@
     <Content Include="assets\img\login-bg\login-bg-7-thumb.jpg" />
     <Content Include="assets\img\logo\logo-admin.png" />
     <Content Include="assets\img\logo\logo-bs5.png" />
+    <Content Include="assets\img\notfound.jpg" />
     <Content Include="assets\img\pos\product-1.jpg" />
     <Content Include="assets\img\pos\product-10.jpg" />
     <Content Include="assets\img\pos\product-11.jpg" />
@@ -1180,6 +1189,7 @@
     <Content Include="assets\Farmwork\bootstrap-sweetalert\sweetalert.css" />
     <Content Include="assets\Farmwork\bootstrap-sweetalert\sweetalert.js" />
     <Content Include="assets\Farmwork\bootstrap-sweetalert\sweetalert.min.js" />
+    <Content Include="script.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1228,7 +1238,6 @@
     <Content Include="Views\Shared\Message.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="FilesUploads\" />
     <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
@@ -1248,6 +1257,7 @@
     <Content Include="DomainModal\DomainModel.edmx.diagram">
       <DependentUpon>DomainModel.edmx</DependentUpon>
     </Content>
+    <Content Include="FilesUploads\UploadQuyetDinhXuPhat.xls" />
     <None Include="packages.config" />
     <Content Include="Views\TrungTamTinNhan\TrungTamTinNhan.cshtml" />
     <Content Include="Views\C_HoSoCanBo\C_HoSoCanBo.cshtml" />
@@ -1255,6 +1265,8 @@
     <Content Include="Views\C_DanhSachTaiKhoan\C_DanhSachTaiKhoan.cshtml" />
     <Content Include="Views\Shared\Header.cshtml" />
     <Content Include="Views\C_PhieuThu\C_PhieuThu.cshtml" />
+    <Content Include="Views\C_KhoiPhucDuLieu\C_KhoiPhucDuLieu.cshtml" />
+    <Content Include="Views\C_PhieuChi\C_PhieuChi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

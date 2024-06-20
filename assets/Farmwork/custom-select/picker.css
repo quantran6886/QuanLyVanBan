@@ -1,0 +1,74 @@
+﻿.picker-container {
+    position: relative;
+    display: inline-block;
+}
+
+.picker {
+    display: none; /* Ẩn select gốc */
+}
+
+.picker-custom {
+    position: relative;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-weight: 600;
+    justify-content: space-between;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+    .picker-custom .pc-trigger {
+        display: inline-block;
+    }
+
+    .picker-custom .pc-list {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        z-index: 1000;
+        width: 100%;
+        max-height: 200px;
+        overflow-y: auto;
+        top: 38px;
+        left: 0;
+    }
+
+        .picker-custom .pc-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .picker-custom .pc-list li {
+            padding: 6px;
+            cursor: pointer;
+        }
+
+            .picker-custom .pc-list li:hover {
+                background-color: #f0f0f0;
+            }
+
+    .picker-custom .pc-element {
+        display: inline-block;
+        padding: 5px;
+        margin-right: 5px;
+        background-color: #e0e0e0;
+        border-radius: 3px;
+    }
+
+    .picker-custom .pc-close {
+        margin-left: 5px;
+        cursor: pointer;
+        color: red;
+    }

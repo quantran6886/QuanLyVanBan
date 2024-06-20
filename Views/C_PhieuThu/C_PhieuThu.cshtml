@@ -4,15 +4,610 @@
 }
 <!-- required files -->
 <link href="../assets/plugins/summernote/dist/summernote-lite.css" rel="stylesheet" />
+<style>
+    a {
+        color: #448aff;
+        text-decoration: auto;
+        cursor: pointer;
+    }
+</style>
+<!-- required files -->
 @section Scripts{
-    <script src="../assets/plugins/summernote/dist/summernote-lite.min.js"></script>
     <script src="../assets/js/autoNumeric.js"></script>
+    <script src="../assets/plugins/summernote/dist/summernote-lite.min.js"></script>
     <script>
-        $('.summernote').summernote({
+        $('#ly_do_thu').summernote({
             height: 50,
         });
     </script>
+    <script>
+        var myControl = {
+            init: function () {
+                myControl.LoadTable();
+                myControl.event();
+            },
 
+            event: function () {
+                $('#tblKeHoach').off('click-row.bs.table').on('click-row.bs.table', function (e, row, $element) {
+                    $('.table-danger').removeClass('table-danger');
+                    $($element).addClass('table-danger');
+                });
+                $('#tblDanhSachThu').off('click-row.bs.table').on('click-row.bs.table', function (e, row, $element) {
+                    $('.table-danger').removeClass('table-danger');
+                    $($element).addClass('table-danger');
+                    myControl.LoadDetailPhieu(row.IdThu);
+                });
+
+                $("#btn_new_form").off("click").on("click", function () {
+                    myControl.Reset();
+                    notify('other', 'Thành Công', 'Tạo mới thành công');
+                });
+
+                $("#btn_cap_nhap").off("click").on("click", function () {
+                    myControl.SaveData();
+                });
+
+                $("#phan_loai_doi_tuong").off("change").on("change", function () {
+                    myControl.ResetForm();
+                });
+
+                $("#btn_tao_moi_thu").off("click").on("click", function () {
+                    myControl.ResetForm();
+                    notify('other', 'Thành Công', 'Tạo mới thành công');
+                });
+
+                $("#btn_cap_nhap_thu").off("click").on("click", function () {
+                    myControl.SavePhieuThu();
+                });
+
+                $('#so_tien_thu_du_kien').autoNumeric('init', { aSep: '.', aDec: ',', mDec: 0 });
+                $('#so_tien_thu_ca_nhan').autoNumeric('init', { aSep: '.', aDec: ',', mDec: 0 });
+                $('#so_tien_thu_don_vi').autoNumeric('init', { aSep: '.', aDec: ',', mDec: 0 });
+            },
+
+            GetData: function () {
+                $.ajax({
+                    url: '/C_PhieuThu/GetData',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.code == true) {
+                            $("#don_vi_thu").val(response.don_vi_thu);
+                            $("#ngay_tao_phieu").val(response.ngay_tao);
+                        } else {
+                            notify('error', 'Có Lỗi', 'Đã có lỗi xảy ra!');
+                        }
+                    }
+                });
+            },
+
+            GetDataDST: function (IdKeHoach) {
+                $.ajax({
+                    url: '/C_PhieuThu/GetDataDST',
+                    type: 'GET',
+                    data: {
+                        IdKeHoach: IdKeHoach,
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.code == true) {
+                            var listData = response.listData;
+                            var lstThuCaNhan = response.lstThuCaNhan;
+                            var lstThuTapThe = response.lstThuTapThe;
+                            if (listData != null) {
+                                $("#tblDanhSachThu").bootstrapTable('load', listData);
+                            } else {
+                                $("#tblDanhSachThu").bootstrapTable('removeAll');
+                            }
+                            if (lstThuCaNhan != null) {
+                                $("#tblThuUsers").bootstrapTable('load', lstThuCaNhan);
+                            } else {
+                                $("#tblThuUsers").bootstrapTable('removeAll');
+                            }
+                            if (lstThuTapThe != null) {
+                                $("#tblComany").bootstrapTable('load', lstThuTapThe);
+                            } else {
+                                $("#tblComany").bootstrapTable('removeAll');
+                            }
+                            $("#lbl_ThuCaNhan").html(response.lbl_ThuCaNhan);
+                            $("#lbl_ThuTapThe").html(response.lbl_ThuTapThe);
+
+                        } else {
+                            notify('error', 'Có Lỗi', 'Đã có lỗi xảy ra!');
+                        }
+                    }
+                });
+            },
+
+            LoadTable: function () {
+                $.ajax({
+                    url: '/C_PhieuThu/LoadTable',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.code == true) {
+                            var listData = response.listData;
+                            if (listData != null) {
+                                $("#tblKeHoach").bootstrapTable('load', listData);
+                            } else {
+                                $("#tblKeHoach").bootstrapTable('removeAll');
+                            }
+                            myControl.LoadSoLieu();
+                        } else {
+                            notify('error', 'Có Lỗi', 'Đã có lỗi xảy ra!');
+                        }
+                    }
+                });
+            },
+
+            LoadSoLieu: function () {
+                $.ajax({
+                    url: '/C_PhieuThu/LoadSoLieu',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.code == true) {
+                            var so_tien_thu_du_kien_text = response.so_tien_thu_du_kien_text;
+                            var so_tien_da_thu_text = response.so_tien_da_thu_text;
+                            var so_tien_da_thu_trong_ngay_text = response.so_tien_da_thu_trong_ngay_text;
+                            var so_phieu_tao = response.so_phieu_tao;
+                            $("#so_tien_thu_du_kien_text").html(so_tien_thu_du_kien_text);
+                            $("#so_tien_da_thu_text").html(so_tien_da_thu_text);
+                            $("#so_tien_da_thu_trong_ngay_text").html(so_tien_da_thu_trong_ngay_text);
+                            $("#so_phieu_tao").html(so_phieu_tao);
+                        } else {
+                            notify('error', 'Có Lỗi', 'Đã có lỗi xảy ra!');
+                        }
+                    }
+                });
+            },
+
+            Reset: function () {
+                $("#IdKeHoach").val(0);
+                $("#don_vi_thu").val("");
+                $("#ngay_tao_phieu").val("");
+                $("#ho_ten_giam_doc").val("");
+                $("#ke_toan_truong").val("");
+                $("#ho_ten_thu_quy").val("");
+                $("#noi_dung_thu").val("");
+                $("#so_tien_thu_du_kien").val("");
+                $("#dia_chi_thu").val("");
+                $("#thoi_han").val("");
+                $("#ly_do_thu").summernote("code", "");
+                $("#tab_thu_thuc_te").hide();
+                myControl.GetData();
+                $('.table-danger').removeClass('table-danger');
+            },
+
+            ResetForm: function () {
+                var phan_loai_doi_tuong = $("#phan_loai_doi_tuong").val();
+                if (phan_loai_doi_tuong == "Cá nhân") {
+                    $(".tab_thong_tin_ca_nhan").show();
+                    $(".tab_thong_tin_don_vi").hide();
+                } else {
+                    $(".tab_thong_tin_ca_nhan").hide();
+                    $(".tab_thong_tin_don_vi").show();
+                }
+                $("#IdThu").val(0);
+                $("#ho_ten_ca_nhan").val("");
+                $("#ngay_thu_ca_nhan").val("");
+                $("#so_tien_thu_ca_nhan").val("");
+                $("#noi_dung_thu_ca_nhan").val("");
+                $("#ngay_sinh").val("");
+                $("#so_hieu_giay_to").val("");
+                $("#dia_chi_que_quan").val("");
+                $("#ten_don_vi").val("");
+                $("#ngay_thu_don_vi").val("");
+                $("#so_tien_thu_don_vi").val("");
+                $("#noi_dung_thu_don_vi").val("");
+                $("#ma_so_dv").val("");
+                $("#ke_toan_don_vi").val("");
+                $("#dia_chi_don_vi").val("");
+                $('#IsTDSDT').prop("checked", true);
+                $('.table-danger').removeClass('table-danger');
+            },
+
+            SaveData: function () {
+                var IdKeHoach = $('#IdKeHoach').val();
+                var don_vi_thu = $('#don_vi_thu').val();
+                var ngay_tao_phieu = $('#ngay_tao_phieu').val();
+                var ho_ten_giam_doc = $('#ho_ten_giam_doc').val();
+                var ke_toan_truong = $('#ke_toan_truong').val();
+                var ho_ten_thu_quy = $('#ho_ten_thu_quy').val();
+                var noi_dung_thu = $('#noi_dung_thu').val();
+                var so_tien_thu_du_kien = $('#so_tien_thu_du_kien').autoNumeric('get');
+                var dia_chi_thu = $('#dia_chi_thu').val();
+                var thoi_han = $('#thoi_han').val();
+                var ly_do_thu = encodeURIComponent($("#ly_do_thu").summernote("code"));
+
+                if (ngay_tao_phieu == null || ngay_tao_phieu == "" || ngay_tao_phieu == undefined) {
+                    notify('info', 'Thông báo', 'Bạn chưa chọn ngày tạo phiếu!');
+                    $('#ngay_tao_phieu').focus();
+                    return;
+                }
+                if (ho_ten_giam_doc == null || ho_ten_giam_doc == "" || ho_ten_giam_doc == undefined) {
+                    notify('info', 'Thông báo', 'Bạn chưa nhập họ tên giám đốc!');
+                    $('#ho_ten_giam_doc').focus();
+                    return;
+                }
+                if (noi_dung_thu == null || noi_dung_thu == "" || noi_dung_thu == undefined) {
+                    notify('info', 'Thông báo', 'Bạn chưa nhập nội dung thu!');
+                    $('#noi_dung_thu').focus();
+                    return;
+                }
+                if (so_tien_thu_du_kien == null || so_tien_thu_du_kien == "" || so_tien_thu_du_kien == undefined) {
+                    notify('info', 'Thông báo', 'Bạn chưa nhập số tiền thu dự kiến!');
+                    $('#so_tien_thu_du_kien').focus();
+                    return;
+                }
+
+                var data = {
+                    IdKeHoach: IdKeHoach,
+                    don_vi_thu: don_vi_thu,
+                    ngay_tao_phieu: ngay_tao_phieu,
+                    ho_ten_giam_doc: ho_ten_giam_doc,
+                    ke_toan_truong: ke_toan_truong,
+                    ho_ten_thu_quy: ho_ten_thu_quy,
+                    noi_dung_thu: noi_dung_thu,
+                    so_tien_thu_du_kien: so_tien_thu_du_kien,
+                    dia_chi_thu: dia_chi_thu,
+                    thoi_han: thoi_han,
+                    ly_do_thu: ly_do_thu,
+                }
+
+                $.ajax({
+                    type: 'Post',
+                    url: '/C_PhieuThu/SaveData',
+                    datatype: 'json',
+                    data: {
+                        strData: JSON.stringify(data),
+                    },
+                    success: function (response) {
+                        if (response.code) {
+                            myControl.LoadTable();
+                            $("#modal-phieu-thu").modal("hide");
+                            myControl.CreateList(response.IdKeHoach);
+                            notify('success', 'Thành Công', 'Cập nhập thành công');
+                        }
+                    }
+                });
+            },
+
+            SavePhieuThu: function () {
+                var IdThu = $('#IdThu').val();
+                var IdKeHoach = $('#IdKeHoach').val();
+                var phan_loai_doi_tuong = $('#phan_loai_doi_tuong').val();
+                var ho_ten_ca_nhan = $('#ho_ten_ca_nhan').val();
+                var so_hieu_giay_to = $('#so_hieu_giay_to').val();
+                var ngay_sinh = $('#ngay_sinh').val();
+                var dia_chi_que_quan = $('#dia_chi_que_quan').val();
+                var ten_don_vi = $('#ten_don_vi').val();
+                var ma_so_dv = $('#ma_so_dv').val();
+                var dia_chi_don_vi = $('#dia_chi_don_vi').val();
+                var ke_toan_don_vi = $('#ke_toan_don_vi').val();
+                var ngay_thu = phan_loai_doi_tuong == "Cá nhân" ? $('#ngay_thu_ca_nhan').val() : $('#ngay_thu_don_vi').val();
+                var noi_dung_thu = phan_loai_doi_tuong == "Cá nhân" ? $('#noi_dung_thu_ca_nhan').val() : $('#noi_dung_thu_don_vi').val();
+                var so_tien_thu = phan_loai_doi_tuong == "Cá nhân" ? $('#so_tien_thu_ca_nhan').autoNumeric('get') : $('#so_tien_thu_don_vi').autoNumeric('get');
+                var IsTDSDT = $('#IsTDSDT').prop("checked");
+
+
+                if (phan_loai_doi_tuong == "Cá nhân") {
+                    if (ho_ten_ca_nhan == null || ho_ten_ca_nhan == "" || ho_ten_ca_nhan == undefined) {
+                        notify('info', 'Thông báo', 'Bạn chưa nhập cá nhân!');
+                        $('#ngay_tao_phieu').focus();
+                        return;
+                    }
+                    if (ngay_thu == null || ngay_thu == "" || ngay_thu == undefined) {
+                        notify('info', 'Thông báo', 'Bạn chưa chọn ngày thu!');
+                        $('#ngay_thu_ca_nhan').focus();
+                        return;
+                    }
+                    if (so_tien_thu == null || so_tien_thu == "" || so_tien_thu == undefined) {
+                        notify('info', 'Thông báo', 'Bạn chưa nhập số tiền thu!');
+                        $('#so_tien_thu_du_kien').focus();
+                        return;
+                    }
+                    if (noi_dung_thu == null || noi_dung_thu == "" || noi_dung_thu == undefined) {
+                        notify('info', 'Thông báo', 'Bạn chưa nhập nội dung thu');
+                        $('#noi_dung_thu_ca_nhan').focus();
+                        return;
+                    }
+                } else {
+                    if (ten_don_vi == null || ten_don_vi == "" || ten_don_vi == undefined) {
+                        notify('info', 'Thông báo', 'Bạn chưa nhập tên đơn vị!');
+                        $('#ngay_tao_phieu').focus();
+                        return;
+                    }
+                    if (ngay_thu == null || ngay_thu == "" || ngay_thu == undefined) {
+                        notify('info', 'Thông báo', 'Bạn chưa chọn ngày thu!');
+                        $('#ngay_thu_don_vi').focus();
+                        return;
+                    }
+                    if (so_tien_thu == null || so_tien_thu == "" || so_tien_thu == undefined) {
+                        notify('info', 'Thông báo', 'Bạn chưa nhập số tiền thu!');
+                        $('#so_tien_thu_don_vi').focus();
+                        return;
+                    }
+                    if (noi_dung_thu == null || noi_dung_thu == "" || noi_dung_thu == undefined) {
+                        notify('info', 'Thông báo', 'Bạn chưa nhập nội dung thu');
+                        $('#noi_dung_thu_don_vi').focus();
+                        return;
+                    }
+                }
+                if (IsTDSDT == true) {
+                    if (phan_loai_doi_tuong == "Cá nhân") {
+                        if (so_hieu_giay_to == null || so_hieu_giay_to == "" || so_hieu_giay_to == undefined) {
+                            notify('warning', 'Cảnh báo', 'Để thêm vào hệ thống!Số hiệu không được để trống');
+                            $('#so_hieu_giay_to').focus();
+                            return;
+                        }
+                    } else {
+                        if (ma_so_dv == null || ma_so_dv == "" || ma_so_dv == undefined) {
+                            notify('warning', 'Cảnh báo', 'Để thêm vào hệ thống!Mã đơn vị không được để trống');
+                            $('#ma_so_dv').focus();
+                            return;
+                        }
+                    }
+                }
+
+                var data = {
+                    IdThu: IdThu,
+                    IdKeHoach: IdKeHoach,
+                    phan_loai_doi_tuong: phan_loai_doi_tuong,
+                    ho_ten_ca_nhan: ho_ten_ca_nhan,
+                    ke_toan_truong: ke_toan_truong,
+                    so_hieu_giay_to: so_hieu_giay_to,
+                    ngay_sinh: ngay_sinh,
+                    dia_chi_que_quan: dia_chi_que_quan,
+                    ten_don_vi: ten_don_vi,
+                    ma_so_dv: ma_so_dv,
+                    dia_chi_don_vi: dia_chi_don_vi,
+                    ke_toan_don_vi: ke_toan_don_vi,
+                    ngay_thu: ngay_thu,
+                    noi_dung_thu: noi_dung_thu,
+                    so_tien_thu: so_tien_thu,
+                    IsTDSDT: IsTDSDT,
+                }
+
+                $.ajax({
+                    type: 'Post',
+                    url: '/C_PhieuThu/SavePhieuThu',
+                    datatype: 'json',
+                    data: {
+                        strData: JSON.stringify(data),
+                    },
+                    success: function (response) {
+                        if (response.code) {
+                            myControl.ResetForm();
+                            myControl.GetDataDST(IdKeHoach);
+                            myControl.LoadTable();
+                            notify('success', 'Thành Công', 'Cập nhập thành công');
+                        } else {
+                            notify('warning', 'Cảnh báo', response.noti);
+                        }
+                    }
+                });
+            },
+
+            LoadDetail: function (IdKeHoach) {
+                if (IdKeHoach > 0) {
+                    $.ajax({
+                        url: '/C_PhieuThu/LoadDetail',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            IdKeHoach: IdKeHoach
+                        },
+                        success: function (response) {
+                            if (response.code == true) {
+                                var listData = response.listData;
+                                if (listData != null) {
+                                    $('#IdKeHoach').val(listData.IdKeHoach);
+                                    $('#don_vi_thu').val(listData.don_vi_thu);
+                                    $('#ngay_tao_phieu').val(listData.ngay_tao_phieu);
+                                    $('#ho_ten_giam_doc').val(listData.ho_ten_giam_doc);
+                                    $('#ke_toan_truong').val(listData.ke_toan_truong);
+                                    $('#ho_ten_thu_quy').val(listData.ho_ten_thu_quy);
+                                    $('#noi_dung_thu').val(listData.noi_dung_thu);
+                                    $('#so_tien_thu_du_kien').autoNumeric('set', listData.so_tien_thu_du_kien);
+                                    $('#dia_chi_thu').val(listData.dia_chi_thu);
+                                    $('#thoi_han').val(listData.thoi_han);
+                                    $("#ly_do_thu").summernote("code", listData.ly_do_thu);
+                                    myControl.GetDataDST(listData.IdKeHoach);
+                                }
+                                $("#tab_thu_thuc_te").show();
+                                $("#modal-phieu-thu").modal("show");
+                            } else {
+                                notify('error', 'Có Lỗi', 'Đã có lỗi xảy ra!');
+                            }
+                        }
+                    });
+                }
+            },
+
+            LoadDetailPhieu: function (IdThu) {
+                if (IdThu > 0) {
+                    $.ajax({
+                        url: '/C_PhieuThu/LoadDetailPhieu',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            IdThu: IdThu
+                        },
+                        success: function (response) {
+                            if (response.code == true) {
+                                var listData = response.listData;
+                                if (listData != null) {
+                                    if (listData.phan_loai_doi_tuong == "Cá nhân") {
+                                        $(".tab_thong_tin_ca_nhan").show();
+                                        $(".tab_thong_tin_don_vi").hide();
+                                    } else {
+                                        $(".tab_thong_tin_ca_nhan").hide();
+                                        $(".tab_thong_tin_don_vi").show();
+                                    }
+                                    $('#phan_loai_doi_tuong').val(listData.phan_loai_doi_tuong);
+                                    $('#IdThu').val(listData.IdThu);
+                                    $('#IdKeHoach').val(listData.IdKeHoach);
+                                    $('#ho_ten_ca_nhan').val(listData.ho_ten_ca_nhan);
+                                    $('#so_hieu_giay_to').val(listData.so_hieu_giay_to);
+                                    $('#ngay_sinh').val(listData.ngay_sinh);
+                                    $('#dia_chi_que_quan').val(listData.dia_chi_que_quan);
+                                    $('#ten_don_vi').val(listData.ten_don_vi);
+                                    $('#ma_so_dv').val(listData.ma_so_dv);
+                                    $('#dia_chi_don_vi').val(listData.dia_chi_don_vi);
+                                    $('#ke_toan_don_vi').val(listData.ke_toan_don_vi);
+                                    listData.phan_loai_doi_tuong == "Cá nhân" ? $('#ngay_thu_ca_nhan').val(listData.ngay_thu) : $('#ngay_thu_don_vi').val(listData.ngay_thu);
+                                    listData.phan_loai_doi_tuong == "Cá nhân" ? $('#noi_dung_thu_ca_nhan').val(listData.noi_dung_thu) : $('#noi_dung_thu_don_vi').val(listData.noi_dung_thu);
+                                    listData.phan_loai_doi_tuong == "Cá nhân" ? $('#so_tien_thu_ca_nhan').autoNumeric('set', listData.so_tien_thu) : $('#so_tien_thu_don_vi').autoNumeric('set', listData.so_tien_thu);
+                                    $('#IsTDSDT').prop("checked", listData.IsTDSDT);
+                                }
+                            } else {
+                                notify('error', 'Có Lỗi', 'Đã có lỗi xảy ra!');
+                            }
+                        }
+                    });
+                }
+            },
+            CreateList: function (IdKeHoach) {
+                if (IdKeHoach > 0) {
+                    $("#modal-danh-sach-thu").modal("show");
+                    $("#IdKeHoach").val(IdKeHoach);
+                    myControl.ResetForm();
+                    myControl.GetDataDST(IdKeHoach);
+                }
+            },
+
+            DeleteData: function (IdKeHoach) {
+                swal({
+                    title: "Bạn có chắc muốn xóa dữ liệu không!",
+                    text: "Lưu ý khi xóa sẽ không thể khôi phục được!",
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    cancelButtonText: "Thoát",
+                    cancelButtonClass: "btn-sm btn-danger btn-round",
+                    confirmButtonClass: "btn-sm btn-round btn-primary",
+                    confirmButtonText: "Đồng ý",
+                }, function () {
+                    if (IdKeHoach > 0) {
+                        $.ajax({
+                            type: 'Post',
+                            url: '/C_PhieuThu/DeleteData',
+                            datatype: 'json',
+                            data: {
+                                IdKeHoach: IdKeHoach,
+                            },
+                            success: function (response) {
+                                if (response.code) {
+                                    myControl.LoadTable();
+                                    notify('success', 'Thành Công', 'Cập nhập thành công');
+                                } else {
+                                    notify('error', 'Có Lỗi', response.message);
+                                }
+                            }
+                        });
+                    } else {
+                        notify('error', 'Có lỗi', 'Bạn chưa chọn bản ghi cần xóa');
+                    }
+                });
+            },
+
+            ChuyenThungRac: function (IdKeHoach) {
+                swal({
+                    title: "Bạn có chắc muốn chuyển dữ liệu vào thùng rác không!",
+                    text: "Lưu ý khi sau 30 ngày sẽ không thể khôi phục được!",
+                    showCancelButton: true,
+                    closeOnConfirm: true,
+                    cancelButtonText: "Thoát",
+                    cancelButtonClass: "btn-sm btn-danger btn-round",
+                    confirmButtonClass: "btn-sm btn-round btn-primary",
+                    confirmButtonText: "Đồng ý",
+                }, function () {
+                    if (IdKeHoach > 0) {
+                        $.ajax({
+                            type: 'Post',
+                            url: '/C_PhieuThu/ChuyenThungRac',
+                            datatype: 'json',
+                            data: {
+                                IdKeHoach: IdKeHoach,
+                            },
+                            success: function (response) {
+                                if (response.code) {
+                                    myControl.LoadTable();
+                                    notify('success', 'Thành Công', 'Cập nhập thành công');
+                                }
+                            }
+                        });
+                    } else {
+                        notify('error', 'Có lỗi', 'Bạn chưa chọn bản ghi cần xóa');
+                    }
+                });
+            },
+
+            DeletePhieuThu: function (IdThu, IdKeHoach) {
+                if (IdThu > 0) {
+                    $.ajax({
+                        type: 'Post',
+                        url: '/C_PhieuThu/DeletePhieuThu',
+                        datatype: 'json',
+                        data: {
+                            IdThu: IdThu,
+                        },
+                        success: function (response) {
+                            if (response.code) {
+                                myControl.GetDataDST(IdKeHoach);
+                                myControl.LoadTable();
+                                notify('success', 'Thành Công', 'Cập nhập thành công');
+                            }
+                        }
+                    });
+                } else {
+                    notify('error', 'Có lỗi', 'Bạn chưa chọn bản ghi cần xóa');
+                }
+            },
+
+        };
+        myControl.init();
+
+        function fm_UpFile(e, value, row, index) {
+            if (value.url_minh_chung != "" && value.url_minh_chung != null) {
+                return [
+                    '<div style="width: 160px;">',
+                    '<a style="margin-left:5px" title="Tải về" href="' + value.url_minh_chung + '" download="" >Đã có ảnh <i class="fa fa-download"></i></a>',
+                    '<a style="margin-left:5px;color:red;" title="Xóa tệp đính kèm" href="javascript:myController.deletePic(' + value.IdKeHoach + ')"><i class="fa fa-trash-o"></i></a>',
+                    '</div>'
+                ].join('');
+            } else {
+                return [
+                    '<div class="input-group" style="margin-bottom:0px">',
+                    '<input class="form-control" type="file" style="width:100%" id="url_file_' + value.IdKeHoach + '" />',
+                    '</div>'
+                ].join('');
+            }
+        };
+
+        function fm_editData(e, value, row, index) {
+            return [
+                '<div style="width: 100%">',
+                '<a class=" hvr-shrink f-14" data-bs-toggle="dropdown">'
+                + value.noi_dung_thu + '</a>',
+                '<div class="dropdown-menu dropdown-menu-end">' +
+                '<a href="javascript:myControl.LoadDetail(' + value.IdKeHoach + ')" class="dropdown-item"><i class="fa fa-pencil text-info f-20"></i> Xem/Sửa phiếu thông tin</a><div class="dropdown-divider"></div>' +
+                '<a href="javascript:myControl.CreateList(' + value.IdKeHoach + ')" class="dropdown-item"><i class="fa fa-plus text-success f-20"></i> Thêm danh sách thu</a><div class="dropdown-divider"></div>' +
+                '<a href="javascript:myControl.DeleteData(' + value.IdKeHoach + ')" class="dropdown-item"><i class="fa fa-trash text-danger f-20"></i> Xóa dữ liệu</a>' +
+                '<a href="javascript:myControl.ChuyenThungRac(' + value.IdKeHoach + ')" class="dropdown-item"><i class="fa fa-reply-all text-danger f-20"></i> Chuyển dữ liệu vào thùng rác</a>' +
+                '</div>' +
+                '</div>'
+            ].join('');
+        };
+
+        function fm_xoa(e, value, row, index) {
+            return [
+                '<div class="text-center">',
+                '<a class="btn btn-sm btn-outline-danger hvr-shrink" title="" href="javascript:myControl.DeletePhieuThu(' + value.IdThu + ',' + value.IdKeHoach + ')" ><i class="fa fa-trash f-16 text-center"></i></a>',
+                '</div>'
+            ].join('');
+        };
+    </script>
 }
 
 <h1 class="page-header my-4 mb-0">Quản lý phiếu thu</h1>
@@ -26,38 +621,79 @@
     </div>
     <div class="panel-body pt-0">
         <div id="content" class="app-content p-0 m-0 bg-component">
-            <div class="app-content-padding px-0 py-3">
+            <div class="app-content-padding px-0 py-3 pb-0">
                 <div class="d-lg-flex mb-2">
                     <button type="button" id="btn_new_form" class="btn btn-default btn-sm me-1 mb-1" data-bs-toggle="modal" data-bs-target="#modal-phieu-thu"><span class="fa fa-plus"></span> Tạo phiếu</button>
+                    <button type="button" id="btn_new_form" class="btn btn-default btn-sm me-1 mb-1" data-bs-toggle="modal" data-bs-target="#modal-tra-cuu"><span class="fa fa-search"></span> Tra cứu nâng cao</button>
+                    <div class="col-lg-4 p-0">
+                        <div class="position-relative">
+                            <input type="text" class="form-control form-control-sm ps-35px rounded-3" placeholder="Tìm kiếm nhanh...">
+                            <button class="btn position-absolute start-0 top-0 shadow-none p-3"><i class="fa fa-search fa-lg"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="alert alert-success alert-dismissible fade show mb-1">
+                            <strong>Tiền thu dự kiến (VNĐ): </strong>
+                            <a href="#" class="alert-link" id="so_tien_thu_du_kien_text">0</a>.
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="alert alert-danger alert-dismissible fade show mb-1">
+                            <strong>Tổng tiền đã thu (VNĐ): </strong>
+                            <a href="#" class="alert-link" id="so_tien_da_thu_text">0</a>.
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="alert alert-warning alert-dismissible fade show mb-1">
+                            <strong>Tiền thu trong ngày (VNĐ): </strong>
+                            <a href="#" class="alert-link" id="so_tien_da_thu_trong_ngay_text">0</a>.
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="alert alert-info alert-dismissible fade show mb-1">
+                            <strong>Tiền thu trong tháng (VNĐ): </strong>
+                            <a href="#" class="alert-link">0</a>.
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="alert alert-green alert-dismissible fade show mb-1">
+                            <strong>Tiền thu trong năm (VNĐ): </strong>
+                            <a href="#" class="alert-link">0</a>.
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="alert alert-gray-dark alert-dismissible fade show mb-1">
+                            <strong>Phiếu thu đã tạo (Phiếu): </strong>
+                            <a href="#" class="alert-link" id="so_phieu_tao">0</a>.
+                        </div>
+                    </div>
                 </div>
                 <hr class="mb-10px mt-0 bg-gray-600 text-danger">
             </div>
-            <div class="table-responsive" id="table">
-                <div id="content" class="app-content p-0 m-0 bg-component">
-                    <table id="tblUsers"
-                           data-classes="table table-bordered align-middle text-nowrap table-hover"
-                           data-toggle="table"
-                           data-mobile-responsive="true"
-                           data-fixed-columns="true"
-                           data-show-export="true"
-                           data-search="false"
-                           data-pagination="true">
-                        <thead>
-                            <tr>
-                                <th data-field="stt" data-width="5">TT</th>
-                                <th data-field="">Đơn vị thu</th>
-                                <th data-field="ho_ten">Địa chỉ</th>
-                                <th data-field="">Lý do thu</th>
-                                <th data-field="">Số tiền thu dự kiến</th>
-                                <th data-field="">Trạng thái</th>
-                                <th data-field="">Tệp đính kèm</th>
-                                <th data-formatter="fm_sua" data-width="5" class="text-center"><font class="fas fa-edit pb-1"></font></th>
-                                <th data-formatter="fm_reset" data-width="5" class="text-center"><font class="fas fa-refresh pb-1"></font></th>
-                                <th data-formatter="fm_xoa" data-width="5" class="text-center"><font class="fas fa-trash pb-1"></font></th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+            <div id="content" class="app-content p-0 m-0 bg-component">
+                <table id="tblKeHoach"
+                       data-classes="table table-bordered reponsive"
+                       data-toggle="table"
+                       data-mobile-responsive="true"
+                       data-fixed-columns="true"
+                       data-show-columns="false"
+                       data-show-export="true"
+                       data-search="false"
+                       data-pagination="true">
+                    <thead>
+                        <tr>
+                            <th data-field="stt" data-width="5" class="text-center">TT</th>
+                            <th data-field="don_vi_thu" class="text-center">Đơn vị thu</th>
+                            <th data-field="noi_dung_thu" data-formatter="fm_editData">Nội dung</th>
+                            <th data-field="ly_do_thu" class="text-center">Lý do thu</th>
+                            <th data-field="so_tien_thu_du_kien" class="text-center">Số tiền thu <br> dự kiến</th>
+                            <th data-field="so_tien_thu" class="text-center">Số tiền <br>đã thu</th>
+                            <th data-field="" data-formatter="fm_UpFile">Tệp đính kèm</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
@@ -69,7 +705,7 @@
         <div class="modal-content">
             <div class="panel panel-inverse m-0">
                 <div class="panel-heading  bg-cyan-700 text-white">
-                    <h4 class="panel-title">Thêm mới cán bộ</h4>
+                    <h4 class="panel-title">Thông tin phiếu nhập</h4>
                     <div class="panel-heading-btn">
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
@@ -80,23 +716,19 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="row">
+                                <input class="form-control" id="IdKeHoach" type="hidden" />
                                 <div class="col-sm-4">
                                     <label class="form-label mt-1">Đơn vị thu:<font class="text-danger">*</font></label>
                                     <input class="form-control" id="don_vi_thu" placeholder="Nhập đơn vị thu ..." type="text" />
                                 </div>
                                 <div class="col-sm-4">
                                     <label class="form-label mt-1">Ngày tạo:<font class="text-danger">*</font></label>
-                                    <input class="form-control" id="ngay_tao_phieu" type="date" />
+                                    <input class="form-control" id="ngay_tao_phieu" type="date" disabled />
                                 </div>
                                 <div class="col-sm-4">
-                                    <label class="form-label mt-1">Thời hạn:</label>
-                                    <select class="selectpicker" id="thoi_han">
-                                        <option value="">1 tuần</option>
-                                        <option value="">1 tháng</option>
-                                        <option value="">1 năm</option>
-                                    </select>
+                                    <label class="form-label mt-1">Thời hạn(ngày):</label>
+                                    <input class="form-control" id="thoi_han" placeholder="Thời hạn ..." type="number" />
                                 </div>
-
                                 <div class="col-sm-4">
                                     <label class="form-label mt-1">Giám đốc:<font class="text-danger">*</font></label>
                                     <input class="form-control" id="ho_ten_giam_doc" placeholder="Họ tên giám đốc ..." type="text" />
@@ -115,55 +747,263 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <label class="form-label mt-1">Số tiền thu:<font class="text-danger">*</font></label>
-                                    <input class="form-control" id="noi_dung_thu" placeholder="Số tiền thu ..." type="number" />
+                                    <input class="form-control" id="so_tien_thu_du_kien" placeholder="Số tiền thu ..." type="text" />
                                 </div>
                                 <div class="col-sm-4">
                                     <label class="form-label mt-1">Địa chỉ:</label>
                                     <input class="form-control" id="dia_chi_thu" placeholder="Địa chỉ ..." type="text" />
                                 </div>
                                 <div class="col-sm-12">
-                                    <label class="form-label mt-1"> Ghi chú:</label>
-                                    <textarea class="summernote" name="content"></textarea>
+                                    <label class="form-label mt-1"> Ghi chú(Lý do thu):</label>
+                                    <textarea class="summernote" name="content" id="ly_do_thu"></textarea>
+                                </div>
+                                <div id="tab_thu_thuc_te" style=" height: fit-content;">
+                                    <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                    <ul class="nav nav-tabs">
+                                        <li class="nav-item">
+                                            <a href="#default-tab-1" data-bs-toggle="tab" class="nav-link active">Danh sách thu cá nhân <span class="badge bg-danger rounded-pill" id="lbl_ThuCaNhan">0</span></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#default-tab-2" data-bs-toggle="tab" class="nav-link">Danh sách thu tập thể <span class="badge bg-danger rounded-pill" id="lbl_ThuTapThe">0</span></a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content panel p-0 rounded-0 rounded-bottom">
+                                        <div class="tab-pane fade active show" id="default-tab-1">
+                                            <div class="col-sm-12">
+                                                <table id="tblThuUsers"
+                                                       data-classes="table table-bordered"
+                                                       data-toggle="table"
+                                                       data-mobile-responsive="true"
+                                                       data-fixed-columns="true"
+                                                       data-show-export="true"
+                                                       data-search="true"
+                                                       data-show-columns="true"
+                                                       data-page-size="10"
+                                                       data-page-list="[15, 25, 35, all]">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-field="stt" data-width="5">TT</th>
+                                                            <th data-field="so_hieu_giay_to">Số hiệu giấy tờ</th>
+                                                            <th data-field="ho_ten_ca_nhan">Cá nhân</th>
+                                                            <th data-field="so_tien_thu">Số tiền</th>
+                                                            <th data-field="noi_dung_thu">Nội dung thu</th>
+                                                            <th data-field="ngay_thu">Ngày thu</th>
+                                                            <th data-formatter="fm_xoa" data-width="5" class="text-center"><font class="fas fa-trash pb-1"></font></th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="default-tab-2">
+                                            <div class="col-sm-12">
+                                                <table id="tblComany"
+                                                       data-classes="table table-bordered"
+                                                       data-toggle="table"
+                                                       data-mobile-responsive="true"
+                                                       data-fixed-columns="true"
+                                                       data-show-export="true"
+                                                       data-search="true"
+                                                       data-show-columns="true"
+                                                       data-page-size="10"
+                                                       data-page-list="[15, 25, 35, all]">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-field="stt" data-width="5">TT</th>
+                                                            <th data-field="ma_so_dv">Mã số đơn vị</th>
+                                                            <th data-field="ten_don_vi">Tên đơn vị</th>
+                                                            <th data-field="so_tien_thu">Số tiền</th>
+                                                            <th data-field="noi_dung_thu">Nội dung thu</th>
+                                                            <th data-field="ngay_thu">Ngày thu</th>
+                                                            <th data-formatter="fm_xoa" data-width="5" class="text-center"><font class="fas fa-trash pb-1"></font></th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
-                        <div class="tab_thu_thuc_te">
-                            <div class="d-lg-flex mt-2">
-                                <button type="button" id="btn_new_form" class="btn btn-default btn-sm me-1 mb-1"><span class="fa fa-plus"></span> Tạo mới</button>
+                    </div>
+                </div>
+                <div class="modal-footer m-0 p-0 z-3">
+                    <a class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="fa fa-arrow-rotate-left"></i> Thoát</a>
+                    <a class="btn btn-sm btn-success" id="btn_cap_nhap"><i class="fa fa-save"></i> Cập nhập</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-danh-sach-thu">
+    <div class="modal-dialog" style="max-width:85%">
+        <div class="modal-content">
+            <div class="panel panel-inverse m-0">
+                <div class="panel-heading  bg-cyan-700 text-white">
+                    <h4 class="panel-title">Thông tin danh sách</h4>
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body pb-0">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div id="tab_thu_thuc_te" style=" height: fit-content;">
+                                    <div class="accordion" id="accordion">
+                                        <div class="accordion-item border-1">
+                                            <div class="accordion-header" id="headingOne">
+                                                <button class="accordion-button bg-white-400 px-3 py-10px pointer-cursor" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                                    <i class="fa fa-circle fa-fw text-blue me-2 fs-8px"></i> Danh sách đối tượng
+                                                </button>
+                                            </div>
+                                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordion">
+                                                <div class="accordion-body bg-white text-white p-1">
+                                                    <div class="col-sm-12">
+                                                        <table id="tblDanhSachThu"
+                                                               data-classes="table table-bordered"
+                                                               data-toggle="table"
+                                                               data-mobile-responsive="true"
+                                                               data-fixed-columns="true"
+                                                               data-show-export="true"
+                                                               data-search="true"
+                                                               data-page-size="10"
+                                                               data-page-list="[15, 25, 35, all]">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th data-field="stt" data-width="5">TT</th>
+                                                                    <th data-field="ten_cn_tc">Cá nhân/Tập thể</th>
+                                                                    <th data-field="phan_loai_doi_tuong">Phân loại</th>
+                                                                    <th data-field="so_tien_thu">Số tiền</th>
+                                                                    <th data-field="noi_dung_thu">Nội dung thu</th>
+                                                                    <th data-formatter="fm_xoa" data-width="5" class="text-center"><font class="fas fa-trash pb-1"></font></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                            <div class="col-sm-12">
-                                <div class="table-responsive" id="table">
-                                    <div id="content" class="app-content p-0 m-0 bg-component">
-                                        <table id="tblUsers"
-                                               data-classes="table table-bordered align-middle text-nowrap table-hover"
-                                               data-toggle="table"
-                                               data-mobile-responsive="true"
-                                               data-fixed-columns="true"
-                                               data-show-export="true"
-                                               data-search="false"
-                                               data-pagination="true">
-                                            <thead>
-                                                <tr>
-                                                    <th data-field="stt" data-width="5">TT</th>
-                                                    <th data-field="">Cá nhân/Tập thể</th>
-                                                    <th data-field="">Phân loại</th>
-                                                    <th data-field="">Số tiền</th>
-                                                    <th data-field="">Nội dung thu</th>
-                                                    <th data-field="">Ngày thu</th>
-                                                    <th data-formatter="fm_xoa" data-width="5" class="text-center"><font class="fas fa-trash pb-1"></font></th>
-                                                </tr>
-                                            </thead>
-                                        </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="app-content-padding px-0 pt-0 pb-1 py-3">
+                                    <div class="d-lg-flex mb-2">
+                                        <button type="button" id="btn_tao_moi_thu" class="btn btn-default btn-sm me-1 mb-1"><span class="fa fa-plus"></span> Tạo mới</button>
+                                        <button type="button" id="btn_cap_nhap_thu" class="btn btn-default btn-sm me-1 mb-1"><span class="fa fa-save"></span> Cập nhập</button>
+                                    </div>
+                                    <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                </div>
+                                <div class="col-sm-12 picker-container">
+                                    <label class="form-label mt-1">Phân loại:</label>
+                                    <select class="form-control" id="phan_loai_doi_tuong">
+                                        <option value="Cá nhân">Cá nhân</option>
+                                        <option value="Tập thể">Tập thể</option>
+                                    </select>
+                                </div>
+                                <div class="widget-todolist rounded border-1 mb-4" data-id="widget">
+                                    <div class="widget-todolist-header p-0">
+                                        <div class="widget-todolist-header-title text-white bg-info">Thông tin chi tiết</div>
+                                    </div>
+                                    <div class="widget-todolist-body m-0 pt-1 pb-2 ">
+                                        <input class="form-control" id="IdThu" type="hidden" />
+                                        <div class="tab_thong_tin_ca_nhan row">
+                                            <div class="col-sm-4">
+                                                <label class="form-label mt-1">Họ tên:<font class="text-danger">*</font></label>
+                                                <input class="form-control" id="ho_ten_ca_nhan" placeholder="Họ tên ..." type="text" />
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label class="form-label mt-1">Ngày thu tiền:<font class="text-danger">*</font></label>
+                                                <input class="form-control" id="ngay_thu_ca_nhan" placeholder="Ngày thu ..." type="date" />
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label class="form-label mt-1">Số tiền thu:<font class="text-danger">*</font></label>
+                                                <input class="form-control" id="so_tien_thu_ca_nhan" placeholder="Số tiền thu ..." type="text" />
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label class="form-label mt-1">Nội dung thu:<font class="text-danger">*</font></label>
+                                                <input class="form-control" id="noi_dung_thu_ca_nhan" placeholder="Nội dung thu ..." type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="tab_thong_tin_don_vi row">
+                                            <div class="col-sm-6">
+                                                <label class="form-label mt-1">Tên đơn vị:<font class="text-danger">*</font></label>
+                                                <input class="form-control" id="ten_don_vi" placeholder="Tên đơn vị ..." type="text" />
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="form-label mt-1">Ngày thu tiền:<font class="text-danger">*</font></label>
+                                                <input class="form-control" id="ngay_thu_don_vi" placeholder="Ngày thu ..." type="date" />
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <label class="form-label mt-1">Số tiền thu:<font class="text-danger">*</font></label>
+                                                <input class="form-control" id="so_tien_thu_don_vi" placeholder="Số tiền thu ..." type="text" />
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label class="form-label mt-1">Nội dung thu:<font class="text-danger">*</font></label>
+                                                <input class="form-control" id="noi_dung_thu_don_vi" placeholder="Nội dung thu ..." type="text" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="height: fit-content;" class="mb-2">
+                                        <div class="accordion" id="accordion2">
+                                            <div class="accordion-item border-1">
+                                                <div class="accordion-header" id="headingOne2">
+                                                    <button class="accordion-button bg-white-400 px-3 py-10px pointer-cursor" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2">
+                                                        <i class="fa fa-circle fa-fw text-blue me-2 fs-8px"></i> Bổ sung thêm thông tin (nếu có)
+                                                    </button>
+                                                </div>
+                                                <div id="collapseOne2" class="accordion-collapse collapse show" data-bs-parent="#accordion2">
+                                                    <div class="accordion-body bg-white p-1">
+                                                        <div class="row tab_thong_tin_ca_nhan">
+                                                            <div class="col-sm-6">
+                                                                <label class="form-label mt-1">Ngày sinh:</label>
+                                                                <input class="form-control" id="ngay_sinh" type="date" />
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <label class="form-label mt-1">Số hiệu giấy tờ:<font class="text-danger">*</font></label>
+                                                                <input class="form-control" id="so_hieu_giay_to" placeholder="Số hiệu giấy tờ..." type="text" />
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <label class="form-label mt-1">Địa chỉ (Quê quán):</label>
+                                                                <input class="form-control" id="dia_chi_que_quan" placeholder="Địa chỉ, Quê Quán..." type="text" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="row tab_thong_tin_don_vi">
+                                                            <div class="col-sm-6">
+                                                                <label class="form-label mt-1">Mã số đơn vị:<font class="text-danger">*</font></label>
+                                                                <input class="form-control" id="ma_so_dv" placeholder="Mã số đơn vị..." type="text" />
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <label class="form-label mt-1">Kế toán:</label>
+                                                                <input class="form-control" id="ke_toan_don_vi" type="text" />
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <label class="form-label mt-1">Địa chỉ đơn vị:</label>
+                                                                <input class="form-control" id="dia_chi_don_vi" placeholder="Địa chỉ, đơn vị..." type="text" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="IsTDSDT" checked="">
+                                        <label class="form-check-label" for="IsTDSDT">Thêm vào hệ thống</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer m-0 p-0">
+                <div class="modal-footer m-0 p-0 z-3">
                     <a class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="fa fa-arrow-rotate-left"></i> Thoát</a>
-                    <a class="btn btn-sm btn-success" id="btn_cap_nhap"><i class="fa fa-save"></i> Cập nhập</a>
                 </div>
             </div>
         </div>
