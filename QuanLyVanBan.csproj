@@ -768,6 +768,8 @@
     <Content Include="assets\Farmwork\js\notify.js" />
     <Content Include="assets\Farmwork\js\notify.min.js" />
     <Content Include="assets\img\Avatar.jpg" />
+    <Content Include="assets\img\bank.jpg" />
+    <Content Include="assets\img\bank.png" />
     <Content Include="assets\img\cover\cover-scrum-board.png" />
     <Content Include="assets\img\file.png" />
     <Content Include="assets\img\flag\cn.jpg" />

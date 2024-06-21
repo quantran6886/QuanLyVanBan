@@ -58,6 +58,52 @@ namespace AppNetShop.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpGet]
+        public JsonResult LoadDetail(Int64? IdCanBo)
+        {
+            try
+            {
+                var listData = _query.AspHoSoCanBoes.Where(c => c.IdCanBo == IdCanBo).AsEnumerable().Select(c => new
+                {
+                    c.IdCanBo,
+                    c.so_hieu_giay_to,
+                    c.so_dien_thoai,
+                    c.ho_ten,
+                    c.gioi_tinh,
+                    c.dia_chi,
+                    c.cb_tinh,
+                    c.cb_quan_huyen,
+                    c.cb_xa_phuong,
+                    c.cb_trang_thai_lam_viec,
+                    c.cb_ngan_hang,
+                    c.so_tai_khoan,
+                    c.ma_bin_ngan_hang,
+                    c.ho_ten_chu_tai_khoan,
+                    c.chuc_vu,
+                    c.email,
+                    c.url_avatar,
+                    ngay_sinh = c.ngay_sinh != null ? string.Format("{0:yyyy-MM-dd}", c.ngay_sinh) : "",
+                    ngay_bat_dau_cong_tac = c.ngay_bat_dau_cong_tac != null ? string.Format("{0:yyyy-MM-dd}", c.ngay_bat_dau_cong_tac) : "",
+                }).FirstOrDefault();
+
+                return Json(new
+                {
+                    listData,
+                    code = true,
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    code = false,
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         [HttpGet]
         public JsonResult LoadTable()
         {
@@ -96,8 +142,66 @@ namespace AppNetShop.Controllers
             }
         }
 
-        private string apiBaseUrl = "https://api.vietqr.io/v2"; 
-        private string apiKey = "dbfdf938-9d79-467b-b741-0bf83e1c7a60"; 
+        [HttpPost]
+        public JsonResult DeleteData(Int64? IdCanBo)
+        {
+            try
+            {
+                var data = _query.AspHoSoCanBoes.Find(IdCanBo);
+                if (data != null)
+                {
+                    _query.AspHoSoCanBoes.Remove(data);
+                    _query.SaveChanges();
+                }
+
+                return Json(new
+                {
+                    code = true,
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    code = false,
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult SaveNganHang(Int64? IdCanBo , string cb_ngan_hang, Int64? bin ,string ho_ten_chu_tai_khoan , string so_tai_khoan)
+        {
+            try
+            {
+                var data = _query.AspHoSoCanBoes.Find(IdCanBo);
+                if (data != null)
+                {
+                    data.cb_ngan_hang = cb_ngan_hang;
+                    data.ma_bin_ngan_hang = bin;
+                    data.ho_ten_chu_tai_khoan = ho_ten_chu_tai_khoan;
+                    data.so_tai_khoan = so_tai_khoan;
+                    _query.SaveChanges();
+                }
+
+                return Json(new
+                {
+                    code = true,
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    code = false,
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private string apiBaseUrl = "https://api.vietqr.io/v2";
+        private string apiKey = "dbfdf938-9d79-467b-b741-0bf83e1c7a60";
         private string clientId = "b8123d97-17d4-455b-a714-0e427b98410a";
         [HttpGet]
         public async Task<ActionResult> PaymentLoad(Int64 IdCanBo)
@@ -106,20 +210,28 @@ namespace AppNetShop.Controllers
             {
                 var lstAccount = _query.AspHoSoCanBoes.Find(IdCanBo);
 
+                if (string.IsNullOrEmpty(lstAccount.so_tai_khoan) || string.IsNullOrEmpty(lstAccount.cb_ngan_hang))
+                {
+                    return Json(new
+                    {
+                        message = "Bạn chưa cài đặt ngân hàng",
+                        status = false,
+                    }, JsonRequestBehavior.AllowGet);
+                }
 
                 if (lstAccount != null)
                 {
                     var data = new
                     {
-                        accountNo = 7188888888,
-                        accountName = "TRAN MINH QUAN",
-                        acqId = 970415,
-                        amount = 79000,
+                        accountNo = lstAccount.so_tai_khoan,
+                        accountName = lstAccount.ho_ten_chu_tai_khoan,
+                        acqId = lstAccount.ma_bin_ngan_hang,
+                        amount = 0,
                         //addInfo = "",
                         format = "text",
                         template = "TgXfUW3"
                     };
-                
+
                     string jsonData = JsonConvert.SerializeObject(data);
                     string apiUrl = $"{apiBaseUrl}/generate";
                     using (HttpClient client = new HttpClient())
@@ -160,7 +272,7 @@ namespace AppNetShop.Controllers
         }
         public class ApiQr
         {
-            public string code;     
+            public string code;
             public string data;
 
         }
@@ -238,7 +350,13 @@ namespace AppNetShop.Controllers
                         _data.cb_quan_huyen = ClientData.cb_quan_huyen;
                         _data.cb_xa_phuong = ClientData.cb_xa_phuong;
                         _data.dia_chi = ClientData.dia_chi;
+                        if (duong_dan_tai_lieu != "")
+                        {
+                            _data.url_avatar = duong_dan_tai_lieu;
+                            _data.name_avatar = ten_file;
+                        }
                     }
+                    _query.SaveChanges();
                 }
 
                 return Json(new
