@@ -83,7 +83,7 @@
             <a href="#" class="navbar-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
                 <img src="../assets/img/user/user-13.jpg" alt />
                 <span>
-                    <span class="d-none d-md-inline">@GetUserSession.getInfo().ho_ten</span>
+                    <span class="d-none d-md-inline">@(GetUserSession.getInfo() != null ? GetUserSession.getInfo().ho_ten : "Tài khoản")</span>
                     <b class="caret"></b>
                 </span>
             </a>

@@ -60,6 +60,25 @@
                     myControl.SavePhieuThu();
                 });
 
+                $("#noi_dung_thu").autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "/C_PhieuThu/LoadNoiDung",
+                            dataType: "json",
+                            data: {
+                                noi_dung_thu: $("#noi_dung_thu").val()
+                            },
+                            success: function (data) {
+                                response($.map(data.lstData, function (item) {
+                                    return {
+                                        value: item.noi_dung_thu
+                                    };
+                                }));
+                            }
+                        });
+                    },
+                });
+
                 $('#so_tien_thu_du_kien').autoNumeric('init', { aSep: '.', aDec: ',', mDec: 0 });
                 $('#so_tien_thu_ca_nhan').autoNumeric('init', { aSep: '.', aDec: ',', mDec: 0 });
                 $('#so_tien_thu_don_vi').autoNumeric('init', { aSep: '.', aDec: ',', mDec: 0 });

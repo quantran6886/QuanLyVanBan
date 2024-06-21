@@ -2,8 +2,16 @@
 @{
     ViewBag.Title = "Khôi phục dữ liệu";
 }
+<link href="../assets/plugins/summernote/dist/summernote-lite.css" rel="stylesheet" />
 @section Scripts{
+    <script src="../assets/js/autoNumeric.js"></script>
+    <script src="../assets/plugins/summernote/dist/summernote-lite.min.js"></script>
     <script src="~/assets/Farmwork/mustache/mustache.min.js"></script>
+    <script>
+        $('#ly_do_thu').summernote({
+            height: 50,
+        });
+    </script>
     <script>
         var myControl = {
 
@@ -13,11 +21,9 @@
             },
 
             event: function () {
-
-            },
-
-            Reset: function() {
-                $('#listThu').html("");
+                $('#so_tien_thu_du_kien').autoNumeric('init', { aSep: '.', aDec: ',', mDec: 0 });
+                $('#so_tien_thu_ca_nhan').autoNumeric('init', { aSep: '.', aDec: ',', mDec: 0 });
+                $('#so_tien_thu_don_vi').autoNumeric('init', { aSep: '.', aDec: ',', mDec: 0 });
             },
 
             LoadTable: function () {
@@ -42,13 +48,53 @@
                                 $('#listThu').html(htmlThu);
                                 $("#image_thu").hide();
 
-                            } else {
-                                $("#image_thu").show();
+                                if (lstDSThu.length == 0) {
+                                    $("#image_thu").show();
+                                }
                             }
+
                         }
                     }
                 });
             },
+            GetDataDST: function (IdKeHoach) {
+                $.ajax({
+                    url: '/C_PhieuThu/GetDataDST',
+                    type: 'GET',
+                    data: {
+                        IdKeHoach: IdKeHoach,
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.code == true) {
+                            var listData = response.listData;
+                            var lstThuCaNhan = response.lstThuCaNhan;
+                            var lstThuTapThe = response.lstThuTapThe;
+                            if (listData != null) {
+                                $("#tblDanhSachThu").bootstrapTable('load', listData);
+                            } else {
+                                $("#tblDanhSachThu").bootstrapTable('removeAll');
+                            }
+                            if (lstThuCaNhan != null) {
+                                $("#tblThuUsers").bootstrapTable('load', lstThuCaNhan);
+                            } else {
+                                $("#tblThuUsers").bootstrapTable('removeAll');
+                            }
+                            if (lstThuTapThe != null) {
+                                $("#tblComany").bootstrapTable('load', lstThuTapThe);
+                            } else {
+                                $("#tblComany").bootstrapTable('removeAll');
+                            }
+                            $("#lbl_ThuCaNhan").html(response.lbl_ThuCaNhan);
+                            $("#lbl_ThuTapThe").html(response.lbl_ThuTapThe);
+
+                        } else {
+                            notify('error', 'Có Lỗi', 'Đã có lỗi xảy ra!');
+                        }
+                    }
+                });
+            },
+
             KhoiPhucDuLieu: function (IdKeHoach) {
                 swal({
                     title: "Bạn có chắc muốn khôi phục dữ liệu!",
@@ -80,11 +126,46 @@
                     }
                 });
             },
+            LoadDetail: function (IdKeHoach) {
+                if (IdKeHoach > 0) {
+                    $.ajax({
+                        url: '/C_PhieuThu/LoadDetail',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            IdKeHoach: IdKeHoach
+                        },
+                        success: function (response) {
+                            if (response.code == true) {
+                                var listData = response.listData;
+                                if (listData != null) {
+                                    $('#IdKeHoach').val(listData.IdKeHoach);
+                                    $('#don_vi_thu').val(listData.don_vi_thu);
+                                    $('#ngay_tao_phieu').val(listData.ngay_tao_phieu);
+                                    $('#ho_ten_giam_doc').val(listData.ho_ten_giam_doc);
+                                    $('#ke_toan_truong').val(listData.ke_toan_truong);
+                                    $('#ho_ten_thu_quy').val(listData.ho_ten_thu_quy);
+                                    $('#noi_dung_thu').val(listData.noi_dung_thu);
+                                    $('#so_tien_thu_du_kien').autoNumeric('set', listData.so_tien_thu_du_kien);
+                                    $('#dia_chi_thu').val(listData.dia_chi_thu);
+                                    $('#thoi_han').val(listData.thoi_han);
+                                    $("#ly_do_thu").summernote("code", listData.ly_do_thu);
+                                    myControl.GetDataDST(listData.IdKeHoach);
+                                }
+                                $("#tab_thu_thuc_te").show();
+                                $("#modal-phieu-thu").modal("show");
+                            } else {
+                                notify('error', 'Có Lỗi', 'Đã có lỗi xảy ra!');
+                            }
+                        }
+                    });
+                }
+            },
 
         };
         myControl.init();
 
-      
+
     </script>
 }
 <h1 class="page-header my-4 mb-0">Xóa &amp; Khôi phục dữ liệu</h1>
@@ -127,18 +208,20 @@
             <div class="panel-body tab-content p-0">
                 <div class="tab-pane fade active show" id="nav-tab-1">
                     <div class="row gx-1" id="listThu">
-                        <div id="image_thu">
-                            <div class="fa-10x text-center">
-                                <img src="~/assets/img/notfound.jpg" class="table-responsive" />
-                            </div>
+                    </div>
+                    <div id="image_thu">
+                        <div class="fa-10x text-center">
+                            <img src="../assets/img/notfound.jpg" class="table-responsive" />
                         </div>
                     </div>
                 </div>
 
                 <div class="tab-pane fade" id="nav-tab-2">
+                    <div class="row gx-1" id="listChi">
+                    </div>
                     <div id="image_chi">
                         <div class="fa-10x text-center">
-                            <img src="~/assets/img/notfound.jpg" class="table-responsive" />
+                            <img src="../assets/img/notfound.jpg" class="table-responsive" />
                         </div>
                     </div>
                 </div>
@@ -212,6 +295,138 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modal-phieu-thu">
+    <div class="modal-dialog" style="max-width:85%">
+        <div class="modal-content">
+            <div class="panel panel-inverse m-0">
+                <div class="panel-heading  bg-cyan-700 text-white">
+                    <h4 class="panel-title">Thông tin phiếu nhập</h4>
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <input class="form-control" id="IdKeHoach" type="hidden" />
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Đơn vị thu:<font class="text-danger">*</font></label>
+                                    <input class="form-control" id="don_vi_thu" placeholder="Nhập đơn vị thu ..." type="text" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Ngày tạo:<font class="text-danger">*</font></label>
+                                    <input class="form-control" id="ngay_tao_phieu" type="date" disabled />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Thời hạn(ngày):</label>
+                                    <input class="form-control" id="thoi_han" placeholder="Thời hạn ..." type="number" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Giám đốc:<font class="text-danger">*</font></label>
+                                    <input class="form-control" id="ho_ten_giam_doc" placeholder="Họ tên giám đốc ..." type="text" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Kế toán trưởng:</label>
+                                    <input class="form-control" id="ke_toan_truong" placeholder="Họ tên kế toán ..." type="text" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Thủ quỹ:</label>
+                                    <input class="form-control" id="ho_ten_thu_quy" placeholder="Họ tên thủ quỹ ..." type="text" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Nội dung thu:<font class="text-danger">*</font></label>
+                                    <input class="form-control" id="noi_dung_thu" placeholder="Nội dung thu ..." type="text" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Số tiền thu:<font class="text-danger">*</font></label>
+                                    <input class="form-control" id="so_tien_thu_du_kien" placeholder="Số tiền thu ..." type="text" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Địa chỉ:</label>
+                                    <input class="form-control" id="dia_chi_thu" placeholder="Địa chỉ ..." type="text" />
+                                </div>
+                                <div class="col-sm-12">
+                                    <label class="form-label mt-1"> Ghi chú(Lý do thu):</label>
+                                    <textarea class="summernote" name="content" id="ly_do_thu"></textarea>
+                                </div>
+                                <div id="tab_thu_thuc_te" style=" height: fit-content;">
+                                    <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                    <ul class="nav nav-tabs">
+                                        <li class="nav-item">
+                                            <a href="#default-tab-1" data-bs-toggle="tab" class="nav-link active">Danh sách thu cá nhân <span class="badge bg-danger rounded-pill" id="lbl_ThuCaNhan">0</span></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#default-tab-2" data-bs-toggle="tab" class="nav-link">Danh sách thu tập thể <span class="badge bg-danger rounded-pill" id="lbl_ThuTapThe">0</span></a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content panel p-0 rounded-0 rounded-bottom">
+                                        <div class="tab-pane fade active show" id="default-tab-1">
+                                            <div class="col-sm-12">
+                                                <table id="tblThuUsers"
+                                                       data-classes="table table-bordered"
+                                                       data-toggle="table"
+                                                       data-mobile-responsive="true"
+                                                       data-fixed-columns="true"
+                                                       data-show-export="true"
+                                                       data-search="true"
+                                                       data-show-columns="true"
+                                                       data-page-size="10"
+                                                       data-page-list="[15, 25, 35, all]">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-field="stt" data-width="5">TT</th>
+                                                            <th data-field="so_hieu_giay_to">Số hiệu giấy tờ</th>
+                                                            <th data-field="ho_ten_ca_nhan">Cá nhân</th>
+                                                            <th data-field="so_tien_thu">Số tiền</th>
+                                                            <th data-field="noi_dung_thu">Nội dung thu</th>
+                                                            <th data-field="ngay_thu">Ngày thu</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="default-tab-2">
+                                            <div class="col-sm-12">
+                                                <table id="tblComany"
+                                                       data-classes="table table-bordered"
+                                                       data-toggle="table"
+                                                       data-mobile-responsive="true"
+                                                       data-fixed-columns="true"
+                                                       data-show-export="true"
+                                                       data-search="true"
+                                                       data-show-columns="true"
+                                                       data-page-size="10"
+                                                       data-page-list="[15, 25, 35, all]">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-field="stt" data-width="5">TT</th>
+                                                            <th data-field="ma_so_dv">Mã số đơn vị</th>
+                                                            <th data-field="ten_don_vi">Tên đơn vị</th>
+                                                            <th data-field="so_tien_thu">Số tiền</th>
+                                                            <th data-field="noi_dung_thu">Nội dung thu</th>
+                                                            <th data-field="ngay_thu">Ngày thu</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-0 p-0 z-3">
+                    <a class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="fa fa-arrow-rotate-left"></i> Thoát</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script id="data-template-danh-sach-thu" type="x-tmpl-mustache">
     <div class="col-sm-2 mb-1">
         <div class="p-2 d-flex align-items-center card border-1 rounded">
@@ -221,7 +436,7 @@
                 </a>
             </div>
             <div class="text-center">
-                <b class="text-muted">{{noi_dung_thu}}</b>
+                <b class="text-muted"><a href="javascript:myControl.LoadDetail({{IdKeHoach}})" class="hvr-shrink f-14 text-decoration-none">{{noi_dung_thu}}</a></b>
                 <div class="pt-2 pb-1">Ngày tạo: {{ngay_tao_phieu}}</div>
                 <div class="pt-2 pb-1">Tiền thu dự kiến - {{so_tien_thu_du_kien}}</div>
             </div>

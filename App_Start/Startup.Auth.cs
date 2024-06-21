@@ -31,12 +31,11 @@ namespace AppNetShop
                     validateInterval: TimeSpan.FromHours(30),
                     regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 },
-                ExpireTimeSpan = TimeSpan.FromHours(24) // Ví dụ: Cookie tồn tại trong 1 giờ
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-            app.UseTwoFactorSignInCookie(DefaultAuthenticationTypes.TwoFactorCookie, TimeSpan.FromDays(1));
+            app.UseTwoFactorSignInCookie(DefaultAuthenticationTypes.TwoFactorCookie, TimeSpan.FromMinutes(5));
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
-            app.MapSignalR();
+            //app.MapSignalR();
         }
     }
 }

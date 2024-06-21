@@ -5,6 +5,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace AppNetShop.Controllers
 {
@@ -43,6 +44,33 @@ namespace AppNetShop.Controllers
             }
         }
 
+        [OutputCache(CacheProfile = "Cache24Hours", Location = OutputCacheLocation.Client, NoStore = true)]
+        [HttpGet]
+        public JsonResult LoadNoiDung(string noi_dung_thu)
+        {
+            try
+            {
+                var lstData = _query.AspKeHoachThus.Where(c => c.is_chuyen_thung_rac != true && c.noi_dung_thu.Contains(noi_dung_thu)
+                ).AsEnumerable().Select(c => new
+                {
+                 c.noi_dung_thu,
+                }).Take(10).ToList();
+
+                return Json(new
+                {
+                    lstData,
+                    code = true,
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    code = false,
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
         [HttpGet]
         public JsonResult LoadTable()
         {

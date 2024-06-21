@@ -162,8 +162,8 @@
     <Reference Include="Microsoft.AspNetCore.WebUtilities, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNetCore.WebUtilities.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.Configuration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -243,6 +243,9 @@
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=111.3.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>packages\RestSharp.111.3.0\lib\net471\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -342,11 +345,11 @@
       <HintPath>packages\System.Security.Principal.Windows.4.5.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
     </Reference>
     <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    <Reference Include="System.Text.Encodings.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Encodings.Web.8.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
-    <Reference Include="System.Text.Json, Version=7.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Text.Json.7.0.3\lib\net462\System.Text.Json.dll</HintPath>
+    <Reference Include="System.Text.Json, Version=8.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Json.8.0.3\lib\net462\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Channels, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Threading.Channels.7.0.0\lib\net462\System.Threading.Channels.dll</HintPath>
@@ -435,6 +438,7 @@
     <Compile Include="Authentizor\AuthorizeSerizal.cs" />
     <Compile Include="Controllers\BaseSession.cs" />
     <Compile Include="Controllers\CheckMenuController.cs" />
+    <Compile Include="Controllers\C_DanhSachKhachHangController.cs" />
     <Compile Include="Controllers\C_DanhSachTaiKhoanController.cs" />
     <Compile Include="Controllers\C_HoSoCanBoController.cs" />
     <Compile Include="Controllers\C_KhoiPhucDuLieuController.cs" />
@@ -463,6 +467,9 @@
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DomainModal\AspHoSoCanBo.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModal\AspKeHoachChi.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DomainModal\AspKeHoachThu.cs">
@@ -535,6 +542,7 @@
     <Content Include="assets\css\default\images\error-page-pattern.png" />
     <Content Include="assets\css\default\images\profile-cover.jpg" />
     <Content Include="assets\css\fontfa.css" />
+    <Content Include="assets\css\UloadNhanSu.css" />
     <Content Include="assets\css\vendor.min.css" />
     <Content Include="assets\Farmwork\bootstrap-table\dist\bootstrap-table-locale-all.js" />
     <Content Include="assets\Farmwork\bootstrap-table\dist\bootstrap-table-locale-all.min.js" />
@@ -741,11 +749,22 @@
     <Content Include="assets\Farmwork\bootstrap-table\dist\themes\semantic\bootstrap-table-semantic.js" />
     <Content Include="assets\Farmwork\bootstrap-table\dist\themes\semantic\bootstrap-table-semantic.min.css" />
     <Content Include="assets\Farmwork\bootstrap-table\dist\themes\semantic\bootstrap-table-semantic.min.js" />
+    <Content Include="assets\Farmwork\Chosen\chosen-sprite%402x.png" />
+    <Content Include="assets\Farmwork\Chosen\chosen-sprite.png" />
+    <Content Include="assets\Farmwork\Chosen\chosen.css" />
+    <Content Include="assets\Farmwork\Chosen\chosen.jquery.js" />
+    <Content Include="assets\Farmwork\Chosen\chosen.jquery.min.js" />
+    <Content Include="assets\Farmwork\Chosen\chosen.min.css" />
+    <Content Include="assets\Farmwork\Chosen\chosen.proto.js" />
+    <Content Include="assets\Farmwork\Chosen\chosen.proto.min.js" />
     <Content Include="assets\Farmwork\css\notify.css" />
     <Content Include="assets\Farmwork\css\notify.min.css" />
     <Content Include="assets\Farmwork\custom-select\picker.css" />
     <Content Include="assets\Farmwork\custom-select\custom-select.css" />
     <Content Include="assets\Farmwork\custom-select\Picker.js" />
+    <Content Include="assets\Farmwork\ImageSelect\Flat.css" />
+    <Content Include="assets\Farmwork\ImageSelect\ImageSelect.css" />
+    <Content Include="assets\Farmwork\ImageSelect\ImageSelect.jquery.js" />
     <Content Include="assets\Farmwork\js\notify.js" />
     <Content Include="assets\Farmwork\js\notify.min.js" />
     <Content Include="assets\img\Avatar.jpg" />
@@ -1258,6 +1277,7 @@
       <DependentUpon>DomainModel.edmx</DependentUpon>
     </Content>
     <Content Include="FilesUploads\UploadQuyetDinhXuPhat.xls" />
+    <Content Include="assets\Farmwork\Chosen\composer.json" />
     <None Include="packages.config" />
     <Content Include="Views\TrungTamTinNhan\TrungTamTinNhan.cshtml" />
     <Content Include="Views\C_HoSoCanBo\C_HoSoCanBo.cshtml" />
@@ -1267,6 +1287,7 @@
     <Content Include="Views\C_PhieuThu\C_PhieuThu.cshtml" />
     <Content Include="Views\C_KhoiPhucDuLieu\C_KhoiPhucDuLieu.cshtml" />
     <Content Include="Views\C_PhieuChi\C_PhieuChi.cshtml" />
+    <Content Include="Views\C_DanhSachKhachHang\C_DanhSachKhachHang.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

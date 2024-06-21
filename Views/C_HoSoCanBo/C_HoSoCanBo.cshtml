@@ -2,94 +2,321 @@
 @{
     ViewBag.Title = "Hồ sơ cán bộ";
 }
-<style>
-    .avatar-wrapper {
-        position: relative;
-        height: 150px;
-        width: 150px;
-        margin: 0 auto;
-        border-radius: 50%;
-        overflow: hidden;
-        box-shadow: 1px 1px 15px -5px black;
-        transition: all .3s ease;
-        &:hover
-
-    {
-        transform: scale(1.05);
-        cursor: pointer;
-    }
-
-    &:hover .profile-pic {
-        opacity: .5;
-    }
-
-    .profile-pic {
-        height: 100%;
-        width: 100%;
-        transition: all .3s ease;
-        &:after
-
-    {
-        font-family: FontAwesome;
-        content: "\f007";
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        font-size: 100px;
-        background: #ecf0f1;
-        color: #34495e;
-        text-align: center;
-    }
-
-    }
-
-    .upload-button {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        .fa-arrow-circle-up
-
-    {
-        position: absolute;
-        font-size: 150px;
-        top: 1px;
-        left: 0;
-        text-align: center;
-        opacity: 0;
-        transition: all .3s ease;
-        color: #34495e;
-    }
-
-    &:hover .fa-arrow-circle-up {
-        opacity: .9;
-    }
-
-    }
-    }
-</style>
+<link href="../assets/Farmwork/Chosen/chosen.css" rel="stylesheet" />
+<link href="../assets/css/UloadNhanSu.css" rel="stylesheet" />
 @section Scripts{
-
+    <script src="../assets/Farmwork/mustache/mustache.min.js"></script>
+    <script src="../assets/Farmwork/Chosen/chosen.jquery.js"></script>
     <script>
-        var myController = {
+        var files;
+        var myControl = {
             init: function () {
-                myController.event();
+                //myControl.LoadData();
+                myControl.LoadNganHang();
+                myControl.event();
             },
             event: function () {
+
+                $(".chosen").chosen();
+                $(".chosen-results").css('font-size', '14px');
+                $(".chosen-container").css('width', '100%');
+
                 $("#btn_new_form").off('click').on('click', function () {
+                    myControl.ResetForm();
                     notify('success', 'Thành Công', 'Tạo mới thành công');
+                });
+
+                $("#btn_save_form").off('click').on('click', function () {
+                    myControl.SaveData();
+                });
+
+                $('#btn_remove_file').off('click').on('click', function () {
+                    $('#is_thay_doi').val('false');
+                    $("#image_HoSo").attr('src', "../assets/img/Avatar.jpg");
+                });
+
+                $("#btnUploadAvartar").off('click').on('click', function () {
+                    $("#duong_dan_tai_lieu").click();
+                    $("#duong_dan_tai_lieu").off('change').on('change', function (e) {
+                        files = e.target.files;
+                        if (files.length > 0) {
+                            for (var x = 0; x < files.length; x++) {
+                                if (files[x].size >= 52428800) {
+                                    noti_Warning('Chỉ được upload file dưới 50mb');
+                                    $("#duong_dan_tai_lieu").filestyle('clear');
+                                    $("#duong_dan_tai_lieu").filestyle('placeholder', "Không có tệp đính kèm nào");
+                                    $('#is_thay_doi').val('true');
+                                    return;
+                                } else {
+                                    $('#is_thay_doi').val('true');
+                                    myControl.readURL(this);
+                                }
+                            }
+
+                        }
+                    });
                 });
             },
 
+            readURL: function (input) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#image_HoSo').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            },
+
+            ResetForm: function () {
+                $("#IdCanBo").val(0);
+                $("#cb_trang_thai_lam_viec").val("");
+                $("#ngay_bat_dau_cong_tac").val("");
+                $("#chuc_vu").val("");
+                $("#so_hieu_giay_to").val("");
+                $("#ho_ten").val("");
+                $("#gioi_tinh").val("");
+                $("#ngay_sinh").val("");
+                $("#so_dien_thoai").val("");
+                $("#email").val("");
+                $("#cb_ngan_hang").val("").trigger('chosen:updated');
+                $("#so_tai_khoan").val("");
+                $("#cb_tinh").val("");
+                $("#cb_quan_huyen").val("");
+                $("#cb_xa_phuong").val("");
+                $("#dia_chi").val("");
+                $('#is_thay_doi').val('false');
+                $("#image_HoSo").attr('src', "../assets/img/Avatar.jpg");
+            },
+
+            SaveData: function () {
+                var IdCanBo = $("#IdCanBo").val();
+                var cb_trang_thai_lam_viec = $("#cb_trang_thai_lam_viec").val();
+                var ngay_bat_dau_cong_tac = $("#ngay_bat_dau_cong_tac").val();
+                var chuc_vu = $("#chuc_vu").val();
+                var so_hieu_giay_to = $("#so_hieu_giay_to").val();
+                var ho_ten = $("#ho_ten").val();
+                var gioi_tinh = $("#gioi_tinh").val();
+                var ngay_sinh = $("#ngay_sinh").val();
+                var so_dien_thoai = $("#so_dien_thoai").val();
+                var email = $("#email").val();
+                var cb_ngan_hang = $("#cb_ngan_hang").val();
+                var so_tai_khoan = $("#so_tai_khoan").val();
+                var cb_tinh = $("#cb_tinh").val();
+                var cb_quan_huyen = $("#cb_quan_huyen").val();
+                var cb_xa_phuong = $("#cb_xa_phuong").val();
+                var dia_chi = $("#dia_chi").val();
+
+                if (cb_trang_thai_lam_viec == "" || cb_trang_thai_lam_viec == null || cb_trang_thai_lam_viec == undefined) {
+                    notify('info', 'Cảnh báo', 'Bạn chưa chọn trạng thái làm việc');
+                    $("#cb_trang_thai_lam_viec").focus();
+                    return;
+                }
+
+                if (ngay_bat_dau_cong_tac == "" || ngay_bat_dau_cong_tac == null || ngay_bat_dau_cong_tac == undefined) {
+                    notify('info', 'Cảnh báo', 'Bạn chưa chọn ngày bắt đầu công tác');
+                    $("#ngay_bat_dau_cong_tac").focus();
+                    return;
+                }
+
+                if (so_hieu_giay_to == "" || so_hieu_giay_to == null || so_hieu_giay_to == undefined) {
+                    notify('info', 'Cảnh báo', 'Bạn chưa nhập số hiệu');
+                    $("#so_hieu_giay_to").focus();
+                    return;
+                }
+
+                if (ho_ten == "" || ho_ten == null || ho_ten == undefined) {
+                    notify('info', 'Cảnh báo', 'Bạn chưa nhập họ tên');
+                    $("#ho_ten").focus();
+                    return;
+                }
+                var objdata = {
+                    IdCanBo: IdCanBo,
+                    cb_trang_thai_lam_viec: cb_trang_thai_lam_viec,
+                    ngay_bat_dau_cong_tac: ngay_bat_dau_cong_tac,
+                    chuc_vu: chuc_vu,
+                    so_hieu_giay_to: so_hieu_giay_to,
+                    ho_ten: ho_ten,
+                    gioi_tinh: gioi_tinh,
+                    ngay_sinh: ngay_sinh,
+                    so_dien_thoai: so_dien_thoai,
+                    email: email,
+                    cb_ngan_hang: cb_ngan_hang,
+                    so_tai_khoan: so_tai_khoan,
+                    cb_tinh: cb_tinh,
+                    cb_quan_huyen: cb_quan_huyen,
+                    cb_xa_phuong: cb_xa_phuong,
+                    dia_chi: dia_chi
+                }
+                if (files != undefined && files.length > 0) {
+                    if (window.FormData !== undefined) {
+                        var data = new FormData();
+                        for (var x = 0; x < files.length; x++) {
+                            data.append(files[x].name, files[x]);
+                        }
+                        data.append("strData", JSON.stringify(objdata));
+                        $.ajax({
+                            type: "POST",
+                            url: '/C_HoSoCanBo/SaveData',
+                            contentType: false,
+                            processData: false,
+                            data: data,
+                            success: function (response) {
+                                if (response.code == true) {
+                                    myControl.LoadTable();
+                                    $("#modal-ho-so").modal("hide");
+                                } else {
+                                    bootbox.alert(response.message);
+                                }
+                            },
+                            error: function (response) {
+                                bootbox.alert(response.message);
+
+                            }
+                        });
+                    } else {
+                        alert("Upload file thất bại!");
+                    }
+                }
+                else {
+                    $.ajax({
+                        type: 'Post',
+                        url: '/C_HoSoCanBo/SaveData',
+                        datatype: 'json',
+                        data: {
+                            strData: JSON.stringify(objdata),
+                        },
+                        success: function (respone) {
+                            if (respone.status) {
+                                myControl.LoadTable();
+                                $("#modal-ho-so").modal("hide");
+                            }
+                            else {
+                                bootbox.alert(response.message);
+                            }
+                        },
+                    });
+                }
+            },
+
+            LoadData: function () {
+                $.ajax({
+                    url: '/C_HoSoCanBo/LoadData',
+                    type: 'GET',
+                    datatype: 'json',
+                    success: function (response) {
+                        if (response.code) {
+                            var lstNganHang = response.lstNganHang;
+                            if (lstNganHang != null) {
+                                var option = "<option value=''>Chọn ngân hàng</option>";
+                                $.each(lstNganHang, function (index, val) {
+                                    option += "<option value='" + val.ten_goi + "'>" + val.ten_goi + "</option>";
+                                });
+                                $("#cb_ngan_hang").html(option);
+                                $("#cb_ngan_hang").trigger('chosen:updated');
+                            }
+                            myControl.LoadTable();
+                        }
+                    },
+                });
+            },
+            
+            LoadNganHang: function () {
+                $.ajax({
+                    url: 'https://api.vietqr.io/v2/banks',
+                    type: 'GET',
+                    datatype: 'json',
+                    success: function (response) {
+                        if (response.code == "00") {
+                            var data = response.data;
+                            if (data != null) {
+                                var option = "<option value=''>Chọn ngân hàng</option>";
+                                $.each(data, function (index, val) {
+                                    option += "<option value='" + val.bin + "'>" + val.name + " ( " + val.shortName +" ) " + "</option>";
+                                });
+                                $("#cb_ngan_hang").html(option);
+                                $("#cb_ngan_hang").trigger('chosen:updated');
+                            }
+                            myControl.LoadTable();
+                        }
+                    },
+                });
+            },
+            PaymentLoad: function (IdCanBo) {
+                $.ajax({
+                    url: '/C_HoSoCanBo/PaymentLoad',
+                    type: 'GET',
+                    data: {
+                        IdCanBo: IdCanBo,
+                    },
+                    datatype: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            $("#modal-qr-code").modal("show");
+                            var image = response.images;
+                            $('#image_qr').attr('src', image);
+                        }
+                    },
+                });
+            },
+            LoadTable: function () {
+                $.ajax({
+                    url: '/C_HoSoCanBo/LoadTable',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.status == true) {
+                            var lstAccount = res.lstAccount;
+                            var html = '';
+                            var template = $('#data-template-user').html();
+                            if (lstAccount != null) {
+                                $("#tblUsers").bootstrapTable('load', lstAccount);
+                                $.each(lstAccount, function (i, item) {
+                                    html += Mustache.render(template, {
+                                        ho_ten: item.ho_ten,
+                                        gioi_Tinh: item.gioi_tinh,
+                                        ngay_sinh: item.ngay_sinh,
+                                        so_dien_thoai: item.so_dien_thoai,
+                                        url_avatar: item.url_avatar != null ? item.url_avatar : "../assets/img/Avatar.jpg",
+                                        name_avatar: item.name_avatar,
+                                        IdCanBo: item.IdCanBo,
+                                    });
+                                });
+                                $('#listAcount').html(html);
+                                $("#image_avartar").hide();
+
+                                if (lstAccount.length == 0) {
+                                    $("#image_avartar").show();
+                                }
+                            } else {
+                                $("#tblUsers").bootstrapTable('removeall');
+                            }
+                        }
+                    }
+                });
+            },
+        };
+        function fm_xoa(e, value, row, index) {
+            return [
+                '<div class="text-center">',
+                '<a class="btn btn-sm btn-outline-danger hvr-shrink" title="" href="javascript:myControl.Delete(' + value.IdCanBo + ')" ><i class="fa fa-trash f-16 text-center"></i></a>',
+                '</div>'
+            ].join('');
+        };
+        function fm_sua(e, value, row, index) {
+            return [
+                '<div class="text-center">',
+                '<a class="btn btn-sm btn-outline-info hvr-shrink" title="" href="javascript:myControl.LoadDetail(' + value.IdCanBo + ')" ><i class="fa fa-edit f-16 text-center"></i></a>',
+                '</div>'
+            ].join('');
+        };
+        function fm_Payment(e, value, row, index) {
+            return [
+                '<div class="text-center">',
+                '<a class="btn btn-sm btn-outline-warning hvr-shrink" title="" href="javascript:myControl.PaymentLoad(' + value.IdCanBo + ')" ><i class="fa fa-paypal f-16 text-center"></i></a>',
+                '</div>'
+            ].join('');
         }
-        myController.init();
+        myControl.init();
     </script>
-  
-
-
 }
 
 <h1 class="page-header my-4 mb-0">Hồ sơ cán bộ</h1>
@@ -105,162 +332,73 @@
         <div id="content" class="app-content p-0 m-0 bg-component">
             <div class="app-content-padding px-0 py-3">
                 <div class="d-lg-flex mb-2">
-                    <button type="button" id="btn_new_form" class="btn btn-default btn-sm me-1 mb-1" data-bs-toggle="modal" data-bs-target="#modal-ho-so"><span class="fa fa-plus"></span> Thêm mới nhân sự</button>
-                </div>
-                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                <div class="row gx-2 pb-10px">
+                    <div class="d-lg-flex mb-2">
+                        <button type="button" id="btn_new_form" class="btn btn-default btn-sm me-1 mb-1" data-bs-toggle="modal" data-bs-target="#modal-ho-so"><span class="fa fa-plus"></span> Thêm mới nhân sự</button>
+                    </div>
+                    <div class="d-lg-flex mb-2">
+                        <button type="button" id="btn_new_form" class="btn btn-default btn-sm me-1 mb-1"><span class="fa fa-search"></span> Tìm kiếm nâng cao</button>
+                    </div>
                     <div class="col-lg-4">
                         <div class="position-relative">
-                            <input type="text" class="form-control ps-35px rounded-3" placeholder="Tìm kiếm nhanh..." />
+                            <input type="text" class="form-control form-control-sm ps-35px rounded-3" placeholder="Tìm kiếm nhanh..." />
                             <button class="btn position-absolute start-0 top-0 shadow-none p-3"><i class="fa fa-search fa-lg"></i></button>
                         </div>
                     </div>
-                    <div class="col-lg-2 d-lg-block d-none">
-                        <a href="#" class="btn btn-white d-flex align-items-center rounded-3" data-bs-toggle="dropdown">
-                            <i class="far fa-lg fa-calendar me-10px text-body text-opacity-50 d-none"></i>
-                            <span class="iconify fs-20px my-n1 me-2 ms-n1 text-theme" data-icon="solar:calendar-search-linear"></span>
-                            Date Range
-                            <i class="fa ms-auto fa-chevron-down"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:calendar-line-duotone"></span> Last 7 Days</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:calendar-line-duotone"></span> Last 30 Days</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:calendar-line-duotone"></span> This Month</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:calendar-line-duotone"></span> Last Month</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:calendar-line-duotone"></span> Custom Range</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-2 d-lg-block d-none">
-                        <a href="#" class="btn btn-white d-flex align-items-center rounded-3" data-bs-toggle="dropdown">
-                            <i class="fa fa-lg fa-tags me-10px text-body text-opacity-50 d-none"></i>
-                            <span class="iconify fs-20px my-n1 me-2 ms-n1 text-theme" data-icon="solar:tag-linear"></span>
-                            Status
-                            <i class="fa ms-auto fa-chevron-down"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="fa fa-circle fs-7px me-2 ms-n1 text-success"></i> Active</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="fa fa-circle fs-7px me-2 ms-n1 text-body text-opacity-25"></i> Inactive</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="fa fa-circle fs-7px me-2 ms-n1 text-danger"></i> Removed</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="fa fa-circle fs-7px me-2 ms-n1 text-warning"></i> Pending</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="fa fa-circle fs-7px me-2 ms-n1 text-primary"></i> Archived</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-2 d-lg-block d-none">
-                        <a href="#" class="btn btn-white d-flex align-items-center rounded-3" data-bs-toggle="dropdown">
-                            <i class="fa fa-lg fa-location-dot me-10px text-body text-opacity-50 d-none"></i>
-                            <span class="iconify fs-20px my-n1 me-2 ms-n1 text-theme" data-icon="solar:map-point-linear"></span>
-                            Location
-                            <i class="fa ms-auto fa-chevron-down"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:map-point-linear"></span> New York City, New York, USA</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:map-point-linear"></span> London, United Kingdom</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:map-point-linear"></span> Tokyo, Japan</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:map-point-linear"></span> Sydney, Australia</a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="#"><span class="iconify fs-20px my-n1 me-2 ms-n1 text-body text-opacity-50" data-icon="solar:map-point-linear"></span> Paris, France</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-2 d-lg-block d-none">
-                        <a href="#" class="btn btn-white d-flex align-items-center rounded-3" data-bs-toggle="dropdown">
-                            <span class="iconify fs-20px my-n1 me-2 ms-n1 text-theme" data-icon="solar:tuning-linear"></span>
-                            More filters
-                            <i class="fa ms-auto fa-chevron-down"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">High Priority</a></li>
-                            <li><a class="dropdown-item" href="#">Low Priority</a></li>
-                            <li><a class="dropdown-item" href="#">Overdue</a></li>
-                            <li><a class="dropdown-item" href="#">Completed</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Custom Filter 1</a></li>
-                            <li><a class="dropdown-item" href="#">Custom Filter 2</a></li>
-                        </ul>
-                    </div>
                 </div>
-                <div class="d-lg-flex align-items-center mb-n2">
-                    <div class="d-lg-flex d-none align-items-center text-nowrap">
-                        Results per page:
-                        <select class="form-select form-select-sm ms-2 h-25px py-0 ps-2 pe-30px">
-                            <option>100</option>
-                            <option>50</option>
-                            <option selected>30</option>
-                        </select>
+                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                <div class="tab-overflow">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <ul class="nav nav-tabs nav-tabs-deffault card  border-1 card-border-c-blue" style="width: 100%;">
+                                <li class="nav-item prev-button"><a href="javascript:;" data-click="prev-tab" class="nav-link text-primary"><i class="fa fa-arrow-left"></i></a></li>
+                                <li class="nav-item"><a href="#nav-tab-1" data-bs-toggle="tab" class="nav-link active"><font class="fa fa-list"></font> Chế độ hiển thị dạng lưới</a></li>
+                                <li class="nav-item"><a href="#nav-tab-2" data-bs-toggle="tab" class="nav-link"><font class="fa fa-table"></font> Chế độ hiển thị dạng bảng</a></li>
+                                <li class="nav-item next-button"><a href="javascript:;" data-click="next-tab" class="nav-link text-primary"><i class="fa fa-arrow-right"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="d-lg-block d-none ms-2 text-body text-opacity-50">
-                        1,495 results found
-                    </div>
-                    <ul class="pagination pagination-sm mb-0 ms-auto justify-content-center">
-                        <li class="page-item disabled"><a class="page-link">Previous</a></li>
-                        <li class="page-item d-lg-block d-none2"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item d-lg-block d-none2"><a class="page-link bg-theme text-theme-color border border-theme" href="#">2</a></li>
-                        <li class="page-item d-lg-block d-none2"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item d-lg-block d-none2"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item d-lg-block d-none2"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
                 </div>
             </div>
-            <div class="table-responsive" id="table">
-                <table class="table table-thead-sticky table-tfoot-sticky table-tbody-bordered table-px-10px table-py-4px table-sm table-striped text-nowrap mb-0">
-                    <thead>
-                        <tr>
-                            <th>
-                                <div class="form-check d-flex justify-content-center my-0 mx-n1">
-                                    <input type="checkbox" class="form-check-input" data-toggle="check-all" />
-                                </div>
-                            </th>
-                            <th>TT</th>
-                            <th>Họ tên khai sinh</th>
-                            <th>Giới tính</th>
-                            <th>Môn học dạy</th>
-                            <th>Chức vụ hiện tại</th>
-                            <th>Quê quán</th>
-                            <th>Trạng thái</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="form-check d-flex justify-content-center my-0 mx-n1">
-                                    <input type="checkbox" class="form-check-input" />
-                                </div>
-                            </td>
-                            <td>1.</td>
-                            <td>Mobile Phone</td>
-                            <td>iPhone 14 Pro Max - 256gb - Deep Purple</td>
-                            <td>Active</td>
-                            <td>25</td>
-                            <td>$999</td>
-                            <td>$899</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="form-check d-flex justify-content-center my-0 mx-n1">
-                                    <input type="checkbox" class="form-check-input" />
-                                </div>
-                            </td>
-                            <td>2.</td>
-                            <td>Mobile Phone</td>
-                            <td>iPhone 14 Pro Max - 256gb - Space Black</td>
-                            <td>Active</td>
-                            <td>50</td>
-                            <td>$999</td>
-                            <td>$899</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
+            <div class="panel-body tab-content p-0">
+                <div class="tab-pane fade active show" id="nav-tab-1">
+                    <div class="row gx-1" id="listAcount">
+
+                    </div>
+                    <div id="image_avartar">
+                        <div class="fa-10x text-center">
+                            <img src="../assets/img/notfound.jpg" class="table-responsive" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="nav-tab-2">
+                    <div id="content" class="app-content p-0 m-0 bg-component">
+                        <table id="tblUsers"
+                               data-classes="table table-bordered align-middle text-nowrap table-hover"
+                               data-toggle="table"
+                               data-mobile-responsive="true"
+                               data-fixed-columns="true"
+                               data-show-export="true"
+                               data-search="false"
+                               data-pagination="true">
+                            <thead>
+                                <tr>
+                                    <th data-formatter="fm_sua" data-width="5" class="text-center"><font class="fas fa-edit pb-1"></font></th>
+                                    <th data-formatter="fm_xoa" data-width="5" class="text-center"><font class="fas fa-trash pb-1"></font></th>
+                                    <th data-formatter="fm_xoa" data-width="5" class="text-center"><font class="fas fa-trash pb-1"></font></th>
+                                    @*<th data-formatter="fm_Payment" data-width="5" class="text-center"><font class="fas fa-trash pb-1"></font></th>*@
+                                    <th data-field="so_hieu_giay_to">Số hiệu giấy tờ</th>
+                                    <th data-field="ho_ten">Tên cán bộ</th>
+                                    <th data-field="ngay_sinh">Ngày sinh</th>
+                                    <th data-field="chuc_vu">Chức vụ</th>
+                                    <th data-field="cb_trang_thai_lam_viec">Trạng thái</th>
+                                    <th data-field="cb_ngan_hang">Ngân hàng</th>
+                                    <th data-field="so_tai_khoan">Số tài khoản</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -268,7 +406,7 @@
 
 <!-- #modal-dialog -->
 <div class="modal fade" id="modal-ho-so">
-    <div class="modal-dialog" style="max-width:65%">
+    <div class="modal-dialog" style="max-width:70%">
         <div class="modal-content">
             <div class="panel panel-inverse m-0">
                 <div class="panel-heading  bg-cyan-700 text-white">
@@ -281,45 +419,124 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-sm-2 bg-cyan-700">
+                        <div class="col-sm-2 bg-cyan-500 p-1">
                             <div class="avatar-wrapper mt-3">
-                                <img class="profile-pic" src="" />
-                                <div class="upload-button">
+                                <img class="profile-pic" id="image_HoSo" src="../assets/img/Avatar.jpg" />
+                                <div class="upload-button" id="btnUploadAvartar">
                                     <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
                                 </div>
-                                <input class="file-upload" type="file" accept="image/*" />
+                                <input type="file" class="file-upload" id="duong_dan_tai_lieu" accept="image/png, image/jpeg,image/jpg" />
+                                <input type="hidden" id="is_thay_doi" class="form-control">
+                                <input type="hidden" id="IdCanBo" class="form-control">
                             </div>
-
+                            <div class="col-md-12 mt-2" style=" display: ruby-text;">
+                                <button type="button" id="btn_remove_file" class="btn btn-danger btn-sm waves-effect waves-light"><i class="fa fa-trash"></i> Xóa đường dẫn</button>
+                            </div>
                         </div>
                         <div class="col-sm-10">
                             <div class="row">
-                                <div class="col-sm-6">
-                                    <label class="form-label mt-1">CMND/Căn cước:<font class="text-danger">*</font></label>
-                                    <input class="form-control" placeholder="Số hiệu giấy tờ" type="text" />
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="form-label mt-1">Họ tên:<font class="text-danger">*</font></label>
-                                    <input class="form-control" placeholder="Tên cán bộ" type="text" />
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="form-label mt-1">Giới tính:</label>
-                                    <select class="selectpicker" id="chuc_vu">
-                                        <option value="">Nam</option>
-                                        <option value="">Nữ</option>
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Trạng thái làm việc:<font class="text-danger">*</font></label>
+                                    <select class="form-control" id="cb_trang_thai_lam_viec">
+                                        <option value="">Chọn trạng thái</option>
+                                        <option value="Đang làm việc">Đang làm việc</option>
+                                        <option value="Nghỉ chế độ">Nghỉ chế độ</option>
+                                        <option value="Nghỉ hưu">Nghỉ hưu</option>
+                                        <option value="Nghỉ đẻ">Nghỉ đẻ</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Ngày bắt đầu công tác:<font class="text-danger">*</font></label>
+                                    <input class="form-control" placeholder="dd/MM/yyyy" id="ngay_bat_dau_cong_tac" type="date" />
+                                </div>
+                                <div class="col-sm-4">
                                     <label class="form-label mt-1">Chức vụ:</label>
-                                    <select class="selectpicker">
-                                        <option value="">Giám đốc</option>
-                                        <option value="">Phó giám đốc</option>
-                                        <option value="">Kế toán</option>
-                                        <option value="">Cán bộ kỹ thuật</option>
+                                    <select class="form-control" id="chuc_vu">
+                                        <option value="">Chọn chức vụ</option>
+                                        <option value="Giám đốc">Giám đốc</option>
+                                        <option value="Phó giám đốc">Phó giám đốc</option>
+                                        <option value="Kế toán">Kế toán</option>
+                                        <option value="Cán bộ kỹ thuật">Cán bộ kỹ thuật</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">CMND/Căn cước:<font class="text-danger">*</font></label>
+                                    <input class="form-control" placeholder="Số hiệu giấy tờ" id="so_hieu_giay_to" type="text" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Họ tên:<font class="text-danger">*</font></label>
+                                    <input class="form-control" placeholder="Tên cán bộ" id="ho_ten" type="text" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Giới tính:</label>
+                                    <select class="form-control" id="gioi_tinh">
+                                        <option value="">Chọn giới tính</option>
+                                        <option value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Ngày sinh:</label>
+                                    <input class="form-control" placeholder="dd/MM/yyyy" id="ngay_sinh" type="date" />
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Số điện thoại:</label>
+                                    <input class="form-control" placeholder="Số điện thoại" id="so_dien_thoai" type="text" />
+                                </div>
+                                <div class="col-sm-4">
                                     <label class="form-label mt-1">Email:</label>
-                                    <input class="form-control" placeholder="Email" type="text" />
+                                    <input class="form-control" placeholder="Email" id="email" type="text" />
+                                </div>
+                                @*<div class="col-sm-8">
+                                    <label class="form-label mt-1">Ngân hàng cá nhân:</label>
+                                    <select class="form-control chosen" id="cb_ngan_hang">
+                                        <option value="">Chọn ngân hàng</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="form-label mt-1">Số tài khoản:</label>
+                                    <input class="form-control" placeholder="Số tài khoản" id="so_tai_khoan" type="text" />
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="height: fit-content;" class="mb-2 mt-3">
+                        <div class="accordion p-0" id="accordion2">
+                            <div class="accordion-item border-1">
+                                <div class="accordion-header" id="headingOne2">
+                                    <button class="accordion-button bg-white-400 px-3 py-10px pointer-cursor" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2">
+                                        <i class="fa fa-circle fa-fw text-blue me-2 fs-8px"></i> Bổ sung thêm địa chỉ/quê quán (nếu có)
+                                    </button>
+                                </div>
+                                <div id="collapseOne2" class="accordion-collapse collapse show" data-bs-parent="#accordion2">
+                                    <div class="accordion-body bg-white p-1">
+                                        <div class="row tab_thong_tin_ca_nhan">
+                                            <div class="col-sm-4">
+                                                <label class="form-label mt-1">Tỉnh thành:</label>
+                                                <select class="form-control" id="cb_tinh">
+                                                    <option value="">Chọn tỉnh thành</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label class="form-label mt-1">Quận huyện:</label>
+                                                <select class="form-control" id="cb_quan_huyen">
+                                                    <option value="">Chọn quận huyện</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label class="form-label mt-1">Xã phường:</label>
+                                                <select class="form-control" id="cb_xa_phuong">
+                                                    <option value="">Chọn xã phường</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label class="form-label mt-1">Địa chỉ (Quê quán):</label>
+                                                <input class="form-control" id="dia_chi" placeholder="Địa chỉ, Quê Quán..." type="text" />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -327,9 +544,58 @@
                 </div>
                 <div class="modal-footer m-0 p-0">
                     <a class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="fa fa-arrow-rotate-left"></i> Thoát</a>
-                    <a class="btn btn-sm btn-success"><i class="fa fa-save"></i> Cập nhập</a>
+                    <a class="btn btn-sm btn-success" id="btn_save_form"><i class="fa fa-save"></i> Cập nhập</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div class="modal fade" id="modal-qr-code">
+    <div class="modal-dialog" style="max-width:30%">
+        <div class="modal-content">
+            <div class="panel panel-inverse m-0">
+                <div class="panel-heading  bg-cyan-700 text-white">
+                    <h4 class="panel-title">Mã QrCode</h4>
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12 bg-cyan-500 p-1 text-center">
+                            <a href="javascript:;">
+                                <img id="image_qr"  src="" alt="" class="mw-100 p-1" width="320" height="420">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-0 p-0">
+                    <a class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="fa fa-arrow-rotate-left"></i> Thoát</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="data-template-user" type="x-tmpl-mustache">
+    <div class="col-sm-2 mb-1">
+        <div class="p-2 d-flex align-items-center card border-1 rounded">
+            <div class="text-center bg_boder_red">
+                <a href="javascript:;">
+                    <img src="{{url_avatar}}" alt="" class="mw-100 rounded-pill p-1" width="150" height="150">
+                </a>
+            </div>
+            <div class="text-center">
+                <b class="text-muted">{{ho_ten}}</b>
+                <div class="pt-2 pb-1">{{ngay_sinh}}</div>
+                <div class="pt-2 pb-1"></div>
+            </div>
+            <div class="row text-center">
+                <a href="javascript:;" class="btn border-0 w-40px h-40px text-gray-500 rounded-pill d-flex align-items-center justify-content-center"><i class="fa fa-edit text-primary fa-lg"></i></a>
+                <a href="javascript:;" class="btn border-0 w-40px h-40px text-gray-500 rounded-pill d-flex align-items-center justify-content-center"><i class="fa fa-refresh text-success fa-lg"></i></a>
+                <a href="javascript:;" class="btn border-0 w-40px h-40px text-gray-500 rounded-pill d-flex align-items-center justify-content-center"><i class="fa fa-trash text-danger fa-lg"></i></a>
+            </div>
+        </div>
+    </div>
+</script>
