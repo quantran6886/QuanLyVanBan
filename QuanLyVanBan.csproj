@@ -757,6 +757,8 @@
     <Content Include="assets\Farmwork\Chosen\chosen.min.css" />
     <Content Include="assets\Farmwork\Chosen\chosen.proto.js" />
     <Content Include="assets\Farmwork\Chosen\chosen.proto.min.js" />
+    <Content Include="assets\Farmwork\circle-loader\css\style.css" />
+    <Content Include="assets\Farmwork\circle-loader\js\script.js" />
     <Content Include="assets\Farmwork\css\notify.css" />
     <Content Include="assets\Farmwork\css\notify.min.css" />
     <Content Include="assets\Farmwork\custom-select\picker.css" />
