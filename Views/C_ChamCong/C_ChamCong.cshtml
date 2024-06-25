@@ -1,0 +1,397 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý chấm công";
+}
+<style>
+    a {
+        color: #448aff;
+        text-decoration: auto;
+        cursor: pointer;
+    }
+</style>
+@section Scripts{
+    <script>
+        var myControl = {
+            init: function () {
+                myControl.Event();
+                myControl.LoadData();
+            },
+
+            Event: function () {
+
+                $("#ngay_lam").off('change').on('change', function () {
+                    myControl.LoadTable();
+                });
+
+                $("#btn_thong_ke").off('click').on('click', function () {
+                    myControl.LoadThongKe();
+                });
+
+                
+                $('#tblThongKe').off('click-row.bs.table').on('click-row.bs.table', function (e, row, $element) {
+                    $('.table-danger').removeClass('table-danger');
+                    $($element).addClass('table-danger');
+                    $("#ngay_lam").val(row.ngay_lam);
+                    $("#modal-thong-ke").modal("hide");
+                    myControl.LoadTable();
+                });
+
+            },
+
+            LoadData: function () {
+                $.ajax({
+                    url: '/C_ChamCong/LoadData',
+                    type: 'GET',
+                    datatype: 'json',
+                    success: function (response) {
+                        if (response.code) {
+                            var txt_ngay_dau_thang = response.txt_ngay_dau_thang;
+                            var txt_ngay_cuoi_thang = response.txt_ngay_cuoi_thang;
+                            var txt_ngay_hien_tai = response.txt_ngay_hien_tai;
+                            var tong_so_ngay = response.tong_so_ngay;
+
+                            $("#txt_ngay_bat_dau").val(txt_ngay_dau_thang);
+                            $("#txt_ngay_ket_thuc").val(txt_ngay_cuoi_thang);
+                            $("#ngay_lam").val(txt_ngay_hien_tai);
+                            $("#lbl_TongSo").html(tong_so_ngay + " ngày");
+                            myControl.LoadTable();
+                        }
+                    },
+                });
+            },
+
+
+            LoadThongKe: function () {
+                var txt_ngay_dau_thang = $("#txt_ngay_bat_dau").val();
+                var txt_ngay_cuoi_thang = $("#txt_ngay_ket_thuc").val();
+                $.ajax({
+                    url: '/C_ChamCong/LoadThongKe',
+                    type: 'Get',
+                    data: {
+                        txt_ngay_dau_thang: txt_ngay_dau_thang,
+                        txt_ngay_cuoi_thang: txt_ngay_cuoi_thang,
+                    },
+                    datatype: 'json',
+                    success: function (response) {
+                        if (response.code) {
+                            var lstThongKe = response.lstThongKe;
+                            if (lstThongKe != null) {
+                                $("#tblThongKe").bootstrapTable('load', lstThongKe);
+                            } else {
+                                $("#tblThongKe").bootstrapTable('removeall');
+                            }
+                        }
+                    },
+                });
+            },
+
+            PaymentLoad: function (IdCanBo, so_tien) {
+                showLoader();
+                $.ajax({
+                    url: '/C_ChamCong/PaymentLoad',
+                    type: 'GET',
+                    data: {
+                        IdCanBo: IdCanBo,
+                        so_tien: so_tien,
+                    },
+                    datatype: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            $("#modal-qr-code").modal("show");
+                            var image = response.images;
+                            $('#image_qr').attr('src', image);
+                            hideLoader();
+                        } else {
+                            notify('error', 'Có Lỗi', response.message);
+                            hideLoader();
+                        }
+                    },
+                });
+            },
+
+            LoadTable: function () {
+                var ngay_lam = $("#ngay_lam").val();
+                $.ajax({
+                    url: '/C_ChamCong/LoadTable',
+                    type: 'GET',
+                    data: {
+                        ngay_lam: ngay_lam,
+                    },
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.status == true) {
+                            var lstAccount = res.lstAccount;
+                            if (lstAccount != null) {
+                                $("#tblUsers").bootstrapTable('load', lstAccount);
+                            } else {
+                                $("#tblUsers").bootstrapTable('removeall');
+                            }
+                        }
+                    }
+                });
+            },
+
+        };
+        myControl.init();
+
+        window.ev_CheckNuaNgayCong = {
+            'change input': function (e, value, row, index) {
+
+                row.cham_nua_ngay = $(e.target).prop("checked");
+                var ngay_lam = $("#ngay_lam").val();
+
+                $.ajax({
+                    url: '/C_ChamCong/SaveChamCong',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        IdCanBo: row.IdCanBo,
+                        IsLamNuaNgay: row.cham_nua_ngay,
+                        IsLamCaNgay: row.cham_ca_ngay,
+                        ngay_lam: ngay_lam,
+                        check: 1,
+                    },
+                    success: function (response) {
+                        if (response.code == true) {
+                            myControl.LoadTable();
+                        }
+                        else {
+                            notify('error', 'Có Lỗi', response.message);
+                        }
+                    },
+                });
+            }
+        };
+
+        window.ev_ngaycong = {
+            'change input': function (e, value, row, index) {
+
+                row.cham_ca_ngay = $(e.target).prop("checked");
+                var ngay_lam = $("#ngay_lam").val();
+
+
+                $.ajax({
+                    url: '/C_ChamCong/SaveChamCong',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        IdCanBo: row.IdCanBo,
+                        IsLamNuaNgay: row.cham_nua_ngay,
+                        IsLamCaNgay: row.cham_ca_ngay,
+                        ngay_lam: ngay_lam,
+                        check: 2,
+                    },
+                    success: function (response) {
+                        if (response.code == true) {
+                            myControl.LoadTable();
+                        }
+                        else {
+                            notify('error', 'Có Lỗi', response.message);
+                        }
+                    },
+                });
+            }
+        };
+
+        function fm_editData(e, value, row, index) {
+            return [
+                '<div style="width: 100%">',
+                '<a class=" hvr-shrink f-14" data-bs-toggle="dropdown">'
+                + value.so_hieu_giay_to + '</a>',
+                '<div class="dropdown-menu dropdown-menu-end">' +
+                '<a href="javascript:myControl.LoadDetail(' + value.IdCanBo + ')" class="dropdown-item"><i class="fa fa-pencil text-info f-20"></i> Thông tin</a><div class="dropdown-divider"></div>' +
+                '<a href="javascript:myControl.CreateNganHang(' + value.IdCanBo + ')" class="dropdown-item"><i class="fa fa-plus text-success f-20"></i> Bổ sung thêm</a>' +
+                '</div>' +
+                '</div>'
+            ].join('');
+        };
+
+
+        function fm_CheckNuaNgayCong(e, value, row, index) {
+            if (value.cham_nua_ngay == "true" || value.cham_nua_ngay == true) {
+                return [
+                    '<div style="text-align:center">',
+                    ' <input class="form-check-input p-2 m-2 check_all" type="checkbox" id="ck1_' + value.IdCanBo + '" checked/>',
+                    '</div>'
+                ].join('');
+            } else {
+                return [
+                    '<div style="text-align:center">',
+                    ' <input class="form-check-input p-2 m-2 check_all" type="checkbox" id="ck1_' + value.IdCanBo + '" />',
+                    '</div>'
+                ].join('');
+            }
+        }
+
+        function fm_NgayCong(e, value, row, index) {
+            if (value.cham_ca_ngay == "true" || value.cham_ca_ngay == true) {
+                return [
+                    '<div style="text-align:center">',
+                    ' <input class="form-check-input p-2 m-2 check_all" type="checkbox" id="ck2_' + value.IdCanBo + '" checked/>',
+                    '</div>'
+                ].join('');
+            } else {
+                return [
+                    '<div style="text-align:center">',
+                    ' <input class="form-check-input p-2 m-2 check_all" type="checkbox" id="ck2_' + value.IdCanBo + '" />',
+                    '</div>'
+                ].join('');
+            }
+        }
+
+        function fm_QuetQr(e, value, row, index) {
+            return [
+                '<div class="text-center">',
+                '<a class="btn btn-sm btn-outline-primary hvr-shrink" title="" href="javascript:myControl.PaymentLoad(' + value.IdCanBo + "," + value.so_tien + ')" ><i class="fa fa-qrcode f-16 text-center"></i></a>',
+                '</div>'
+            ].join('');
+        }
+        function fm_ThanhToan(e, value, row, index) {
+            return [
+                '<div class="text-center">',
+                '<a class="btn btn-sm btn-outline-danger hvr-shrink" title="" href="javascript:myControl.PaymentLoad(' + value.IdCanBo + ')" ><i class="fa fa-close f-16 text-center"></i> Chưa thanh toán</a>',
+                '</div>'
+            ].join('');
+        }
+
+    </script>
+}
+<h1 class="page-header my-2 mb-0">Quản lý chấm công</h1>
+<div class="panel panel-inverse">
+    <div class="panel-heading bg-cyan-700 text-white ui-sortable-handle">
+        <div class="panel-heading-btn">
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+    </div>
+    <div class="panel-body pt-0">
+        <div id="content" class="app-content p-0 m-0 bg-component">
+            <div class="app-content-padding px-0 py-3">
+                <div class="d-lg-flex mb-2">
+                    <div class="col-lg-1 mx-2">
+                        <label class="form-label mt-1"><font class="fa fa-question-circle text-primary-600"></font></label>
+                        <div class="d-lg-flex mb-2">
+                            <button type="button" id="btn_thong_ke" class="btn btn-purple btn-sm me-1 mb-1 col-sm-12" data-bs-toggle="modal" data-bs-target="#modal-thong-ke">
+                                <span class="fa fa-list"></span> Thống kê
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label">Lịch công tác : </label>
+                        <div class="col-lg-12">
+                            <div class="input-group input-daterange">
+                                <input type="date" class="form-control form-control-sm" id="txt_ngay_bat_dau" placeholder="Ngày bắt đầu" disabled />
+                                <span class="input-group-text input-group-addon pb-0 pt-0">Đến</span>
+                                <input type="date" class="form-control form-control-sm" id="txt_ngay_ket_thuc" placeholder="Ngày kết thúc" disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mx-2">
+                        <label class="form-label">Ngày chấm : </label>
+                        <div class="col-lg-12">
+                            <input type="date" class="form-control form-control-sm" id="ngay_lam" />
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                <div>
+                    <b class="text-danger"><i class="fa fa-bell"></i> Tổng số :</b> <font class="text-muted" id="lbl_TongSo"> ngày</font>
+                </div>
+                <div id="content" class="app-content p-0 m-0 bg-component">
+                    <table id="tblUsers"
+                           data-classes="table table-bordered align-middle text-nowrap table-hover"
+                           data-toggle="table"
+                           data-mobile-responsive="true"
+                           data-fixed-columns="true"
+                           data-show-export="true"
+                           data-search="false"
+                           data-pagination="true">
+                        <thead>
+                            <tr>
+                                <th data-formatter="fm_CheckNuaNgayCong" data-events="ev_CheckNuaNgayCong" data-width="5" class="text-center">1/2<br /> Công</th>
+                                <th data-formatter="fm_NgayCong" data-events="ev_ngaycong" data-width="5" class="text-center">1<br /> Công</th>
+                                <th data-field="ho_ten">Tên cán bộ</th>
+                                <th data-field="so_hieu_giay_to" data-formatter="fm_editData">Số hiệu giấy tờ</th>
+                                <th data-field="tong_cong" data-width="5" class="text-center">Tổng công</th>
+                                <th data-field="so_tien_quy_doi" class="text-center">Số tiền công</th>
+                                <th data-field="" data-formatter="fm_QuetQr" class="text-center" data-width="5">Thanh toán<br /> Qr</th>
+                                <th data-field="" data-formatter="fm_ThanhToan" class="text-center" data-width="5">Trạng thái <br /> thanh toán</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-qr-code">
+    <div class="modal-dialog" style="max-width:30%">
+        <div class="modal-content">
+            <div class="panel panel-inverse m-0">
+                <div class="panel-heading  bg-cyan-700 text-white">
+                    <h4 class="panel-title">Mã QrCode</h4>
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12 bg-cyan-500 p-1 text-center">
+                            <a href="javascript:;">
+                                <img id="image_qr" src="" alt="" class="mw-100 p-1" width="320" height="420">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-0 p-0">
+                    <a class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="fa fa-arrow-rotate-left"></i> Thoát</a>
+                    <a class="btn btn-sm btn-success" id="btn_save_thanh_toan"><i class="fa fa-check"></i> Đã thanh toán</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-thong-ke">
+    <div class="modal-dialog" style="max-width:60%">
+        <div class="modal-content">
+            <div class="panel panel-inverse m-0">
+                <div class="panel-heading  bg-cyan-700 text-white">
+                    <h4 class="panel-title">Thông kê</h4>
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row card-body">
+                        <div class="form-group">
+                            <table id="tblThongKe"
+                                   data-classes="table table-bordered align-middle text-nowrap table-hover"
+                                   data-toggle="table"
+                                   data-mobile-responsive="true"
+                                   data-fixed-columns="true"
+                                   data-show-export="true"
+                                   data-search="false"
+                                  >
+                                <thead>
+                                    <tr>
+                                        <th data-field="ngay_cham_cong" data-width="5">Ngày chấm công</th>
+                                        <th data-field="so_nguoi_lam" data-width="5" class="text-center">Số người làm</th>
+                                        <th data-field="tong_cong" data-width="5" class="text-center">Tổng công</th>
+                                        <th data-field="tong_tien_cong" data-width="5" class="text-center">Tổng tiền công</th>
+                                        <th data-field="trang_thai" class="text-center">Trạng thái</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

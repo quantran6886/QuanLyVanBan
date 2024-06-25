@@ -80,7 +80,7 @@
                         if (files.length > 0) {
                             for (var x = 0; x < files.length; x++) {
                                 if (files[x].size >= 52428800) {
-                                    noti_Warning('Chỉ được upload file dưới 50mb');
+                                    notify('error', 'Có Lỗi', 'Chỉ được upload file dưới 50mb');
                                     $("#duong_dan_tai_lieu").filestyle('clear');
                                     $("#duong_dan_tai_lieu").filestyle('placeholder', "Không có tệp đính kèm nào");
                                     $('#is_thay_doi').val('true');
@@ -122,6 +122,7 @@
                 $("#cb_xa_phuong").val("");
                 $("#dia_chi").val("");
                 $('#is_thay_doi').val('false');
+                $("#duong_dan_tai_lieu").val('');
                 $("#image_HoSo").attr('src', "../assets/img/Avatar.jpg");
             },
 
@@ -382,7 +383,7 @@
                                         ngay_sinh: item.ngay_sinh,
                                         so_dien_thoai: item.so_dien_thoai,
                                         so_hieu_giay_to: item.so_hieu_giay_to,
-                                        url_avatar: item.url_avatar != null ? item.url_avatar : "../assets/img/Avatar.jpg",
+                                        url_avatar: item.url_avatar != "" ? item.url_avatar : "../assets/img/Avatar.jpg",
                                         name_avatar: item.name_avatar,
                                         IdCanBo: item.IdCanBo,
                                     });
@@ -401,6 +402,7 @@
                 });
             },
             LoadDetail: function (IdCanBo) {
+                showLoader();
                 if (IdCanBo > 0) {
                     $.ajax({
                         url: '/C_HoSoCanBo/LoadDetail',
@@ -429,8 +431,10 @@
                                     $('#email').val(listData.email);
                                     $("#image_HoSo").attr('src', listData.url_avatar);
                                 }
+                                hideLoader();
                                 $("#modal-ho-so").modal("show");
                             } else {
+                                hideLoader();
                                 notify('error', 'Có Lỗi', 'Đã có lỗi xảy ra!');
                             }
                         }

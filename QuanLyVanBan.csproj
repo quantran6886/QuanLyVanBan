@@ -438,6 +438,7 @@
     <Compile Include="Authentizor\AuthorizeSerizal.cs" />
     <Compile Include="Controllers\BaseSession.cs" />
     <Compile Include="Controllers\CheckMenuController.cs" />
+    <Compile Include="Controllers\C_ChamCongController.cs" />
     <Compile Include="Controllers\C_DanhSachKhachHangController.cs" />
     <Compile Include="Controllers\C_DanhSachTaiKhoanController.cs" />
     <Compile Include="Controllers\C_HoSoCanBoController.cs" />
@@ -454,6 +455,9 @@
     <Compile Include="Controllers\RoleSessionController.cs" />
     <Compile Include="Controllers\RolesFunctionController.cs" />
     <Compile Include="Controllers\ThuMucLuuTruController.cs" />
+    <Compile Include="DomainModal\AspChamCong.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DomainModal\AspDanhMucHeThong.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
@@ -517,6 +521,7 @@
     <Compile Include="DomainModal\View_Session.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DTO\C_GetDate.cs" />
     <Compile Include="DTO\DTO_PassWord.cs" />
     <Compile Include="DTO\GetUserSession.cs" />
     <Compile Include="DTO\SetUserSession.cs" />
@@ -1015,6 +1020,12 @@
     <Content Include="assets\js\demo\widget.demo.js" />
     <Content Include="assets\js\vendor.min.js" />
     <Content Include="assets\Logout.js" />
+    <Content Include="assets\Farmwork\photo-gallery\css\lightbox.css" />
+    <Content Include="assets\Farmwork\photo-gallery\css\normalize.css" />
+    <Content Include="assets\Farmwork\photo-gallery\css\styles.css" />
+    <Content Include="assets\Farmwork\photo-gallery\js\jquery-3.3.1.min.js" />
+    <Content Include="assets\Farmwork\photo-gallery\js\lightbox.min.js" />
+    <Content Include="assets\Farmwork\photo-gallery\js\scripts.js" />
     <Content Include="assets\plugins\ckeditor\ckeditor5-build-classic\build\ckeditor.js" />
     <Content Include="assets\plugins\fullcalendar\bootstrap\index.global.js" />
     <Content Include="assets\plugins\fullcalendar\core\index.global.js" />
@@ -1167,6 +1178,7 @@
     <Content Include="assets\plugins\parsleyjs\dist\parsley.min.js" />
     <Content Include="assets\plugins\pdfmake\build\pdfmake.min.js" />
     <Content Include="assets\plugins\pdfmake\build\vfs_fonts.js" />
+    <Content Include="assets\plugins\photoswipe\dist\photoswipe-lightbox.esm.js" />
     <Content Include="assets\plugins\photoswipe\dist\photoswipe.css" />
     <Content Include="assets\plugins\select-picker\dist\picker.min.css" />
     <Content Include="assets\plugins\select-picker\dist\picker.min.js" />
@@ -1261,6 +1273,7 @@
     <Content Include="Views\Shared\Message.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="FilesUploads\" />
     <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
@@ -1280,8 +1293,8 @@
     <Content Include="DomainModal\DomainModel.edmx.diagram">
       <DependentUpon>DomainModel.edmx</DependentUpon>
     </Content>
-    <Content Include="FilesUploads\UploadQuyetDinhXuPhat.xls" />
     <Content Include="assets\Farmwork\Chosen\composer.json" />
+    <Content Include="assets\Farmwork\photo-gallery\css\styles.css.map" />
     <None Include="packages.config" />
     <Content Include="Views\TrungTamTinNhan\TrungTamTinNhan.cshtml" />
     <Content Include="Views\C_HoSoCanBo\C_HoSoCanBo.cshtml" />
@@ -1292,6 +1305,7 @@
     <Content Include="Views\C_KhoiPhucDuLieu\C_KhoiPhucDuLieu.cshtml" />
     <Content Include="Views\C_PhieuChi\C_PhieuChi.cshtml" />
     <Content Include="Views\C_DanhSachKhachHang\C_DanhSachKhachHang.cshtml" />
+    <Content Include="Views\C_ChamCong\C_ChamCong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

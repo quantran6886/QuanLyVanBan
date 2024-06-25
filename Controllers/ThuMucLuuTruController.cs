@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.IO.Compression;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace AppNetShop.Controllers
 {
@@ -16,8 +17,7 @@ namespace AppNetShop.Controllers
         {
             return View();
         }
-        XEntities _en = new XEntities();
-        bool is_check = true;
+        XEntities _query = new XEntities();
 
         [HttpPost]
         public JsonResult SaveFile()
@@ -26,6 +26,7 @@ namespace AppNetShop.Controllers
             bool status = false;
             string duong_dan_tai_lieu = "";
             string ten_file = "";
+            string extention = "";
             var user = GetUserSession.getInfo();
             try
             {
@@ -37,8 +38,9 @@ namespace AppNetShop.Controllers
 
                         var stream = fileContent.InputStream;
                         ten_file = Path.GetFileName(file);
+                        extention = Path.GetExtension(file);
                         var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file);
-                        var pathName = "~/FilesUploads/" + user.IdUser + "_" + String.Format("{0:yyyyMM}", DateTime.Now);
+                        var pathName = "~/FilesUploads/TaiLieuLuuTru_" + String.Format("{0:yyyyMM}", DateTime.Now);
                         duong_dan_tai_lieu = pathName.Substring(1) + "/" + fileName;
                         bool folderExists = Directory.Exists(Server.MapPath(pathName));
                         if (!folderExists)
@@ -52,14 +54,14 @@ namespace AppNetShop.Controllers
 
                         AspStoreDocument document = new AspStoreDocument();
                         document.IdDocument = 0;
-                        document.UrlDocument = duong_dan_tai_lieu;
-                        document.NameDocument = ten_file;
-                        document.DateNow = DateTime.Now;
-                        document.IdUser = user.IdUser;
-                        _en.AspStoreDocuments.Add(document);
+                        document.url_file = duong_dan_tai_lieu;
+                        document.ten_file = ten_file;
+                        document.duoi_file = extention;
+                        document.ngay_tao = DateTime.Now;
+                        _query.AspStoreDocuments.Add(document);
                     }
                 }
-                _en.SaveChanges();
+                _query.SaveChanges();
                 status = true;
             }
             catch (Exception ex)
@@ -74,25 +76,26 @@ namespace AppNetShop.Controllers
             });
         }
 
+        [HttpGet]
         public JsonResult LoadFile()
         {
             try
             {
                 var user = GetUserSession.getInfo();
 
-                var data = _en.AspStoreDocuments.AsEnumerable().Where(C => C.IdUser == user.IdUser).Select(c => new
+                var data = _query.AspStoreDocuments.AsEnumerable().Select(c => new
                 {
-                    c.UrlDocument,
                     c.IdDocument,
-                    c.NameDocument,
+                    c.url_file,
+                    c.ten_file,
+                    c.duoi_file,
+                    c.ghi_chu,
                 }).ToList();
 
-                var CountList = data != null ? data.Count() : 0;
-                
+
                 return Json(new
                 {
                     data,
-                    CountList,
                     status = true,
                 }, JsonRequestBehavior.AllowGet);
             }
@@ -105,97 +108,8 @@ namespace AppNetShop.Controllers
             }
         }
 
-        [HttpPost]
-        public JsonResult DowloadFile(string lstCheckedItem)
-        {
-            try
-            {
-                // Tạo tên file ZIP
-                string zipFileName = "images.zip";
-
-                // Đường dẫn đến file ZIP tạm thời
-                string tempZipFilePath = Path.Combine(Server.MapPath("~/Zips"), zipFileName);
-
-                if (System.IO.File.Exists(tempZipFilePath))
-                {
-                    System.IO.File.Delete(tempZipFilePath);
-                }
-                // Tạo một tệp ZIP mới
-                using (var archive = ZipFile.Open(tempZipFilePath, ZipArchiveMode.Create))
-                {
-                    if (lstCheckedItem.EndsWith(","))
-                    {
-                        var data = lstCheckedItem.Split(',').ToArray();
-                        foreach (var item in data)
-                        {
-                            if (item != "")
-                            {
-                                var _itemImage = _en.AspStoreDocuments.Where(c => c.IdDocument.ToString() == item.ToString()).FirstOrDefault();
-                                string absolutePath = Server.MapPath("~" + _itemImage.UrlDocument);
-
-                                // Thêm tệp ảnh vào tệp ZIP
-                                archive.CreateEntryFromFile(absolutePath, Path.GetFileName(absolutePath));
-                            }
-                        }
-                    }
-                }
-
-                // Trả về file ZIP để tải xuống
-                return Json(new
-                {
-                    status = true,
-                    tempZipFilePath = "Zips/" + zipFileName,
-                }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                // Xử lý lỗi nếu có
-                return Json(new
-                {
-                    status = false,
-                }, JsonRequestBehavior.AllowGet);
-            }
-        }
 
 
-        [HttpPost]
-        public JsonResult RemoveFile(string lstCheckedItem)
-        {
-            try
-            {
-                if (lstCheckedItem.EndsWith(","))
-                {
-                    var data = lstCheckedItem.Split(',').ToArray();
-                    foreach (var item in data)
-                    {
-                        if (item != "")
-                        {
-                            var _itemImage = _en.AspStoreDocuments.Where(c => c.IdDocument.ToString() == item.ToString()).FirstOrDefault();
-
-                            string fullPath = Request.MapPath(_itemImage.UrlDocument);
-                            if (System.IO.File.Exists(fullPath))
-                            {
-                                System.IO.File.Delete(fullPath);
-                            }
-                            _en.AspStoreDocuments.Remove(_itemImage);
-                        }
-                    }
-                    _en.SaveChanges();
-                }
-
-                return Json(new
-                {
-                    status = true,
-                }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(new
-                {
-                    status = false,
-                }, JsonRequestBehavior.AllowGet);
-            }
-        }
 
     }
 }
