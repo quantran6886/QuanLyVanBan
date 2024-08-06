@@ -495,87 +495,83 @@
     </script>
 }
 
-<h1 class="page-header my-2 mb-0">Hồ sơ cán bộ</h1>
-<div class="panel panel-inverse">
-    <div class="panel-heading bg-cyan-700 text-white ui-sortable-handle">
-        <div class="panel-heading-btn">
-            <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
-            <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
-            <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+<div class="col-sm-12">
+    <div class="panel panel-inverse">
+        <div class="panel-heading bg-gray-300 text-muted">
+            <h4 class="panel-title"><a href="#" class="text-decoration-none"><i class="fa fa-home"></i> Hồ sơ cán bộ</a></h4>
         </div>
-    </div>
-    <div class="panel-body pt-0">
-        <div id="content" class="app-content p-0 m-0 bg-component">
-            <div class="app-content-padding px-0 py-3">
-                <div class="d-lg-flex mb-2">
+        <div class="panel-body pt-0">
+            <div id="content" class="app-content p-0 m-0 bg-component">
+                <div class="app-content-padding px-0 py-3">
                     <div class="d-lg-flex mb-2">
-                        <button type="button" id="btn_new_form" class="btn btn-default btn-sm me-1 mb-1" data-bs-toggle="modal" data-bs-target="#modal-ho-so"><span class="fa fa-plus"></span> Thêm mới nhân sự</button>
-                    </div>
-                    <div class="d-lg-flex mb-2">
-                        <button type="button" id="btn_search" class="btn btn-default btn-sm me-1 mb-1"><span class="fa fa-search"></span> Tìm kiếm nâng cao</button>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="position-relative">
-                            <input type="text" class="form-control form-control-sm ps-35px rounded-3" placeholder="Tìm kiếm nhanh..." />
-                            <button class="btn position-absolute start-0 top-0 shadow-none p-3"><i class="fa fa-search fa-lg"></i></button>
+                        <div class="d-lg-flex mb-2">
+                            <button type="button" id="btn_new_form" class="btn btn-default btn-sm me-1 mb-1" data-bs-toggle="modal" data-bs-target="#modal-ho-so"><span class="fa fa-plus"></span> Thêm mới nhân sự</button>
                         </div>
-                    </div>
-                </div>
-                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                <div class="tab-overflow">
-                    <div class="row">
+                        <div class="d-lg-flex mb-2">
+                            <button type="button" id="btn_search" class="btn btn-default btn-sm me-1 mb-1"><span class="fa fa-search"></span> Tìm kiếm nâng cao</button>
+                        </div>
                         <div class="col-lg-4">
-                            <ul class="nav nav-tabs nav-tabs-deffault card  border-1 card-border-c-blue" style="width: 100%;">
-                                <li class="nav-item prev-button"><a href="javascript:;" data-click="prev-tab" class="nav-link text-primary"><i class="fa fa-arrow-left"></i></a></li>
-                                <li class="nav-item"><a href="#nav-tab-1" data-bs-toggle="tab" class="nav-link active"><font class="fa fa-list"></font> Chế độ hiển thị dạng lưới</a></li>
-                                <li class="nav-item"><a href="#nav-tab-2" data-bs-toggle="tab" class="nav-link"><font class="fa fa-table"></font> Chế độ hiển thị dạng bảng</a></li>
-                                <li class="nav-item next-button"><a href="javascript:;" data-click="next-tab" class="nav-link text-primary"><i class="fa fa-arrow-right"></i></a></li>
-                            </ul>
+                            <div class="position-relative">
+                                <input type="text" class="form-control form-control-sm ps-35px rounded-3" placeholder="Tìm kiếm nhanh..." />
+                                <button class="btn position-absolute start-0 top-0 shadow-none p-3"><i class="fa fa-search fa-lg"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                    <div class="tab-overflow">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <ul class="nav nav-tabs nav-tabs-deffault card  border-1 card-border-c-blue" style="width: 100%;">
+                                    <li class="nav-item prev-button"><a href="javascript:;" data-click="prev-tab" class="nav-link text-primary"><i class="fa fa-arrow-left"></i></a></li>
+                                    <li class="nav-item"><a href="#nav-tab-1" data-bs-toggle="tab" class="nav-link active"><font class="fa fa-list"></font> Chế độ hiển thị dạng lưới</a></li>
+                                    <li class="nav-item"><a href="#nav-tab-2" data-bs-toggle="tab" class="nav-link"><font class="fa fa-table"></font> Chế độ hiển thị dạng bảng</a></li>
+                                    <li class="nav-item next-button"><a href="javascript:;" data-click="next-tab" class="nav-link text-primary"><i class="fa fa-arrow-right"></i></a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="panel-body tab-content p-0">
-                <div class="tab-pane fade active show" id="nav-tab-1">
-                    <div class="row gx-1" id="listAcount">
+                <div class="panel-body tab-content p-0">
+                    <div class="tab-pane fade active show" id="nav-tab-1">
+                        <div class="row gx-1" id="listAcount">
 
-                    </div>
-                    <div id="image_avartar">
-                        <div class="fa-10x text-center">
-                            <img src="../assets/img/notfound.jpg" class="table-responsive" />
+                        </div>
+                        <div id="image_avartar">
+                            <div class="fa-10x text-center">
+                                <img src="../assets/img/notfound.jpg" class="table-responsive" />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="tab-pane fade" id="nav-tab-2">
-                    <div id="content" class="app-content p-0 m-0 bg-component">
-                        <table id="tblUsers"
-                               data-classes="table table-bordered align-middle text-nowrap table-hover"
-                               data-toggle="table"
-                               data-mobile-responsive="true"
-                               data-fixed-columns="true"
-                               data-show-export="true"
-                               data-search="false"
-                               data-pagination="true">
-                            <thead>
-                                <tr>
-                                    <th data-field="ho_ten">Tên cán bộ</th>
-                                    <th data-field="so_hieu_giay_to" data-formatter="fm_editData">Số hiệu giấy tờ</th>
-                                    <th data-field="ngay_sinh">Ngày sinh</th>
-                                    <th data-field="chuc_vu">Chức vụ</th>
-                                    <th data-field="cb_trang_thai_lam_viec">Trạng thái</th>
-                                    <th data-field="cb_ngan_hang">Ngân hàng</th>
-                                    <th data-field="so_tai_khoan">Số tài khoản</th>
-                                </tr>
-                            </thead>
-                        </table>
+                    <div class="tab-pane fade" id="nav-tab-2">
+                        <div id="content" class="app-content p-0 m-0 bg-component">
+                            <table id="tblUsers"
+                                   data-classes="table table-bordered align-middle text-nowrap table-hover"
+                                   data-toggle="table"
+                                   data-mobile-responsive="true"
+                                   data-fixed-columns="true"
+                                   data-show-export="true"
+                                   data-search="false"
+                                   data-pagination="true">
+                                <thead>
+                                    <tr>
+                                        <th data-field="ho_ten">Tên cán bộ</th>
+                                        <th data-field="so_hieu_giay_to" data-formatter="fm_editData">Số hiệu giấy tờ</th>
+                                        <th data-field="ngay_sinh">Ngày sinh</th>
+                                        <th data-field="chuc_vu">Chức vụ</th>
+                                        <th data-field="cb_trang_thai_lam_viec">Trạng thái</th>
+                                        <th data-field="cb_ngan_hang">Ngân hàng</th>
+                                        <th data-field="so_tai_khoan">Số tài khoản</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <!-- #modal-dialog -->
 <div class="modal fade" id="modal-ho-so">
     <div class="modal-dialog" style="max-width:70%">

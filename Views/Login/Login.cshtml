@@ -17,16 +17,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
           integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://www.iconpacks.net/icons/2/free-reddit-logo-icon-2436-thumb.png" rel="icon" />
-    <style>
+    <style type="text/css">
         .show-btn-pass {
             position: absolute;
             top: 19px;
             right: 20px;
         }
-        #btn_hiden_pass{
-            cursor:pointer
+
+        #btn_hiden_pass {
+            cursor: pointer
         }
     </style>
+    <link href="~/assets/css/border.css" rel="stylesheet" />
 </head>
 <body class="pace-top">
     <div id="app" class="app">
@@ -35,9 +37,9 @@
                 <div class="login-header">
                     <div class="brand">
                         <div class="d-flex align-items-center">
-                            <span class="logo"></span> <b class="me-1">P/M</b>Quản Lý Thu Chi
+                            <!--<b class="me-1">P/M</b>-->@*Quản Lý Thu Chi*@
                         </div>
-                        <small>Phần mềm mang lại tiện ích,tính toán ,...</small>
+                        @*<small>Phần mềm mang lại tiện ích,tính toán ,...</small>*@
                     </div>
                     <div class="icon">
                         <i class="fa fa-lock"></i>
@@ -48,17 +50,21 @@
                 <div class="login-body">
 
                     <div class="login-content fs-13px">
-                        @using (Html.BeginForm("Login", "Login", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "validate-form", role = "form" }))
+                        <img src="~/assets/img/baotang.jpg" style=" width: 100px; display: block; margin: 0 auto;" />
+                        <div class="d-flex align-items-center">
+                            <h5 style="margin: 0 auto; color: #150bb1 ">PHẦN MỀM QUẢN LÝ HIỆN VẬT</h5>
+                        </div>
+                        @using (Html.BeginForm("Login", "Login", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "validate-form mt-2", role = "form" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="form-floating mb-20px " data-validate="Bạn chưa nhập tài khoản">
-                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control fs-13px h-45px", autofocus = "autofocus", placeholder = "Nhập tài khoản" })
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control gradient-border fs-13px h-45px", autofocus = "autofocus", placeholder = "Nhập tài khoản" })
                                 <label for="emailAddress" class="d-flex align-items-center">Tài khoản</label>
                                 @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "focus-input100" })
                             </div>
                             <div class="form-floating mb-20px" data-validate="Bạn chưa nhập mật khẩu">
-                                @Html.PasswordFor(m => m.Password, new { @class = "form-control fs-13px h-45px",@id="pass", autofocus = "autofocus", placeholder = "Nhập mật khẩu" })
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control gradient-border fs-13px h-45px", @id = "pass", autofocus = "autofocus", placeholder = "Nhập mật khẩu" })
                                 <label for="password" class="d-flex align-items-center">Mật khẩu</label>
                                 <span class="show-btn-pass"><i class="fas fa-eye" id="btn_hiden_pass"></i></span>
                                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "focus-input100" })
@@ -68,13 +74,17 @@
                                 <label class="custom-control-label" for="RememberMe">Ghi nhớ.</label>
                             </div>
                             <div class="form-check mb-20px">
-                                <input class="form-check-input" type="checkbox" value id="rememberMe" />
+                                <input class="form-check-input" type="checkbox" value id="rememberMe" style=" border: 1px solid red;" />
                                 <label class="form-check-label" for="rememberMe">
-                                    Remember Me
+                                    Ghi nhớ
                                 </label>
                             </div>
                             <div class="login-buttons">
-                                <button type="submit" class="btn btn-theme h-45px d-block w-100 btn-lg">Đăng nhập</button>
+                                <button type="submit" class="btn btn-danger h-45px d-block w-100 btn-lg">Đăng nhập</button>
+                            </div>
+                            <hr class="bg-gray-600 opacity-2">
+                            <div class="text-gray-600 text-center  mb-0">
+                                © Được xây dựng bới lập trình viên kỹ thuật cao
                             </div>
                         }
                     </div>

@@ -2230,8 +2230,8 @@ progress {
 }
 
     .table > :not(caption) > * > * {
-        padding: .5rem .5rem;
-        color: var(--bs-table-color-state,var(--bs-table-color-type,var(--bs-table-color)));
+        padding: .3rem .6rem;
+        color: var(--bs-table-color-state, var(--bs-table-color-type, #606062));
         background-color: var(--bs-table-bg);
         border-bottom-width: 1px;
         box-shadow: inset 0 0 0 9999px var(--bs-table-bg-state,var(--bs-table-bg-type,var(--bs-table-accent-bg)))
@@ -6230,13 +6230,13 @@ textarea.form-control-lg {
 .page-link {
     position: relative;
     display: block;
-    padding: var(--bs-pagination-padding-y) var(--bs-pagination-padding-x);
+    padding: 2px 10px;
+    margin-top: 8px;
     font-size: var(--bs-pagination-font-size);
     color: var(--bs-pagination-color);
     text-decoration: none;
     background-color: var(--bs-pagination-bg);
-    border: var(--bs-pagination-border-width) solid var(--bs-pagination-border-color);
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
 @media (prefers-reduced-motion:reduce) {
@@ -18811,7 +18811,6 @@ a:focus {
     .app-header .navbar-nav .navbar-item .navbar-link {
         display: block;
         text-decoration: none;
-        line-height: 20px;
         padding: 15px;
         border: none;
         color: var(--bs-app-header-color)
@@ -24932,12 +24931,18 @@ a:focus {
 }
 
 .login.login-v1 {
-    min-height: 100vh;
+    /*   min-height: 100vh;
     width: 100%;
     background-image: var(--bs-app-login-bg-cover);
     background-size: cover;
     display: flex;
-    align-items: center
+    align-items: center*/
+    min-height: 100vh;
+    width: 100%;
+    background-image: url(https://baotangtuoitre.vn/wp-content/uploads/2023/05/B%E1%BA%A2O-T%C3%80NG-S%E1%BB%90-TU%E1%BB%94I-TR%E1%BA%BA-VI%E1%BB%86T-NAM-1-scaled.jpg);
+    background-size: cover;
+    display: flex;
+    align-items: center;
 }
 
 @media (max-width:767.98px) {
@@ -25042,8 +25047,16 @@ a:focus {
 }
 
 .login.login-v1 .login-container .login-body {
-    padding: 30px;
-    background: #2d353c
+    /*   padding: 30px;
+    box-shadow: 25px 18px 23px 19px gray;
+    background: #747a7f00;*/
+    padding: 22px;
+    height: 500px;
+    box-shadow: 25px 18px 23px 19px gray;
+    background: #747a7f00;
+    width: 370px;
+    margin: 0 auto;
+    background: white;
 }
 
 @media (max-width:767.98px) {
@@ -25062,8 +25075,9 @@ a:focus {
 
     .login.login-v1 .login-container .login-body .login-content .form-control {
         border-color: transparent;
-        background: #495057;
-        color: #fff
+        background: #ffffff;
+        color: #ab2121;
+        border: 1px solid indianred;
     }
 
         .login.login-v1 .login-container .login-body .login-content .form-control::-moz-placeholder {
@@ -25096,8 +25110,8 @@ a:focus {
             }
 
     .login.login-v1 .login-container .login-body .login-content .form-check-input {
-        background-color: #495057;
-        border-color: transparent
+        background-color: #fbfbfb;
+        border-color: transparent;
     }
 
         .login.login-v1 .login-container .login-body .login-content .form-check-input:checked {

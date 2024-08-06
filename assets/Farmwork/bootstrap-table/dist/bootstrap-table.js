@@ -4954,7 +4954,7 @@
     5: {
       classes: {
         buttonsPrefix: 'btn',
-        buttons: 'secondary',
+        buttons: 'purple p-1',
         buttonsGroup: 'btn-group',
         buttonsDropdown: 'btn-group',
         pull: 'float',
@@ -5721,7 +5721,7 @@
           this.$el.find('tfoot').html('<tr></tr>');
         }
         if (!this.options.showFooter || this.options.cardView) {
-          this.$tableFooter.hide();
+          //this.$tableFooter.hide();
         } else {
           this.$tableFooter.show();
         }
@@ -6279,7 +6279,7 @@
           html = [];
           var showSearchButton = Utils.sprintf(this.constants.html.searchButton, this.constants.buttonsClass, opts.formatSearch(), opts.showButtonIcons ? Utils.sprintf(this.constants.html.icon, opts.iconsPrefix, opts.icons.search) : '', opts.showButtonText ? opts.formatSearch() : '');
           var showSearchClearButton = Utils.sprintf(this.constants.html.searchClearButton, this.constants.buttonsClass, opts.formatClearSearch(), opts.showButtonIcons ? Utils.sprintf(this.constants.html.icon, opts.iconsPrefix, opts.icons.clearSearch) : '', opts.showButtonText ? opts.formatClearSearch() : '');
-          var searchInputHtml = "<input class=\"".concat(this.constants.classes.input, "\n        ").concat(Utils.sprintf(' %s%s', this.constants.classes.inputPrefix, opts.iconSize), "\n        search-input\" type=\"search\" aria-label=\"").concat(opts.formatSearch(), "\" placeholder=\"").concat(opts.formatSearch(), "\" autocomplete=\"off\">");
+          var searchInputHtml = "<input class=\"".concat(this.constants.classes.input, "\n        ").concat(Utils.sprintf(' %s%s', this.constants.classes.inputPrefix, opts.iconSize), "\n        search-input form-control-sm  \" type=\"search\" aria-label=\"").concat(opts.formatSearch(), "\" placeholder=\"").concat(opts.formatSearch(), "\" autocomplete=\"off\">");
           var searchInputFinalHtml = searchInputHtml;
           if (opts.showSearchButton || opts.showSearchClearButton) {
             var _buttonsHtml = (opts.showSearchButton ? showSearchButton : '') + (opts.showSearchClearButton ? showSearchClearButton : '');
@@ -8272,7 +8272,7 @@
           // remove the element css
           this.$el.css('margin-top', '0');
           this.$tableContainer.css('padding-bottom', '0');
-          this.$tableFooter.hide();
+          //this.$tableFooter.hide();
         } else {
           // Assign the correct sortable arrow
           this.getCaret();

@@ -83,12 +83,27 @@
   box-sizing: border-box;
 }
 
-.bootstrap-table .fixed-table-container .table thead th,
-.bootstrap-table .fixed-table-container .table tfoot th {
-  vertical-align: bottom;
-  padding: 0;
-  margin: 0;
-}
+    .bootstrap-table .fixed-table-container .table thead th {
+        vertical-align: bottom;
+        padding: 0;
+        padding: -8px;
+        margin: 0;
+        font-size: small;
+        color: #262424;
+        background: #f7f7f7;
+        font-weight: 500;
+    }
+
+    .bootstrap-table .fixed-table-container .table tfoot th {
+        vertical-align: bottom;
+        padding: 0;
+        padding: 5px;
+        margin: 0;
+        font-size: small;
+        color: #262424;
+        background: #ffffff;
+        font-weight: 500;
+    }
 
 .bootstrap-table .fixed-table-container .table thead th:focus,
 .bootstrap-table .fixed-table-container .table tfoot th:focus {
@@ -102,11 +117,11 @@
 
 .bootstrap-table .fixed-table-container .table thead th .th-inner,
 .bootstrap-table .fixed-table-container .table tfoot th .th-inner {
-  padding: 0.75rem;
-  vertical-align: bottom;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    padding: 0.40rem;
+    vertical-align: bottom;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .bootstrap-table .fixed-table-container .table thead th .sortable,
@@ -293,8 +308,9 @@
 
 .bootstrap-table .fixed-table-pagination > .pagination-detail,
 .bootstrap-table .fixed-table-pagination > .pagination {
-  margin-top: 10px;
-  margin-bottom: 10px;
+    /*  margin-top: 10px;
+  margin-bottom: 10px;*/
+    margin: 0px;
 }
 
 .bootstrap-table .fixed-table-pagination > .pagination-detail .pagination-info {

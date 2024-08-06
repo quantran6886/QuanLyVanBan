@@ -443,7 +443,9 @@
     <Compile Include="Controllers\C_DanhSachTaiKhoanController.cs" />
     <Compile Include="Controllers\C_HoSoCanBoController.cs" />
     <Compile Include="Controllers\C_KhoiPhucDuLieuController.cs" />
+    <Compile Include="Controllers\C_NhapHienVatController.cs" />
     <Compile Include="Controllers\C_PhieuChiController.cs" />
+    <Compile Include="Controllers\C_PhieuGiaoNhanController.cs" />
     <Compile Include="Controllers\C_PhieuThuController.cs" />
     <Compile Include="Controllers\DanhMucHeThongController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
@@ -535,6 +537,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\border.css" />
+    <Content Include="assets\css\Support.css" />
+    <Content Include="assets\img\Avatar2.jpg" />
     <Content Include="assets\cdn-cgi\scripts\5c5dd728\cloudflare-static\email-decode.min.js" />
     <Content Include="assets\cdn-cgi\scripts\7d0fa10a\cloudflare-static\rocket-loader.min.js" />
     <Content Include="assets\css\default\app.min.css" />
@@ -777,6 +782,8 @@
     <Content Include="assets\img\Avatar.jpg" />
     <Content Include="assets\img\bank.jpg" />
     <Content Include="assets\img\bank.png" />
+    <Content Include="assets\img\baotang.jpg" />
+    <Content Include="assets\img\bgChat.jpg" />
     <Content Include="assets\img\cover\cover-scrum-board.png" />
     <Content Include="assets\img\file.png" />
     <Content Include="assets\img\flag\cn.jpg" />
@@ -934,6 +941,7 @@
     <Content Include="assets\img\product\product-preview-iphone.png" />
     <Content Include="assets\img\product\product-preview-sm.jpg" />
     <Content Include="assets\img\product\product-preview.jpg" />
+    <Content Include="assets\img\Quoc_Huy_Viet_Nam_Chuan.png" />
     <Content Include="assets\img\theme\apple.jpg" />
     <Content Include="assets\img\theme\blog.jpg" />
     <Content Include="assets\img\theme\corporate.jpg" />
@@ -1306,6 +1314,8 @@
     <Content Include="Views\C_PhieuChi\C_PhieuChi.cshtml" />
     <Content Include="Views\C_DanhSachKhachHang\C_DanhSachKhachHang.cshtml" />
     <Content Include="Views\C_ChamCong\C_ChamCong.cshtml" />
+    <Content Include="Views\C_NhapHienVat\C_NhapHienVat.cshtml" />
+    <Content Include="Views\C_PhieuGiaoNhan\C_PhieuGiaoNhan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

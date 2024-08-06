@@ -345,7 +345,7 @@ namespace AppNetShop.Controllers
             var ngay_dau_thang = C_GetDate.FirstDayMonth(DateNow);
             var ngay_cuoi_thang = C_GetDate.LastDayMonth(DateNow);
 
-            var data = _query.AspChamCongs.Where(c => c.IdCanBo == IdCanBo && (c.ngay_lam >= ngay_dau_thang) && (c.ngay_lam <= ngay_cuoi_thang)).ToList();
+            var data = _query.AspChamCongs.Where(c => c.IdCanBo == IdCanBo && (c.ngay_lam >= ngay_dau_thang) && (c.ngay_lam <= ngay_cuoi_thang)).AsEnumerable().ToList();
             if (data != null)
             {
                 foreach (var item in data)

@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "C_PhieuGiaoNhan";
+}
+
+<div class="col-sm-12">
+    <div class="panel panel-inverse">
+        <div class="panel-heading bg-gray-300 text-muted">
+            <h4 class="panel-title"><a href="#" class="text-decoration-none"><i class="fa fa-pen-to-square"></i> Biên bản bàn giao</a></h4>
+        </div>
+        <div class="panel-body p-0">
+            <div id="content" class="app-content p-1 m-0 bg-component">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="col-sm-12">
+                            <h6 class="text-primary">I. Danh sách phiếu nhập</h6>
+                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                        </div>
+                        <table id="tblPhieuGiaoNhan"
+                               data-classes="table table-bordered align-middle text-nowrap table-hover"
+                               data-toggle="table"
+                               data-mobile-responsive="true"
+                               data-fixed-columns="true"
+                               data-show-export="true"
+                               data-search="true"
+                               data-pagination="true">
+                            <thead>
+                                <tr>
+                                    <th data-field="sap_xep" data-width="5">TT</th>
+                                    <th data-field="ten_goi">Thời gian giao</th>
+                                    <th data-field="ghi_chu">Thời gian nhận</th>
+                                    <th data-field="is_lock" data-width="5" class="text-center">Tên người giao</th>
+                                    <th data-width="5" class="text-center">
+                                        Tên người nhận
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="col-sm-8">
+              
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
