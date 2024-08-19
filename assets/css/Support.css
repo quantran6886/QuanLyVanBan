@@ -34,7 +34,7 @@
     align-items: center;
     margin: 0;
     border-radius: 50%;
-    background: #865dab;
+    background: #1695ff;
     box-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%);
     position: absolute;
     right: 10px;
@@ -247,7 +247,7 @@ i.icon-cps-face {
     animation-iteration-count: infinite;
     -webkit-animation-iteration-count: infinite;
     cursor: pointer;
-    box-shadow: 0 0 0 0 #c31d1d;
+    box-shadow: 0 0 0 0 #19ddde;
 }
 
 @-webkit-keyframes tada {

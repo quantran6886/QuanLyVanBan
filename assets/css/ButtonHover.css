@@ -1,0 +1,346 @@
+﻿/**====== Outline-Buttons css end ======**/
+/**====== gradient css Start ======**/
+.btn-grd-danger,
+.btn-grd-disabled,
+.btn-grd-info,
+.btn-grd-inverse,
+.btn-grd-primary,
+.btn-grd-success,
+.btn-grd-warning,
+.btn-grd-warning {
+    background-size: 200% auto;
+    -webkit-transition: 0.5s ease-in-out;
+    transition: 0.5s ease-in-out;
+    color: #fff;
+}
+
+    .btn-grd-danger:hover,
+    .btn-grd-disabled:hover,
+    .btn-grd-info:hover,
+    .btn-grd-inverse:hover,
+    .btn-grd-primary:hover,
+    .btn-grd-success:hover,
+    .btn-grd-warning:hover,
+    .btn-grd-warning:hover {
+        background-position: right center;
+        color:white;
+    }
+
+    .btn-grd-danger.hor-grd,
+    .btn-grd-disabled.hor-grd,
+    .btn-grd-info.hor-grd,
+    .btn-grd-inverse.hor-grd,
+    .btn-grd-primary.hor-grd,
+    .btn-grd-success.hor-grd,
+    .btn-grd-warning.hor-grd,
+    .btn-grd-warning.hor-grd {
+        background-size: auto 200%;
+    }
+
+        .btn-grd-danger.hor-grd:hover,
+        .btn-grd-disabled.hor-grd:hover,
+        .btn-grd-info.hor-grd:hover,
+        .btn-grd-inverse.hor-grd:hover,
+        .btn-grd-primary.hor-grd:hover,
+        .btn-grd-success.hor-grd:hover,
+        .btn-grd-warning.hor-grd:hover,
+        .btn-grd-warning.hor-grd:hover {
+            background-position: bottom center;
+        }
+
+.btn-grd-primary {
+    background-image: -webkit-gradient(linear, left top, right top, from(#77aaff), color-stop(51%, #0764ff), to(#77aaff));
+    background-image: linear-gradient(to right, #77aaff 0%, #0764ff 51%, #77aaff 100%);
+}
+
+    .btn-grd-primary.hor-grd {
+        background-image: -webkit-gradient(linear, left bottom, left top, from(#77aaff), color-stop(51%, #0764ff), to(#77aaff));
+        background-image: linear-gradient(to top, #77aaff 0%, #0764ff 51%, #77aaff 100%);
+    }
+
+.btn-grd-warning {
+    background-image: -webkit-gradient(linear, left top, right top, from(#ffe733), color-stop(51%, #c2ab00), to(#ffe733));
+    background-image: linear-gradient(to right, #ffe733 0%, #c2ab00 51%, #ffe733 100%);
+}
+
+    .btn-grd-warning.hor-grd {
+        background-image: -webkit-gradient(linear, left bottom, left top, from(#ffe733), color-stop(51%, #c2ab00), to(#ffe733));
+        background-image: linear-gradient(to top, #ffe733 0%, #c2ab00 51%, #ffe733 100%);
+    }
+
+.btn-grd-danger {
+    background-image: -webkit-gradient(linear, left top, right top, from(#ff8585), color-stop(51%, #ff1515), to(#ff8585));
+    background-image: linear-gradient(to right, #ff8585 0%, #ff1515 51%, #ff8585 100%);
+}
+
+    .btn-grd-danger.hor-grd {
+        background-image: -webkit-gradient(linear, left bottom, left top, from(#ff8585), color-stop(51%, #ff1515), to(#ff8585));
+        background-image: linear-gradient(to top, #ff8585 0%, #ff1515 51%, #ff8585 100%);
+    }
+
+.btn-grd-success {
+    background-image: -webkit-gradient(linear, left top, right top, from(#1aeb72), color-stop(51%, #0c8940), to(#1aeb72));
+    background-image: linear-gradient(to right, #1aeb72 0%, #0c8940 51%, #1aeb72 100%);
+}
+
+    .btn-grd-success.hor-grd {
+        background-image: -webkit-gradient(linear, left bottom, left top, from(#1aeb72), color-stop(51%, #0c8940), to(#1aeb72));
+        background-image: linear-gradient(to top, #1aeb72 0%, #0c8940 51%, #1aeb72 100%);
+    }
+
+.btn-grd-inverse {
+    background-image: -webkit-gradient(linear, left top, right top, from(#4c626d), color-stop(51%, #1e272b), to(#4c626d));
+    background-image: linear-gradient(to right, #4c626d 0%, #1e272b 51%, #4c626d 100%);
+}
+
+    .btn-grd-inverse.hor-grd {
+        background-image: -webkit-gradient(linear, left bottom, left top, from(#4c626d), color-stop(51%, #1e272b), to(#4c626d));
+        background-image: linear-gradient(to top, #4c626d 0%, #1e272b 51%, #4c626d 100%);
+    }
+
+.btn-grd-info {
+    background-image: -webkit-gradient(linear, left top, right top, from(#08e3ff), color-stop(51%, #008697), to(#08e3ff));
+    background-image: linear-gradient(to right, #08e3ff 0%, #008697 51%, #08e3ff 100%);
+}
+
+    .btn-grd-info.hor-grd {
+        background-image: -webkit-gradient(linear, left bottom, left top, from(#08e3ff), color-stop(51%, #008697), to(#08e3ff));
+        background-image: linear-gradient(to top, #08e3ff 0%, #008697 51%, #08e3ff 100%);
+    }
+
+.btn-grd-disabled {
+    background-image: -webkit-gradient(linear, left top, right top, from(#77aaff), color-stop(51%, #0764ff), to(#77aaff));
+    background-image: linear-gradient(to right, #77aaff 0%, #0764ff 51%, #77aaff 100%);
+}
+
+    .btn-grd-disabled.hor-grd {
+        background-image: -webkit-gradient(linear, left bottom, left top, from(#77aaff), color-stop(51%, #0764ff), to(#77aaff));
+        background-image: linear-gradient(to top, #77aaff 0%, #0764ff 51%, #77aaff 100%);
+    }
+
+/**====== gradient-Buttons css end ======**/
+/**====== matrialized-Buttons css Start ======**/
+.btn.btn-mat {
+    position: relative;
+    border-radius: 0;
+    border: none;
+}
+
+    .btn.btn-mat:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        right: 50%;
+        height: 3px;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn.btn-mat:hover {
+        border: none;
+    }
+
+        .btn.btn-mat:hover:before {
+            left: 0;
+            right: 0;
+        }
+
+.btn-primary.btn-mat, .sweet-alert button.btn-mat.confirm, .wizard > .actions a.btn-mat {
+    background-color: #448aff;
+}
+
+    .btn-primary.btn-mat:before, .sweet-alert button.btn-mat.confirm:before, .wizard > .actions a.btn-mat:before {
+        background-color: #0764ff;
+    }
+
+.btn-warning.btn-mat {
+    background-color: #ffe100;
+}
+
+    .btn-warning.btn-mat:before {
+        background-color: #c2ab00;
+    }
+
+.btn-danger.btn-mat {
+    background-color: #ff5252;
+}
+
+    .btn-danger.btn-mat:before {
+        background-color: #ff1515;
+    }
+
+.btn-success.btn-mat {
+    background-color: #11c15b;
+}
+
+    .btn-success.btn-mat:before {
+        background-color: #0c8940;
+    }
+
+.btn-inverse.btn-mat {
+    background-color: #37474f;
+}
+
+    .btn-inverse.btn-mat:before {
+        background-color: #1e272b;
+    }
+
+.btn-info.btn-mat {
+    background-color: #00bcd4;
+}
+
+    .btn-info.btn-mat:before {
+        background-color: #008697;
+    }
+
+.btn-outline-disabled {
+    background-color: #448aff;
+}
+
+    .btn-outline-disabled:before {
+        background-color: #0764ff;
+    }
+
+/**====== matrialized css end ======**/
+/**====== Button-Size css start ======**/
+.btn-xlg {
+    padding: 14px 20px;
+    font-size: 21px;
+    line-height: 40px;
+}
+
+.btn-lg {
+    padding: 12px 18px;
+    font-size: 18px;
+    line-height: 32px;
+}
+
+.btn-md {
+    padding: 10px 16px;
+    font-size: 15px;
+    line-height: 23px;
+}
+
+.btn-sm {
+    padding: 8px 14px;
+    line-height: 16px;
+    font-size: 11px;
+}
+
+.btn-mini {
+    padding: 5px 10px;
+    line-height: 14px;
+    font-size: 10px;
+}
+
+/**====== Button-Size css end ======**/
+/**====== Badges-button css start ======**/
+.btn-primary .badge, .sweet-alert button.confirm .badge, .wizard > .actions a .badge {
+    color: #448aff;
+    background-color: #fff;
+}
+
+.btn-success .badge {
+    color: #11c15b;
+    background-color: #fff;
+}
+
+.btn-info .badge {
+    color: #00bcd4;
+    background-color: #fff;
+}
+
+.btn-warning .badge {
+    color: #ffe100;
+    background-color: #fff;
+}
+
+.btn-danger .badge {
+    color: #ff5252;
+    background-color: #fff;
+}
+
+/**====== Badges-button css end ======**/
+/**====== Social-Buttons css start ======**/
+.btn-dribbble,
+.btn-dropbox,
+.btn-facebook,
+.btn-flickr,
+.btn-github,
+.btn-google-plus,
+.btn-instagram,
+.btn-linkedin,
+.btn-pinterest,
+.btn-skype,
+.btn-tumblr,
+.btn-twitter,
+.btn-youtube {
+    color: #fff;
+}
+
+    .btn-dribbble:focus, .btn-dribbble:hover,
+    .btn-dropbox:focus,
+    .btn-dropbox:hover,
+    .btn-facebook:focus,
+    .btn-facebook:hover,
+    .btn-flickr:focus,
+    .btn-flickr:hover,
+    .btn-github:focus,
+    .btn-github:hover,
+    .btn-google-plus:focus,
+    .btn-google-plus:hover,
+    .btn-instagram:focus,
+    .btn-instagram:hover,
+    .btn-linkedin:focus,
+    .btn-linkedin:hover,
+    .btn-pinterest:focus,
+    .btn-pinterest:hover,
+    .btn-skype:focus,
+    .btn-skype:hover,
+    .btn-tumblr:focus,
+    .btn-tumblr:hover,
+    .btn-twitter:focus,
+    .btn-twitter:hover,
+    .btn-youtube:focus,
+    .btn-youtube:hover {
+        color: #fff;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+
+.btn-facebook {
+    background-color: #3b5998;
+}
+
+.btn-twitter {
+    background-color: #00ACED;
+}
+
+.btn-linkedin {
+    background-color: #007BB6;
+}
+
+.btn-dribbble {
+    background-color: #EA4C89;
+}
+
+.btn-google-plus {
+    background-color: #DD4B39;
+}
+
+.btn-instagram {
+    background-color: #517FA4;
+}
+
+.btn-pinterest {
+    background-color: #CB2027;
+}
+
+.btn-dropbox {
+    background-color: #32506D;
+}
+
+.btn-tumblr {
+    background-color: #00ACED;
+}

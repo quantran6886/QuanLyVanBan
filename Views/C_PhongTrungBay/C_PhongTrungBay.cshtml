@@ -1,0 +1,336 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Phòng trưng bày hiện vật </title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content name="description" />
+    <meta content name="author" />
+    <link href="../assets/img/baotang.jpg" rel="icon" />
+    <link href="../assets/css/vendor.min.css" rel="stylesheet" />
+    <link href="../assets/css/default/app.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="../assets/css/UloadNhanSu.css" rel="stylesheet" />
+    <link href="../assets/css/ButtonHover.css" rel="stylesheet" />
+    <link href="../assets/Farmwork/bootstrap-sweetalert/sweetalert.css" rel="stylesheet" />
+</head>
+<body class="pace-top bg-white">
+    <div id="app" class="app app-content-full-height app-without-sidebar app-without-header">
+        <div id="content" class="app-content p-0">
+            <div class="pos pos-with-menu pos-with-sidebar" id="pos">
+                <div class="form-group">
+                    <div class="pos-menu p-0" style="border: 1px solid #49b6d6;">
+                        <div class="logo">
+                            <a href="index_v3.html">
+                                <div class="logo-img"><i class="fa fa-bank"></i></div>
+                                <div class=""><h6>Phòng trưng bày</h6></div>
+                            </a>
+                        </div>
+                        <div class="nav-container">
+                            <div data-scrollbar="true" data-height="100%" data-skip-mobile="true">
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link active bg-danger-500" onclick="ShowLogout()" href="#" data-filter="all">
+                                            <div class="nav-icon"><i class="fa fa-fw fa-sign-out"></i></div>
+                                            <div class="nav-text">Trang chủ</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link border-1 border-green" href="#" data-filter="meat">
+                                            <div class="nav-icon"><i class="fa fa-fw fa-bank"></i></div>
+                                            <div class="nav-text">Phòng số 1</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link border-1 border-green" href="#" data-filter="meat">
+                                            <div class="nav-icon"><i class="fa fa-fw fa-bank"></i></div>
+                                            <div class="nav-text">Phòng số 2</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link border-1 border-green" href="#" data-filter="meat">
+                                            <div class="nav-icon"><i class="fa fa-fw fa-bank"></i></div>
+                                            <div class="nav-text">Phòng số 3</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pos-content">
+                    <div class="pos-content-container h-100">
+                        <div class="col-sm-12 mb-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Tra cứu theo tên,số đăng ký,....">
+                                <button type="button" class="btn btn-grd-success">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-row">
+                            <div class="product-container" data-type="meat">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-1.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Grill Chicken Chop&reg;</div>
+                                        <div class="desc">chicken, egg, mushroom, salad</div>
+                                        <div class="price">$10.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="meat">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-2.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Grill Pork Chop&reg;</div>
+                                        <div class="desc">pork, egg, mushroom, salad</div>
+                                        <div class="price">$12.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="meat">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-3.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Capellini Tomato Sauce&reg;</div>
+                                        <div class="desc">spaghetti, tomato, mushroom </div>
+                                        <div class="price">$11.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="meat">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-4.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Vegan Salad Bowl&reg;</div>
+                                        <div class="desc">apple, carrot, tomato </div>
+                                        <div class="price">$6.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="pizza">
+                                <div class="product not-available">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-5.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Hawaiian Pizza&reg;</div>
+                                        <div class="desc">pizza, crab meat, pineapple </div>
+                                        <div class="price">$20.99</div>
+                                    </div>
+                                    <div class="not-available-text">
+                                        <div>Not Available</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-container" data-type="burger">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-17.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Perfect Burger</div>
+                                        <div class="desc">Dill pickle, cheddar cheese, tomato, red onion, ground chuck beef</div>
+                                        <div class="price">$8.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="drinks">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-6.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Avocado Shake</div>
+                                        <div class="desc">avocado, milk, vanilla</div>
+                                        <div class="price">$3.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="drinks">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-7.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Coffee Latte</div>
+                                        <div class="desc">espresso, milk</div>
+                                        <div class="price">$2.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="drinks">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-8.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Vita C Detox Juice</div>
+                                        <div class="desc">apricot, apple, carrot and ginger juice</div>
+                                        <div class="price">$2.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="snacks">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-9.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Pancake</div>
+                                        <div class="desc">Non dairy, egg, baking soda, sugar, all purpose flour</div>
+                                        <div class="price">$5.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="snacks">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-10.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Mushroom soup</div>
+                                        <div class="desc">Evaporated milk, marsala wine, beef cubes, chicken broth, butter</div>
+                                        <div class="price">$3.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="snacks">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-11.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Baked chicken wing</div>
+                                        <div class="desc">Chicken wings, a1 steak sauce, honey, cayenne pepper</div>
+                                        <div class="price">$6.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="meat">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-12.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Veggie Spaghetti</div>
+                                        <div class="desc">Yellow squash, pasta, roasted red peppers, zucchini</div>
+                                        <div class="price">$12.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="desserts">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-13.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Vanilla Ice Cream</div>
+                                        <div class="desc">Heavy whipping cream, white sugar, vanilla extract</div>
+                                        <div class="price">$3.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="desserts">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-15.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Perfect Yeast Doughnuts</div>
+                                        <div class="desc">Chocolate hazelnut spread, bread flour, doughnuts, quick rise yeast, butter</div>
+                                        <div class="price">$2.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="desserts">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-14.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Macarons</div>
+                                        <div class="desc">Almond flour, egg whites, heavy cream, food coloring, powdered sugar</div>
+                                        <div class="price">$4.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="product-container" data-type="desserts">
+                                <a href="#" class="product" data-bs-toggle="modal" data-bs-target="#modalPos">
+                                    <div class="img" style="background-image: url(../assets/img/pos/product-16.jpg)"></div>
+                                    <div class="text">
+                                        <div class="title">Perfect Vanilla Cupcake</div>
+                                        <div class="desc">Baking powder, all purpose flour, plain kefir, vanilla extract</div>
+                                        <div class="price">$2.99</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="pos-sidebar">
+                    <div class=" d-flex flex-column p-0">
+                        <div class="pos-sidebar-header bg-blue-500">
+                            <div class="back-btn">
+                                <button type="button" data-dismiss-class="pos-sidebar-mobile-toggled" data-target="#pos" class="btn border-0">
+                                    <i class="fa fa-chevron-left"></i>
+                                </button>
+                            </div>
+                            <div class="icon"><i class="fa fa-list"></i></div>
+                            <div class="title">Tạo phòng</div>
+                        </div>
+                        <div class="pos-sidebar-body tab-content" style=" border: 1px solid #49b6d6;" data-scrollbar="true" data-height="100%">
+                            <div class="form-group p-2">
+                                <div class="col-sm-12 bg-cyan-500 p-1">
+                                    <div class="avatar-wrapper mt-3">
+                                        <img class="profile-pic" id="image_HoSo" src="../assets/img/Avatar2.jpg" />
+                                        <div class="upload-button" id="btnUploadAvartar">
+                                            <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                                        </div>
+                                        <input type="file" class="file-upload" id="duong_dan_tai_lieu" accept="image/png, image/jpeg,image/jpg" />
+                                        <input type="hidden" id="is_thay_doi" class="form-control">
+                                        <input type="hidden" id="IdCanBo" class="form-control">
+                                    </div>
+                                    <div class="col-md-12 mt-2" style=" display: ruby-text;">
+                                        <button type="button" id="btn_remove_file" class="btn btn-danger btn-sm waves-effect waves-light"><i class="fa fa-trash"></i> Xóa đường dẫn</button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label class="form-label mt-1">Tên phòng trưng bày:<font class="text-danger">*</font></label>
+                                    <input class="form-control" placeholder="Tên gọi ..." id="" type="text" />
+                                </div>
+                                <div class="col-sm-12">
+                                    <label class="form-label mt-1">Nội dung:</label>
+                                    <textarea class="form-control" rows="6">
+                                    </textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="pos-sidebar-footer p-2 bg-gray-500">
+                            <div class="d-lg-flex mb-0">
+                                <button type="button" id="btn_NewForm" class="btn btn-sm btn-grd-success me-1 mb-1"><i class="fa fa-fw fa-refresh"></i> Tạo mới</button>
+                                <button type="button" id="btn_Save" class="btn btn-grd-info btn-sm me-1 mb-1" data-bs-toggle="modal"><span class="fa fa-save"></span> Cập nhập dữ liệu</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#" class="pos-mobile-sidebar-toggler" data-toggle-class="pos-sidebar-mobile-toggled" data-target="#pos">
+                <iconify-icon class="display-6" icon="solar:bag-smile-bold-duotone"></iconify-icon>
+                <span class="badge">5</span>
+            </a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="~/assets/js/vendor.min.js"></script>
+    <script src="~/assets/js/app.min.js"></script>
+    <script src="../assets/Farmwork/bootstrap-sweetalert/sweetalert.js"></script>
+    <script>
+        function ShowLogout() {
+            swal({
+                title: "Trở lại hệ thống",
+                type: "info",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                cancelButtonText: "Đóng [ X ]",
+                cancelButtonClass: "btn-sm btn-inverse btn-round",
+                confirmButtonClass: "btn-sm btn-round btn-primary",
+                confirmButtonText: "Đồng ý",
+            }, function () {
+                setTimeout(function () {
+                    window.open("/t-r-a-n-g-c-h-u", "_self");
+                }, 1000);
+            });
+        }
+    </script>
+</body>
+</html>

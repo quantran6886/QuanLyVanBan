@@ -13,6 +13,7 @@ namespace AppNetShop
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             
+            routes.MapRoute(name: "phong-trung-bay", url: "phong-trung-bay", defaults: new { controller = "C_PhongTrungBay", action = "C_PhongTrungBay", id = UrlParameter.Optional });
             routes.MapRoute(name: "phieu-giao-nhan", url: "phieu-giao-nhan", defaults: new { controller = "C_PhieuGiaoNhan", action = "C_PhieuGiaoNhan", id = UrlParameter.Optional });
             routes.MapRoute(name: "nhap-hien-vat", url: "nhap-hien-vat", defaults: new { controller = "C_NhapHienVat", action = "C_NhapHienVat", id = UrlParameter.Optional });
             routes.MapRoute(name: "cham-cong", url: "cham-cong", defaults: new { controller = "C_ChamCong", action = "C_ChamCong", id = UrlParameter.Optional });

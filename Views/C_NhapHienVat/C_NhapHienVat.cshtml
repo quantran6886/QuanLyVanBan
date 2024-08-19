@@ -15,8 +15,16 @@
                 $(".chosen").chosen();
                 $(".chosen-results").css('font-size', '14px');
                 $(".chosen-container").css('width', '100%');
+
+                $("#btn_NewForm").off('click').on('click', function () {
+                    myControl.ResetForm();
+                });
+
             },
 
+            ResetForm: function() {
+                notify('success', 'Tạo mới', "Tạo mới thành công");
+            },
 
         };
         myControl.init();
@@ -29,391 +37,382 @@
             <h4 class="panel-title"><a href="#" class="text-decoration-none"><i class="fa fa-pen-to-square"></i> Nhập hiện vật</a></h4>
         </div>
         <div class="panel-body p-0">
-            <div id="content" class="app-content p-1 m-0 bg-component">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <ul class="nav nav-pills mb-2">
-                            <li class="nav-item">
-                                <a href="#tab-1" data-bs-toggle="tab" class="nav-link active">
-                                    <span class="d-sm-none">Danh sách hiện vật</span>
-                                    <span class="d-sm-block d-none">Danh sách hiện vật</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#tab-2" data-bs-toggle="tab" class="nav-link">
-                                    <span class="d-sm-none">Phiếu nhập</span>
-                                    <span class="d-sm-block d-none">Phiếu nhập</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#tab-3" data-bs-toggle="tab" class="nav-link">
-                                    <span class="d-sm-none">Tư liệu & Hình ảnh</span>
-                                    <span class="d-sm-block d-none">Tư liệu & Hình ảnh</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#tab-4" data-bs-toggle="tab" class="nav-link">
-                                    <span class="d-sm-none">Mẫu vật 3D</span>
-                                    <span class="d-sm-block d-none">Mẫu vật 3D</span>
-                                </a>
-                            </li>
-                        </ul>
-
-
-                        <div class="tab-content p-3 rounded-top panel rounded-0 m-0">
-                            <div class="tab-pane fade active show" id="tab-1">
-                                <div class="d-lg-flex mb-2">
-                                    <div class="d-lg-flex mb-2">
-                                        <button type="button" id="btn_new_form" class="btn btn-success btn-sm me-1 mb-1" data-bs-toggle="modal" data-bs-target="#modal-ho-so"><span class="fa fa-plus"></span> Thêm mới</button>
-                                    </div>
-                                    <div class="d-lg-flex mb-2">
-                                        <button type="button" id="btn_search" class="btn btn-danger btn-sm me-1 mb-1"><span class="fa fa-trash"></span> Xóa nhiều lựa chọn</button>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="position-relative">
-                                            <input type="text" class="form-control form-control-sm ps-35px rounded-3" placeholder="Tra cứu theo số đăng ký , tên hiện vật , loại , ..." />
-                                            <button class="btn position-absolute start-0 top-0 shadow-none p-3"><i class="fa fa-search fa-lg"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-lg-flex m-2">
-                                    <span class="badge bg-primary">Tổng số : 100 hiện vật</span>
-                                    <span class="badge bg-primary" style="margin-left:4px">Di tích : 50 hiện vật</span>
-                                </div>
-
-                                <div id="content" class="app-content p-0 m-0 bg-component">
-                                    <table id="tblHienVat"
-                                           data-classes="table table-bordered align-middle text-nowrap table-hover"
-                                           data-toggle="table"
-                                           data-mobile-responsive="true"
-                                           data-fixed-columns="true"
-                                           data-show-export="true"
-                                           data-search="false"
-                                           data-pagination="true">
-                                        <thead>
-                                            <tr>
-                                                <th data-field="Stt" data-width="5">Thứ tự</th>
-                                                <th data-field="so_hieu_giay_to" data-formatter="fm_editData">Số đăng ký</th>
-                                                <th data-field="ngay_sinh">Tên hiện vật</th>
-                                                <th data-field="chuc_vu">Thời gian đăng ký</th>
-                                                <th data-field="cb_trang_thai_lam_viec">Thời kỳ</th>
-                                                <th data-field="cb_ngan_hang">Loại hiện vật</th>
-                                                <th data-field="cb_ngan_hang">Bộ sưu tập</th>
-                                                <th data-field="so_tai_khoan">Trạng thái</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
+            <div id="content" class="app-content p-2 m-0 bg-component">
+                <div class="row p-2 pt-0">
+                    <div class="mb-0 d-flex text-nowrap pb-1 p-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal-hien-vat"><i class="fa fa-fw fa-check ms-n1"></i> Danh sách file hiện vật</button>
+                            <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa fa-fw fa-location-arrow ms-n1"></i> Gửi hồ sơ</button>
+                            <button type="button" class="btn btn-sm btn-outline-primary"><i class="far fa-fw fa-square ms-n1" id="check_bo_chon"></i> Sửa</button>
+                        </div>
+                        <div class="navbar-item dropdown">
+                            <a href="#" class="btn btn-outline-primary navbar-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
+                                <i class="fa fa-bar-chart fa-fw me-1"></i>
+                                <span class="d-lg-inline d-md-none">Báo cáo kho cơ sở</span>
+                                <b class="caret ms-1"></b>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item">1.Phiếu hiện vật kho cơ sở</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item">2.Phiếu kiểm kê khoa học</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item">3.Phiếu ảnh</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item">4.Phiếu tài liệu khoa học bổ trợ</a>
                             </div>
+                        </div>
+                    </div>
+                    <div class="alert p-2 mb-1 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                        <strong>I. Thông tin chung</strong>
+                    </div>
+                    <div class="col-sm-2 bg-cyan-500 p-1">
+                        <div class="avatar-wrapper mt-3">
+                            <img class="profile-pic" id="image_HoSo" src="../assets/img/Avatar2.jpg" />
+                            <div class="upload-button" id="btnUploadAvartar">
+                                <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                            </div>
+                            <input type="file" class="file-upload" id="duong_dan_tai_lieu" accept="image/png, image/jpeg,image/jpg" />
+                            <input type="hidden" id="is_thay_doi" class="form-control">
+                            <input type="hidden" id="IdCanBo" class="form-control">
+                        </div>
+                        <div class="col-md-12 mt-2" style=" display: ruby-text;">
+                            <button type="button" id="btn_remove_file" class="btn btn-danger btn-sm waves-effect waves-light"><i class="fa fa-trash"></i> Xóa đường dẫn</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="d-lg-flex mb-0">
+                                    <button type="button" id="btn_NewForm" class="btn btn-mini btn-grd-success me-1 mb-1"><i class="fa fa-fw fa-refresh"></i> Tạo mới</button>
+                                    <button type="button" id="btn_Save" class="btn btn-grd-info btn-mini me-1 mb-1" data-bs-toggle="modal"><span class="fa fa-save"></span> Cập nhập dữ liệu</button>
+                                </div>
+                                <hr class="mt-0 mb-2 bg-gray-600 text-danger">
+                            </div>
+                            <div class="col-sm-12">
+                                <h6 class="text-primary">1. Tên gọi</h6>
+                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label mt-1">1.1 Tên hiện vật:<font class="text-danger">*</font></label>
+                                <input class="form-control" placeholder="Tên hiện vật ..." id="" type="text" />
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label mt-1">1.2 Tên gọi khác:</label>
+                                <input class="form-control" placeholder="Tên gọi khác ..." id="" type="text" />
+                            </div>
+                            <div class="col-sm-12 mt-3">
+                                <h6 class="text-primary">2. Số đăng ký</h6>
+                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="form-label mt-1">2.1 Số đăng ký:<font class="text-danger">*</font></label>
+                                <input class="form-control" placeholder="Số đăng ký ..." id="" type="text" />
+                            </div>
+                            <div class="col-sm-8">
+                                <label class="form-label mt-1">2.2 Đường dẫn hình ảnh 3D:</label>
+                                <input class="form-control" placeholder="Đường dẫn hình ảnh 3D ..." id="" type="text" />
+                            </div>
+                            <div class="col-sm-12 mt-3">
+                                <h6 class="text-primary">3. Số lượng</h6>
+                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="form-label mt-1">3.1 Số lượng:<font class="text-danger">*</font></label>
+                                <input class="form-control" placeholder="Số lượng ..." id="" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 bg-cyan-500 p-1">
+                        <div class="text-center text-white">
+                            <div class="m-b-5">
+                                <p id="txtQr">Mã QR</p>
+                                <div class="">
+                                    <div id="qrcode" style="margin: auto"><canvas width="256" height="256"></canvas><img style="display: none;"></div>
+                                </div>
+                                <br>
+                                <p>Mã vạch</p>
+                                <div id="barCode" style="margin: auto"></div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="col-sm-6">
+                        <div class="col-sm-12 mt-3">
+                            <h6 class="text-primary">4. Thời kỳ/niên đại</h6>
+                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="form-label mt-1">4.1 Thời kỳ:</label>
+                            <select class="form-control chosen" id="">
+                                <option value="">Chọn thời kỳ</option>
+                            </select>
+                        </div>
+                    </div>
 
-                            <div class="tab-pane fade" id="tab-2">
-                                <div class="row">
-                                    <div class="alert alert-success p-2 alert-dismissible fade show">
-                                        <strong>I. Thông tin chung</strong>
+                    <div class="col-sm-6">
+                        <div class="col-sm-12 mt-3">
+                            <h6 class="text-primary">5. Loại hiện vật</h6>
+                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                        </div>
+                        <div class="col-sm-12 row">
+                            <div class="form-check col-sm-6 mb-3">
+                                <input type="radio" class="form-check-input" id="IsCoVat" name="radiorequired">
+                                <label class="form-check-label" for="IsCoVat">Cổ vật</label>
+                            </div>
+                            <div class="form-check col-sm-6">
+                                <input type="radio" class="form-check-input" id="IsDiVat" name="radiorequired">
+                                <label class="form-check-label" for="IsDiVat">Di vật</label>
+                            </div>
+                            <div class="form-check col-sm-6">
+                                <input type="radio" class="form-check-input" id="IsBaoVatQuocGia" name="radiorequired">
+                                <label class="form-check-label" for="IsBaoVatQuocGia">Bảo vật quốc gia</label>
+                            </div>
+                            <div class="form-check col-sm-6">
+                                <input type="radio" class="form-check-input" id="IsHienVat" name="radiorequired">
+                                <label class="form-check-label" for="IsHienVat">Hiện vật kháng chiến</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="col-sm-12 mt-3">
+                            <h6 class="text-primary">6. Bổ sưu tập</h6>
+                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="form-label mt-1">6.1 Bộ sưu tập:</label>
+                            <select class="form-control chosen" id="">
+                                <option value="">Chọn bộ sưu tập</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="col-sm-12 mt-3">
+                            <h6 class="text-primary">7. Chất liệu</h6>
+                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="form-label mt-1">7.1 Chất liệu:</label>
+                            <select class="form-control chosen" id="">
+                                <option value="">Chọn chất liệu</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="col-sm-12 mt-3">
+                            <h6 class="text-primary">8. Kích thước</h6>
+                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="form-label mt-1">8.1 Chiều dài (m):</label>
+                                <input class="form-control" placeholder="Chiều dài ..." id="" type="text" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="form-label mt-1">8.2 Chiều rộng (m):</label>
+                                <input class="form-control" placeholder="Chiều rộng ..." id="" type="text" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="form-label mt-1">8.3 Chiều cao (m):</label>
+                                <input class="form-control" placeholder="Chiều cao ..." id="" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="col-sm-12 mt-3">
+                            <h6 class="text-primary">9. Trọng lượng</h6>
+                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label class="form-label mt-1">9.1 Trọng lượng (g,kg):</label>
+                                <input class="form-control" placeholder="Trọng lượng ..." id="" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="col-sm-12 mt-3">
+                            <h6 class="text-primary">10. Màu sắc</h6>
+                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label class="form-label mt-1">10.1 Màu sắc:</label>
+                                <select class="form-control chosen" id="">
+                                    <option value="">Chọn màu sắc</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="col-sm-12 mt-3">
+                            <h6 class="text-primary">11. Miêu tả</h6>
+                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="form-label mt-1">11.1 Miêu tả hiện vật:</label>
+                                <input class="form-control" placeholder="Miêu tả hiện vật ..." id="" type="text" />
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label mt-1">11.2 Dấu tích đặc biệt:</label>
+                                <input class="form-control" placeholder="Dấu tích đặc biệt ..." id="" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert p-2 m-2 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                        <strong>II. Xuất xứ</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="col-sm-12 mt-3">
+                            <h6 class="text-primary">15. Địa chỉ sưu tầm</h6>
+                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label class="form-label mt-1">15.1 Địa chỉ sưu tầm:</label>
+                                <input class="form-control" placeholder="Địa chỉ sưu tầm ..." id="" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="col-sm-12 mt-3">
+                            <h6 class="text-primary">16. Thời gian hiện vật</h6>
+                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label class="form-label mt-1">16.1 Thời gian hiện vật:</label>
+                                <input class="form-control" id="" type="date" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-12 mt-3">
+                            <h6 class="text-primary">17. Thời gian đăng ký hiện vật</h6>
+                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="form-label mt-1">17.1 Số quyết định:</label>
+                                <input class="form-control" id="" type="text" />
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label mt-1">17.2 Ngày quyết định:</label>
+                                <input class="form-control" id="" type="date" />
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label mt-1">17.3 Thời gian tiếp nhận hiện vật:</label>
+                                <input class="form-control" id="" type="date" />
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label mt-1">17.4 Thời gian đăng ký di vật, cổ vật quốc gia:</label>
+                                <input class="form-control" id="" type="date" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert p-2 m-2 alert-dismissible fade show" style="border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818; ">
+                        <strong>III. Quản lý</strong>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-12 mt-3">
+                            <h6 class="text-primary">18. Tình trạng bảo quản</h6>
+                            <hr class="mb-0 mt-0 bg-gray-600 text-danger">
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-12">
+                                <div id="toolbarBaoQuan">
+                                    <div class="form-inline" role="form">
+                                        <button class="btn btn-info btn-sm waves-effect waves-light" data-placement="top" title="Tạo một bản ghi mới" id="btn_NewTinhTrang"><i class="fa fa-plus"></i> Thêm mới</button>
                                     </div>
-                                    <div class="col-sm-2 bg-cyan-500 p-1">
-                                        <div class="avatar-wrapper mt-3">
-                                            <img class="profile-pic" id="image_HoSo" src="../assets/img/Avatar2.jpg" />
-                                            <div class="upload-button" id="btnUploadAvartar">
-                                                <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-                                            </div>
-                                            <input type="file" class="file-upload" id="duong_dan_tai_lieu" accept="image/png, image/jpeg,image/jpg" />
-                                            <input type="hidden" id="is_thay_doi" class="form-control">
-                                            <input type="hidden" id="IdCanBo" class="form-control">
-                                        </div>
-                                        <div class="col-md-12 mt-2" style=" display: ruby-text;">
-                                            <button type="button" id="btn_remove_file" class="btn btn-danger btn-sm waves-effect waves-light"><i class="fa fa-trash"></i> Xóa đường dẫn</button>
-                                        </div>
+                                </div>
+                                <table id="tableBaoQuan"
+                                       data-toggle="table"
+                                       data-classes="table table-bordered table-hover reponsive"
+                                       data-unique-id="IdTinhTrangBQ"
+                                       data-mobile-responsive="true"
+                                       data-fixed-columns="true"
+                                       data-show-export="true"
+                                       data-toolbar="#toolbarBaoQuan"
+                                       data-pagination="true"
+                                       data-page-size="15"
+                                       data-page-list="[15, 25, 35, all]">
+                                    <thead>
+                                        <tr class="trTable">
+                                            <th data-field="cbTinhTrangBaoQuan" class="text-center">Tình trạng bảo quản</th>
+                                            <th data-field="cbLoaiBaoQuan" class="text-center">Loại bảo quản</th>
+                                            <th data-field="dtNgayBaoQuan" class="text-center">Ngày bảo quản</th>
+                                            <th data-field="SoHSLienQuan" data-width="5">Số hồ sơ liên quan</th>
+                                            <th data-formatter="operateFormatter_XoaBaoQuan" data-field="XoaBaoQuan" data-width="5"><strong>#</strong></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-hien-vat">
+                    <div class="modal-dialog" style="max-width:80%">
+                        <div class="modal-content">
+                            <div class="panel panel-inverse m-0">
+                                <div class="panel-heading bg-gray-400 text-muted ui-sortable-handle">
+                                    <h4 class="panel-title">Danh sách hiện vật</h4>
+                                    <div class="panel-heading-btn">
+                                        <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                                        <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                                        <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
                                     </div>
-                                    <div class="col-sm-8">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="d-lg-flex mb-0">
-                                                    <button type="button" id="btn_new_form" class="btn btn-green btn-sm me-1 mb-1" data-bs-toggle="modal" data-bs-target="#modal-ho-so"><span class="fa fa-save"></span> Lưu dữ liệu</button>
+                                </div>
+                                <div class="panel-body p-1">
+                                    <div class="row">
+                                        <div class="form-group row p-3 pt-0">
+                                            <div class="col-sm-4">
+                                                <label class="form-label mt-1">Tra cứu thông tin:</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Tra cứu theo tên,số đăng ký,....">
+                                                    <button type="button" class="btn btn-grd-success">
+                                                        <span class="fa fa-search"></span>
+                                                    </button>
                                                 </div>
-                                                <hr class="mt-0 mb-2 bg-gray-600 text-danger">
-                                            </div>
-                                            <div class="col-sm-12">
-                                                <h6 class="text-primary">1. Tên gọi</h6>
-                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label class="form-label mt-1">1.1 Tên hiện vật:<font class="text-danger">*</font></label>
-                                                <input class="form-control" placeholder="Tên hiện vật ..." id="" type="text" />
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label class="form-label mt-1">1.2 Tên gọi khác:</label>
-                                                <input class="form-control" placeholder="Tên gọi khác ..." id="" type="text" />
-                                            </div>
-                                            <div class="col-sm-12 mt-3">
-                                                <h6 class="text-primary">2. Số đăng ký</h6>
-                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
                                             </div>
                                             <div class="col-sm-4">
-                                                <label class="form-label mt-1">2.1 Số đăng ký:<font class="text-danger">*</font></label>
-                                                <input class="form-control" placeholder="Số đăng ký ..." id="" type="text" />
-                                            </div>
-                                            <div class="col-sm-8">
-                                                <label class="form-label mt-1">2.2 Đường dẫn hình ảnh 3D:</label>
-                                                <input class="form-control" placeholder="Đường dẫn hình ảnh 3D ..." id="" type="text" />
-                                            </div>
-                                            <div class="col-sm-12 mt-3">
-                                                <h6 class="text-primary">3. Số lượng</h6>
-                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                                            </div>
-                                            <div class="col-sm-12">
-                                                <label class="form-label mt-1">3.1 Số lượng:<font class="text-danger">*</font></label>
-                                                <input class="form-control" placeholder="Số lượng ..." id="" type="text" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2 bg-cyan-500 p-1">
-                                        <div class="text-center text-white">
-                                            <div class="m-b-5">
-                                                <p id="txtQr">Mã QR</p>
-                                                <div class="">
-                                                    <div id="qrcode" style="margin: auto"><canvas width="256" height="256"></canvas><img style="display: none;"></div>
-                                                </div>
-                                                <br>
-                                                <p>Mã vạch</p>
-                                                <div id="barCode" style="margin: auto"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <div class="col-sm-12 mt-3">
-                                            <h6 class="text-primary">4. Thời kỳ/niên đại</h6>
-                                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <label class="form-label mt-1">4.1 Thời kỳ:</label>
-                                            <select class="form-control chosen" id="">
-                                                <option value="">Chọn thời kỳ</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <div class="col-sm-12 mt-3">
-                                            <h6 class="text-primary">5. Loại hiện vật</h6>
-                                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                                        </div>
-                                        <div class="col-sm-12 row">
-                                            <div class="form-check col-sm-6 mb-3">
-                                                <input type="radio" class="form-check-input" id="IsCoVat" name="radiorequired">
-                                                <label class="form-check-label" for="IsCoVat">Cổ vật</label>
-                                            </div>
-                                            <div class="form-check col-sm-6">
-                                                <input type="radio" class="form-check-input" id="IsDiVat" name="radiorequired">
-                                                <label class="form-check-label" for="IsDiVat">Di vật</label>
-                                            </div>
-                                            <div class="form-check col-sm-6">
-                                                <input type="radio" class="form-check-input" id="IsBaoVatQuocGia" name="radiorequired">
-                                                <label class="form-check-label" for="IsBaoVatQuocGia">Bảo vật quốc gia</label>
-                                            </div>
-                                            <div class="form-check col-sm-6">
-                                                <input type="radio" class="form-check-input" id="IsHienVat" name="radiorequired">
-                                                <label class="form-check-label" for="IsHienVat">Hiện vật kháng chiến</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <div class="col-sm-12 mt-3">
-                                            <h6 class="text-primary">6. Bổ sưu tập</h6>
-                                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <label class="form-label mt-1">6.1 Bộ sưu tập:</label>
-                                            <select class="form-control chosen" id="">
-                                                <option value="">Chọn bộ sưu tập</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <div class="col-sm-12 mt-3">
-                                            <h6 class="text-primary">7. Chất liệu</h6>
-                                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <label class="form-label mt-1">7.1 Chất liệu:</label>
-                                            <select class="form-control chosen" id="">
-                                                <option value="">Chọn chất liệu</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="col-sm-12 mt-3">
-                                            <h6 class="text-primary">8. Kích thước</h6>
-                                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <label class="form-label mt-1">8.1 Chiều dài (m):</label>
-                                                <input class="form-control" placeholder="Chiều dài ..." id="" type="text" />
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <label class="form-label mt-1">8.2 Chiều rộng (m):</label>
-                                                <input class="form-control" placeholder="Chiều rộng ..." id="" type="text" />
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <label class="form-label mt-1">8.3 Chiều cao (m):</label>
-                                                <input class="form-control" placeholder="Chiều cao ..." id="" type="text" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="col-sm-12 mt-3">
-                                            <h6 class="text-primary">9. Trọng lượng</h6>
-                                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <label class="form-label mt-1">9.1 Trọng lượng (g,kg):</label>
-                                                <input class="form-control" placeholder="Trọng lượng ..." id="" type="text" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="col-sm-12 mt-3">
-                                            <h6 class="text-primary">10. Màu sắc</h6>
-                                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <label class="form-label mt-1">10.1 Màu sắc:</label>
+                                                <label class="form-label mt-1">Trạng thái hiện vật:</label>
                                                 <select class="form-control chosen" id="">
-                                                    <option value="">Chọn màu sắc</option>
+                                                    <option value="">Chọn trạng thái</option>
+                                                    <option value="">Hiện vật sưu tầm</option>
+                                                    <option value="">Hiện vật bảo tàng</option>
+                                                    <option value="">Hiện vật chưa duyệt</option>
+                                                    <option value="">Hiện vật đã duyệt</option>
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="col-sm-12 mt-3">
-                                            <h6 class="text-primary">11. Miêu tả</h6>
-                                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <label class="form-label mt-1">11.1 Miêu tả hiện vật:</label>
-                                                <input class="form-control" placeholder="Miêu tả hiện vật ..." id="" type="text" />
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label class="form-label mt-1">11.2 Dấu tích đặc biệt:</label>
-                                                <input class="form-control" placeholder="Dấu tích đặc biệt ..." id="" type="text" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="alert alert-success p-2 mt-3 mb-0 alert-dismissible fade show">
-                                        <strong>II. Xuất xứ</strong>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="col-sm-12 mt-3">
-                                            <h6 class="text-primary">15. Địa chỉ sưu tầm</h6>
-                                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <label class="form-label mt-1">15.1 Địa chỉ sưu tầm:</label>
-                                                <input class="form-control" placeholder="Địa chỉ sưu tầm ..." id="" type="text" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="col-sm-12 mt-3">
-                                            <h6 class="text-primary">16. Thời gian hiện vật</h6>
-                                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <label class="form-label mt-1">16.1 Thời gian hiện vật:</label>
-                                                <input class="form-control" id="" type="date" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-12 mt-3">
-                                            <h6 class="text-primary">17. Thời gian đăng ký hiện vật</h6>
-                                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <label class="form-label mt-1">17.1 Số quyết định:</label>
-                                                <input class="form-control" id="" type="text" />
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label class="form-label mt-1">17.2 Ngày quyết định:</label>
-                                                <input class="form-control" id="" type="date" />
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label class="form-label mt-1">17.3 Thời gian tiếp nhận hiện vật:</label>
-                                                <input class="form-control" id="" type="date" />
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label class="form-label mt-1">17.4 Thời gian đăng ký di vật, cổ vật quốc gia:</label>
-                                                <input class="form-control" id="" type="date" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="alert alert-success p-2 mt-3 mb-0 alert-dismissible fade show">
-                                        <strong>III. Quản lý</strong>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-12 mt-3">
-                                            <h6 class="text-primary">18. Tình trạng bảo quản</h6>
-                                            <hr class="mb-0 mt-0 bg-gray-600 text-danger">
-                                        </div>
-                                        <div class="row form-group">
-                                            <div class="col-sm-12">
-                                                <div id="toolbarBaoQuan">
-                                                    <div class="form-inline" role="form">
-                                                        <button class="btn btn-info btn-sm waves-effect waves-light" data-placement="top" title="Tạo một bản ghi mới" id="btn_NewTinhTrang"><i class="fa fa-plus"></i> Thêm mới</button>
-                                                    </div>
-                                                </div>
-                                                <table id="tableBaoQuan"
-                                                       data-toggle="table"
-                                                       data-classes="table table-bordered table-hover reponsive"
-                                                       data-unique-id="IdTinhTrangBQ"
-                                                       data-mobile-responsive="true"
-                                                       data-fixed-columns="true"
-                                                       data-show-export="true"
-                                                       data-toolbar="#toolbarBaoQuan"
-                                                       data-pagination="true"
-                                                       data-page-size="15"
-                                                       data-page-list="[15, 25, 35, all]">
-                                                    <thead>
-                                                        <tr class="trTable">
-                                                            <th data-field="cbTinhTrangBaoQuan" data-formatter="operateFormatter_TinhTrangBaoQuan" class="text-center" data-events="operateEvents_TinhTrangBaoQuan">Tình trạng bảo quản</th>
-                                                            <th data-field="cbLoaiBaoQuan" data-formatter="operateFormatter_LoaiBaoQuan" class="text-center" data-events="operateEvents_LoaiBaoQuan">Loại bảo quản</th>
-                                                            <th data-field="dtNgayBaoQuan" data-width="5" data-formatter="operateFormatter_NgayBaoQuan" class="text-center" data-events="operateEvents_NgayBaoQuan">Ngày bảo quản</th>
-                                                            <th data-field="SoHSLienQuan" data-width="5" data-formatter="operateFormatter_LienQuan" data-events="operateEvents_LienQuan">Số hồ sơ liên quan</th>
-                                                            <th data-formatter="operateFormatter_XoaBaoQuan" data-field="XoaBaoQuan" data-width="5"><strong>#</strong></th>
-                                                        </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
+                                        <div class="col-sm-12">
+                                            <table id="tblHienVat"
+                                                   data-classes="table table-bordered align-middle text-nowrap table-hover"
+                                                   data-toggle="table"
+                                                   data-mobile-responsive="true"
+                                                   data-fixed-columns="true"
+                                                   data-show-export="true"
+                                                   data-search="false"
+                                                   data-pagination="true">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-field="Stt" data-width="5">Thứ tự</th>
+                                                        <th data-field="so_hieu_giay_to" data-formatter="fm_editData">Số đăng ký</th>
+                                                        <th data-field="ngay_sinh">Tên hiện vật</th>
+                                                        <th data-field="chuc_vu">Thời gian đăng ký</th>
+                                                        <th data-field="cb_trang_thai_lam_viec">Thời kỳ</th>
+                                                        <th data-field="cb_ngan_hang">Loại hiện vật</th>
+                                                        <th data-field="cb_ngan_hang">Bộ sưu tập</th>
+                                                        <th data-field="so_tai_khoan">Trạng thái</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
-                            <div class="tab-pane fade" id="tab-3">
-
-                            </div>
-
-
-                            <div class="tab-pane fade" id="tab-4">
-                                <div class="form-group col-sm-12">
-                                    <a target="_blank" id="image3D" href="">
-                                        <iframe src="" id="image3D2" width="100%" height="850" style=" border: 1px solid;"></iframe>
-                                    </a>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>

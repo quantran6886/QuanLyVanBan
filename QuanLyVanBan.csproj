@@ -447,6 +447,8 @@
     <Compile Include="Controllers\C_PhieuChiController.cs" />
     <Compile Include="Controllers\C_PhieuGiaoNhanController.cs" />
     <Compile Include="Controllers\C_PhieuThuController.cs" />
+    <Compile Include="Controllers\C_PhongTrungBayController.cs" />
+    <Compile Include="Controllers\C_XuatHienVatController.cs" />
     <Compile Include="Controllers\DanhMucHeThongController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -1303,6 +1305,7 @@
     </Content>
     <Content Include="assets\Farmwork\Chosen\composer.json" />
     <Content Include="assets\Farmwork\photo-gallery\css\styles.css.map" />
+    <Content Include="assets\css\ButtonHover.css" />
     <None Include="packages.config" />
     <Content Include="Views\TrungTamTinNhan\TrungTamTinNhan.cshtml" />
     <Content Include="Views\C_HoSoCanBo\C_HoSoCanBo.cshtml" />
@@ -1316,6 +1319,8 @@
     <Content Include="Views\C_ChamCong\C_ChamCong.cshtml" />
     <Content Include="Views\C_NhapHienVat\C_NhapHienVat.cshtml" />
     <Content Include="Views\C_PhieuGiaoNhan\C_PhieuGiaoNhan.cshtml" />
+    <Content Include="Views\C_XuatHienVat\C_XuatHienVat.cshtml" />
+    <Content Include="Views\C_PhongTrungBay\C_PhongTrungBay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

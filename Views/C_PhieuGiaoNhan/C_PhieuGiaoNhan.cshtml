@@ -12,34 +12,117 @@
             <div id="content" class="app-content p-1 m-0 bg-component">
                 <div class="row">
                     <div class="col-sm-4">
-                        <div class="col-sm-12">
-                            <h6 class="text-primary">I. Danh sách phiếu nhập</h6>
-                            <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                        <div class="alert p-2 mb-1 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                            <strong>I. Danh sách phiếu nhập</strong>
                         </div>
-                        <table id="tblPhieuGiaoNhan"
-                               data-classes="table table-bordered align-middle text-nowrap table-hover"
-                               data-toggle="table"
-                               data-mobile-responsive="true"
-                               data-fixed-columns="true"
-                               data-show-export="true"
-                               data-search="true"
-                               data-pagination="true">
-                            <thead>
-                                <tr>
-                                    <th data-field="sap_xep" data-width="5">TT</th>
-                                    <th data-field="ten_goi">Thời gian giao</th>
-                                    <th data-field="ghi_chu">Thời gian nhận</th>
-                                    <th data-field="is_lock" data-width="5" class="text-center">Tên người giao</th>
-                                    <th data-width="5" class="text-center">
-                                        Tên người nhận
-                                    </th>
-                                </tr>
-                            </thead>
-                        </table>
+                        <div class="col-sm-12">
+                            <label class="form-label mt-1">Thời gian giao (Từ ngày - Đến ngày):</label>
+                            <div class="col-sm-12">
+                                <div class="input-group input-daterange">
+                                    <input type="date" class="form-control" name="start" placeholder="Date Start">
+                                    <span class="input-group-text input-group-addon">đến</span>
+                                    <input type="date" class="form-control" name="end" placeholder="Date End">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="form-label mt-1">Tra cứu thông tin:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Tra cứu theo số phiếu....">
+                                <button type="button" class="btn btn-grd-success">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2">
+                            <table id="tblPhieuGiaoNhan"
+                                   data-classes="table table-bordered align-middle text-nowrap table-hover"
+                                   data-toggle="table"
+                                   data-mobile-responsive="true"
+                                   data-fixed-columns="true"
+                                   data-show-export="true"
+                                   data-search="false"
+                                   data-pagination="true">
+                                <thead>
+                                    <tr>
+                                        <th data-field="sap_xep" data-width="5">TT</th>
+                                        <th data-field="ten_goi">Thời gian giao</th>
+                                        <th data-field="ghi_chu">Thời gian nhận</th>
+                                        <th data-field="is_lock" data-width="5" class="text-center">Tên người giao</th>
+                                        <th data-width="5" class="text-center">
+                                            Tên người nhận
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                     <div class="col-sm-8">
-              
-
+                        <div class="alert p-2 mb-1 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                            <strong>1. Thông tin phiếu</strong>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="d-lg-flex mb-0">
+                                <button type="button" id="btn_NewForm" class="btn btn-mini btn-grd-success me-1 mb-1"><i class="fa fa-fw fa-refresh"></i> Tạo mới</button>
+                                <button type="button" id="btn_Save" class="btn btn-grd-info btn-mini me-1 mb-1" data-bs-toggle="modal"><span class="fa fa-save"></span> Cập nhập</button>
+                                <button type="button" id="" class="btn btn-grd-danger btn-mini me-1 mb-1"><span class="fa fa-trash"></span> Xóa phiếu</button>
+                                <button type="button" id="" class="btn btn-grd-inverse btn-mini me-1 mb-1"><span class="fa fa-print"></span> In phiếu</button>
+                            </div>
+                            <hr class="mt-0 mb-2 bg-gray-600 text-danger">
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <input id="IdPhieu" value="0" type="hidden" class="form-control">
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Thời gian giao:</label> <input type="datetime-local" id="dtThoiGianGiao" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Tên người giao<font color="red">(*)</font>:</label> <input type="text" id="TenNguoiGiao" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Tên người nhận<font color="red">(*)</font>:</label> <input type="text" id="TenNguoiNhan" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Thời gian nhận:</label> <input type="datetime-local" id="dtThoiGianNhan" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Đơn vị giao:</label> <input type="text" id="DonViNguoiGiao" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Đơn vị nhận:</label> <input type="text" id="DonViNguoiNhan" class="form-control"></div>
+                                        <div class="form-group col-sm-6"><label class="form-label mt-1">Địa chỉ hiện vật đến:</label> <input type="text" id="DiaChiHienVatDen" class="form-control"></div>
+                                        <div class="form-group col-sm-6"><label class="form-label mt-1">Mục đích:</label> <input type="text" id="MucDich" class="form-control"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mt-2">
+                            <div class="alert p-2 mb-1 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                                <strong>2. Nhập hiện vật</strong>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-sm-12">
+                                    <div id="toolbarBaoQuan">
+                                        <div class="form-inline" role="form">
+                                            <button class="btn btn-info btn-mini waves-effect waves-light" data-placement="top" title="Tạo một bản ghi mới" id="btn_NewTinhTrang"><i class="fa fa-plus"></i> Thêm mới</button>
+                                        </div>
+                                    </div>
+                                    <table id="tableBaoQuan"
+                                           data-toggle="table"
+                                           data-classes="table table-bordered table-hover reponsive"
+                                           data-unique-id="IdTinhTrangBQ"
+                                           data-mobile-responsive="true"
+                                           data-fixed-columns="true"
+                                           data-show-export="true"
+                                           data-toolbar="#toolbarBaoQuan"
+                                           data-pagination="true"
+                                           data-page-size="15"
+                                           data-page-list="[15, 25, 35, all]">
+                                        <thead>
+                                            <tr class="trTable">
+                                                <th data-field="cbTinhTrangBaoQuan" class="text-center">Số đăng ký</th>
+                                                <th data-field="cbLoaiBaoQuan" class="text-center">Tên tài liệu/Hiện vật</th>
+                                                <th data-field="dtNgayBaoQuan" class="text-center">Số lượng</th>
+                                                <th data-field="SoHSLienQuan" data-width="5">Chất liệu</th>
+                                                <th data-field="SoHSLienQuan" data-width="5">Tình trạng</th>
+                                                <th data-formatter="operateFormatter_XoaBaoQuan" data-field="XoaBaoQuan" data-width="5"><strong>#</strong></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
