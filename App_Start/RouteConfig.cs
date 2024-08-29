@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,9 @@ namespace AppNetShop
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             
+            routes.MapRoute(name: "tra-cuu-hien-vat", url: "tra-cuu-hien-vat", defaults: new { controller = "C_SearchHienVat", action = "C_SearchHienVat", id = UrlParameter.Optional });
+            routes.MapRoute(name: "xet-duyet-ho-so", url: "xet-duyet-ho-so", defaults: new { controller = "C_XetDuyetHoSo", action = "C_XetDuyetHoSo", id = UrlParameter.Optional });
+            routes.MapRoute(name: "xuat-hien-vat", url: "xuat-hien-vat", defaults: new { controller = "C_XuatHienVat", action = "C_XuatHienVat", id = UrlParameter.Optional });
             routes.MapRoute(name: "phong-trung-bay", url: "phong-trung-bay", defaults: new { controller = "C_PhongTrungBay", action = "C_PhongTrungBay", id = UrlParameter.Optional });
             routes.MapRoute(name: "phieu-giao-nhan", url: "phieu-giao-nhan", defaults: new { controller = "C_PhieuGiaoNhan", action = "C_PhieuGiaoNhan", id = UrlParameter.Optional });
             routes.MapRoute(name: "nhap-hien-vat", url: "nhap-hien-vat", defaults: new { controller = "C_NhapHienVat", action = "C_NhapHienVat", id = UrlParameter.Optional });

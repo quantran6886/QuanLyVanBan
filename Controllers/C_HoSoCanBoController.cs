@@ -36,7 +36,7 @@ namespace AppNetShop.Controllers
         {
             try
             {
-                var lstNganHang = _query.AspDanhMucHeThongs.Where(c => c.phan_loai.Contains("Danh mục ngân hàng")
+                var lstNganHang = _query.AspDanhMucHeThong.Where(c => c.phan_loai.Contains("Danh mục ngân hàng")
                 ).Select(c => new
                 {
                     c.Id,
@@ -64,7 +64,7 @@ namespace AppNetShop.Controllers
         {
             try
             {
-                var listData = _query.AspHoSoCanBoes.Where(c => c.IdCanBo == IdCanBo).AsEnumerable().Select(c => new
+                var listData = _query.AspHoSoCanBo.Where(c => c.IdCanBo == IdCanBo).AsEnumerable().Select(c => new
                 {
                     c.IdCanBo,
                     c.so_hieu_giay_to,
@@ -110,7 +110,7 @@ namespace AppNetShop.Controllers
             try
             {
                 int stt = 1;
-                var lstAccount = _query.AspHoSoCanBoes.AsEnumerable().Select(c => new
+                var lstAccount = _query.AspHoSoCanBo.AsEnumerable().Select(c => new
                 {
                     stt = stt++,
                     c.IdCanBo,
@@ -147,10 +147,10 @@ namespace AppNetShop.Controllers
         {
             try
             {
-                var data = _query.AspHoSoCanBoes.Find(IdCanBo);
+                var data = _query.AspHoSoCanBo.Find(IdCanBo);
                 if (data != null)
                 {
-                    _query.AspHoSoCanBoes.Remove(data);
+                    _query.AspHoSoCanBo.Remove(data);
                     _query.SaveChanges();
                 }
 
@@ -175,7 +175,7 @@ namespace AppNetShop.Controllers
         {
             try
             {
-                var data = _query.AspHoSoCanBoes.Find(IdCanBo);
+                var data = _query.AspHoSoCanBo.Find(IdCanBo);
                 if (data != null)
                 {
                     data.cb_ngan_hang = cb_ngan_hang;
@@ -208,7 +208,7 @@ namespace AppNetShop.Controllers
         {
             try
             {
-                var lstAccount = _query.AspHoSoCanBoes.Find(IdCanBo);
+                var lstAccount = _query.AspHoSoCanBo.Find(IdCanBo);
 
                 if (string.IsNullOrEmpty(lstAccount.so_tai_khoan) || string.IsNullOrEmpty(lstAccount.cb_ngan_hang))
                 {
@@ -286,7 +286,7 @@ namespace AppNetShop.Controllers
             var ClientData = new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<AspHoSoCanBo>(strData);
             try
             {
-                var CheckSoHieu = _query.AspHoSoCanBoes.Where(a =>
+                var CheckSoHieu = _query.AspHoSoCanBo.Where(a =>
                 (ClientData.IdCanBo == 0 ? (a.so_hieu_giay_to == ClientData.so_hieu_giay_to && ClientData.IdCanBo == 0) :
                 (a.so_hieu_giay_to == ClientData.so_hieu_giay_to && ClientData.IdCanBo != a.IdCanBo))).Count();
                 if (CheckSoHieu > 0)
@@ -327,12 +327,12 @@ namespace AppNetShop.Controllers
                 {
                     ClientData.url_avatar = duong_dan_tai_lieu;
                     ClientData.name_avatar = ten_file;
-                    _query.AspHoSoCanBoes.Add(ClientData);
+                    _query.AspHoSoCanBo.Add(ClientData);
                     _query.SaveChanges();
                 }
                 else
                 {
-                    var _data = _query.AspHoSoCanBoes.Find(ClientData.IdCanBo);
+                    var _data = _query.AspHoSoCanBo.Find(ClientData.IdCanBo);
                     if (_data != null)
                     {
                         _data.cb_trang_thai_lam_viec = ClientData.cb_trang_thai_lam_viec;

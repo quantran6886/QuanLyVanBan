@@ -50,7 +50,7 @@ namespace AppNetShop.Controllers
         {
             try
             {
-                var lstData = _query.AspKeHoachThus.Where(c => c.is_chuyen_thung_rac != true && c.noi_dung_thu.Contains(noi_dung_thu)
+                var lstData = _query.AspKeHoachThu.Where(c => c.is_chuyen_thung_rac != true && c.noi_dung_thu.Contains(noi_dung_thu)
                 ).AsEnumerable().Select(c => new
                 {
                  c.noi_dung_thu,
@@ -77,8 +77,8 @@ namespace AppNetShop.Controllers
             try
             {
                 int stt = 1;
-                var lstSoTienThu = _query.AspThuThucTes.ToList();
-                var Data = _query.AspKeHoachThus.Where(c => c.is_chuyen_thung_rac != true).AsEnumerable().Select(c => new
+                var lstSoTienThu = _query.AspThuThucTe.ToList();
+                var Data = _query.AspKeHoachThu.Where(c => c.is_chuyen_thung_rac != true).AsEnumerable().Select(c => new
                 {
                     c.IdKeHoach,
                     c.don_vi_thu,
@@ -128,8 +128,8 @@ namespace AppNetShop.Controllers
             try
             {
                 int stt = 1;
-                var lstSoTienThu = _query.AspKeHoachThus.ToList();
-                var lstSoTienDaThu = _query.AspThuThucTes.AsEnumerable().Select(c => new
+                var lstSoTienThu = _query.AspKeHoachThu.ToList();
+                var lstSoTienDaThu = _query.AspThuThucTe.AsEnumerable().Select(c => new
                 {
                     c.so_tien_thu,
                     ngay_thu = string.Format("{0:dd-MM-yyyy}", c.ngay_thu),
@@ -170,7 +170,7 @@ namespace AppNetShop.Controllers
                 int stt = 1;
                 int stt1 = 1;
                 int stt2 = 1;
-                var listData = _query.AspThuThucTes.Where(c => c.IdKeHoach == IdKeHoach).AsEnumerable().Select(c => new
+                var listData = _query.AspThuThucTe.Where(c => c.IdKeHoach == IdKeHoach).AsEnumerable().Select(c => new
                 {
                     c.IdThu,
                     c.IdKeHoach,
@@ -244,7 +244,7 @@ namespace AppNetShop.Controllers
             try
             {
                 int stt = 1;
-                var listData = _query.AspKeHoachThus.Where(c => c.IdKeHoach == IdKeHoach).AsEnumerable().Select(c => new
+                var listData = _query.AspKeHoachThu.Where(c => c.IdKeHoach == IdKeHoach).AsEnumerable().Select(c => new
                 {
                     c.IdKeHoach,
                     stt = stt++,
@@ -282,7 +282,7 @@ namespace AppNetShop.Controllers
             try
             {
                 int stt = 1;
-                var listData = _query.AspThuThucTes.Where(c => c.IdThu == IdThu).AsEnumerable().Select(c => new
+                var listData = _query.AspThuThucTe.Where(c => c.IdThu == IdThu).AsEnumerable().Select(c => new
                 {
                     c.IdKeHoach,
                     stt = stt++,
@@ -324,7 +324,7 @@ namespace AppNetShop.Controllers
                 string noti = "";
                 if (phan_loai_doi_tuong == "Cá nhân")
                 {
-                    var data = _query.AspDSDTThuChis.Where(c => IdThu == 0 && phan_loai_doi_tuong == c.phan_loai_doi_tuong && c.so_hieu_giay_to == so_hieu_giay_to);
+                    var data = _query.AspDSDTThuChi.Where(c => IdThu == 0 && phan_loai_doi_tuong == c.phan_loai_doi_tuong && c.so_hieu_giay_to == so_hieu_giay_to);
                     if (data.Count() > 0)
                     {
                         noti = "Số hiệu đã trùng với số hiệu có trong hệ thống";
@@ -332,7 +332,7 @@ namespace AppNetShop.Controllers
                 }
                 else
                 {
-                    var data = _query.AspDSDTThuChis.Where(c => IdThu == 0 && phan_loai_doi_tuong == c.phan_loai_doi_tuong && c.ma_so_dv == ma_so_dv);
+                    var data = _query.AspDSDTThuChi.Where(c => IdThu == 0 && phan_loai_doi_tuong == c.phan_loai_doi_tuong && c.ma_so_dv == ma_so_dv);
                     if (data.Count() > 0)
                     {
                         noti = "Mã đơn vị đã có trong hệ thống";
@@ -364,13 +364,13 @@ namespace AppNetShop.Controllers
                 if (ClientData.IdKeHoach == 0)
                 {
                     ClientData.ly_do_thu = HttpUtility.UrlDecode(ClientData.ly_do_thu);
-                    _query.AspKeHoachThus.Add(ClientData);
+                    _query.AspKeHoachThu.Add(ClientData);
                     _query.SaveChanges();
                     IdKeHoach = ClientData.IdKeHoach;
                 }
                 else
                 {
-                    var update = _query.AspKeHoachThus.Find(ClientData.IdKeHoach);
+                    var update = _query.AspKeHoachThu.Find(ClientData.IdKeHoach);
                     if (update != null)
                     {
                         update.noi_dung_thu = ClientData.noi_dung_thu;
@@ -410,10 +410,10 @@ namespace AppNetShop.Controllers
                 var ClientData = new System.Web.Script.Serialization.JavaScriptSerializer().Deserialize<AspThuThucTe>(strData);
                 if (ClientData.IdThu == 0)
                 {
-                    _query.AspThuThucTes.Add(ClientData);
+                    _query.AspThuThucTe.Add(ClientData);
                     if (ClientData.IsTDSDT == true)
                     {
-                        var data = _query.AspDSDTThuChis.Where(c =>
+                        var data = _query.AspDSDTThuChi.Where(c =>
                         ((c.ma_so_dv == ClientData.ma_so_dv && ClientData.phan_loai_doi_tuong == "Tập thể") ||
                         (c.so_hieu_giay_to == ClientData.so_hieu_giay_to && ClientData.phan_loai_doi_tuong == "Cá nhân")));
                         if (data.Count() > 0)
@@ -442,7 +442,7 @@ namespace AppNetShop.Controllers
                             _ds.ten_don_vi = ClientData.ten_don_vi;
                             _ds.ngay_tao = DateTime.Now;
                             _ds.so_tien_thu = ClientData.so_tien_thu;
-                            _query.AspDSDTThuChis.Add(_ds);
+                            _query.AspDSDTThuChi.Add(_ds);
                             _query.SaveChanges();
                         }
                     }
@@ -453,7 +453,7 @@ namespace AppNetShop.Controllers
                 }
                 else
                 {
-                    var update = _query.AspThuThucTes.Find(ClientData.IdThu);
+                    var update = _query.AspThuThucTe.Find(ClientData.IdThu);
                     if (update != null)
                     {
                         update.noi_dung_thu = ClientData.noi_dung_thu;
@@ -491,7 +491,7 @@ namespace AppNetShop.Controllers
         {
             try
             {
-                var _check = _query.AspThuThucTes.Where(c => c.IdKeHoach == IdKeHoach).Count();
+                var _check = _query.AspThuThucTe.Where(c => c.IdKeHoach == IdKeHoach).Count();
 
                 if (_check > 0)
                 {
@@ -502,10 +502,10 @@ namespace AppNetShop.Controllers
                     }, JsonRequestBehavior.AllowGet);
                 }
 
-                var data = _query.AspKeHoachThus.Find(IdKeHoach);
+                var data = _query.AspKeHoachThu.Find(IdKeHoach);
                 if (data != null)
                 {
-                    _query.AspKeHoachThus.Remove(data);
+                    _query.AspKeHoachThu.Remove(data);
                     _query.SaveChanges();
                 }
 
@@ -531,7 +531,7 @@ namespace AppNetShop.Controllers
             try
             {
 
-                var data = _query.AspKeHoachThus.Find(IdKeHoach);
+                var data = _query.AspKeHoachThu.Find(IdKeHoach);
                 if (data != null)
                 {
                     data.is_chuyen_thung_rac = true;
@@ -559,15 +559,15 @@ namespace AppNetShop.Controllers
             try
             {
 
-                var data = _query.AspDSDTThuChis.Find(IdThu);
-                var data2 = _query.AspThuThucTes.Find(IdThu);
+                var data = _query.AspDSDTThuChi.Find(IdThu);
+                var data2 = _query.AspThuThucTe.Find(IdThu);
                 if (data != null)
                 {
-                    _query.AspDSDTThuChis.Remove(data);
+                    _query.AspDSDTThuChi.Remove(data);
                 }
                 if (data2 != null)
                 {
-                    _query.AspThuThucTes.Remove(data2);
+                    _query.AspThuThucTe.Remove(data2);
                 }
                 _query.SaveChanges();
 

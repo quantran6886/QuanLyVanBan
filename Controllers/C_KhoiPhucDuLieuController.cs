@@ -22,7 +22,7 @@ namespace AppNetShop.Controllers
         {
             try
             {
-                var lstDSThu = _query.AspKeHoachThus.Where(c => c.is_chuyen_thung_rac == true).AsEnumerable().Select(c => new
+                var lstDSThu = _query.AspKeHoachThu.Where(c => c.is_chuyen_thung_rac == true).AsEnumerable().Select(c => new
                 {
                     c.IdKeHoach,
                     c.don_vi_thu,
@@ -56,7 +56,7 @@ namespace AppNetShop.Controllers
             try
             {
 
-                var data = _query.AspKeHoachThus.Find(IdKeHoach);
+                var data = _query.AspKeHoachThu.Find(IdKeHoach);
                 if (data != null)
                 {
                     data.is_chuyen_thung_rac = null;

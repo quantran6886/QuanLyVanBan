@@ -1,8 +1,176 @@
 ﻿
 @{
-    Layout = null;
     ViewBag.Title = "C_XuatHienVat";
 }
 
-<h2>C_XuatHienVat</h2>
+<div class="col-sm-12">
+    <div class="panel panel-inverse">
+        <div class="panel-heading bg-gray-300 text-muted">
+            <h4 class="panel-title"><a href="#" class="text-decoration-none"><i class="fa fa-pen-to-square"></i> Xuất hiện vật</a></h4>
+        </div>
+        <div class="panel-body p-0">
+            <div id="content" class="app-content p-1 m-0 bg-component">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="alert p-2 mb-1 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                            <strong>I. Danh sách phiếu xuất</strong>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="form-label mt-1">Ngày mượn từ:</label>
+                            <div class="col-sm-12">
+                                <div class="input-group input-daterange">
+                                    <input type="date" class="form-control" name="start" placeholder="Date Start">
+                                    <span class="input-group-text input-group-addon">đến</span>
+                                    <input type="date" class="form-control" name="end" placeholder="Date End">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="form-label mt-1">Tra cứu thông tin:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Tra cứu theo số lệnh xuất....">
+                                <button type="button" class="btn btn-grd-success">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2">
+                            <table id="tblPhieuGiaoNhan"
+                                   data-classes="table table-bordered align-middle text-nowrap table-hover"
+                                   data-toggle="table"
+                                   data-mobile-responsive="true"
+                                   data-fixed-columns="true"
+                                   data-show-export="true"
+                                   data-search="false"
+                                   data-pagination="true">
+                                <thead>
+                                    <tr>
+                                        <th data-field="sap_xep" data-width="5">TT</th>
+                                        <th data-field="ten_goi">Số lệnh xuất</th>
+                                        <th data-field="ghi_chu">Ngày mượn từ</th>
+                                        <th data-field="is_lock" data-width="5" class="text-center">Đến ngày</th>
+                                        <th data-width="5" class="text-center">
+                                            Trạng thái
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="alert p-2 mb-1 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                            <strong>1. Thông tin phiếu</strong>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="d-lg-flex mb-0">
+                                <button type="button" id="btn_NewForm" class="btn btn-mini btn-grd-success me-1 mb-1"><i class="fa fa-fw fa-refresh"></i> Tạo mới</button>
+                                <button type="button" id="btn_Save" class="btn btn-grd-info btn-mini me-1 mb-1" data-bs-toggle="modal"><span class="fa fa-save"></span> Cập nhập</button>
+                                <button type="button" id="" class="btn btn-grd-danger btn-mini me-1 mb-1"><span class="fa fa-trash"></span> Xóa phiếu</button>
+                                <button type="button" id="" class="btn btn-grd-inverse btn-mini me-1 mb-1"><span class="fa fa-print"></span> In phiếu</button>
+                                <button type="button" id="" class="btn btn-primary btn-mini me-1 mb-1"  data-bs-toggle="modal" data-bs-target="#modal-xuat-hien-vat"><span class="fa fa-layer-group"></span> Xuất hiện vật</button>
+                            </div>
+                            <hr class="mt-0 mb-2 bg-gray-600 text-danger">
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <input id="IdMaPhieu" value="0" type="hidden" class="form-control">
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Số lệnh xuất<font color="red">(*)</font>:</label> <input type="text" id="SoLenhXuat" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Số quyết định<font color="red">(*)</font>:</label> <input type="text" id="SoQuyetDinh" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Ngày quyết định:</label> <input type="date" id="NgayQuyetDinh" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Người nhận<font color="red">(*)</font>:</label> <input type="text" id="NguoiNhan" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Chức vụ người nhận:</label> <input type="text" id="ChucVuNguoiNhan" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Thời hạn (ngày):</label> <input type="number" id="ThoiGian" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Ngày mượn từ<font color="red">(*)</font>:</label> <input type="date" id="dtTuNgay" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Đến ngày<font color="red">(*)</font>:</label> <input type="date" id="dtDenNgay" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Xét đề nghi:</label> <input type="text" id="XetDeNghi" class="form-control"></div>
+                                        <div class="form-group col-sm-4"><label class="form-label mt-1">Công văn số:</label> <input type="text" id="CongVanSo" class="form-control"></div>
+                                        <div class="form-group col-sm-8"><label class="form-label mt-1">Mục đích xuất:</label> <input type="text" id="MucDichXuat" class="form-control"></div>
+                                        <div class="form-group col-sm-12"><label class="form-label mt-1">Địa chỉ người nhận:</label> <input type="text" id="DiaChiNguoiNhan" class="form-control"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mt-2">
+                            <div class="alert p-2 mb-1 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                                <strong>2. Danh sách hiện vật</strong>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-sm-12">
+                                    <div id="toolbarBaoQuan">
+                                        <div class="form-inline" role="form">
+                                            <button class="btn btn-info btn-mini waves-effect waves-light" data-placement="top" title="Tạo một bản ghi mới" id="btn_NewTinhTrang"><i class="fa fa-plus"></i> Thêm mới</button>
+                                        </div>
+                                    </div>
+                                    <table id="tableBaoQuan"
+                                           data-toggle="table"
+                                           data-classes="table table-bordered table-hover reponsive"
+                                           data-unique-id="IdTinhTrangBQ"
+                                           data-mobile-responsive="true"
+                                           data-fixed-columns="true"
+                                           data-show-export="true"
+                                           data-toolbar="#toolbarBaoQuan"
+                                           data-pagination="true"
+                                           data-page-size="15"
+                                           data-page-list="[15, 25, 35, all]">
+                                        <thead>
+                                            <tr class="trTable">
+                                                <th data-field="cbTinhTrangBaoQuan" class="text-center">Số đăng ký</th>
+                                                <th data-field="cbLoaiBaoQuan" class="text-center">Tên tài liệu/Hiện vật</th>
+                                                <th data-field="dtNgayBaoQuan" class="text-center">Số lượng</th>
+                                                <th data-field="SoHSLienQuan" data-width="5">Chất liệu</th>
+                                                <th data-field="SoHSLienQuan" data-width="5">Tình trạng</th>
+                                                <th data-formatter="operateFormatter_XoaBaoQuan" data-field="XoaBaoQuan" data-width="5"><strong>#</strong></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="modal-xuat-hien-vat">
+    <div class="modal-dialog" style="max-width:60%">
+        <div class="modal-content">
+            <div class="panel panel-inverse m-0">
+                <div class="panel-body p-0">
+                    <div style="height: fit-content;" class="mb-2">
+                        <div class="accordion p-0" id="accordion2">
+                            <div class="accordion-item border-1 border-bottom-0">
+                                <div class="accordion-header" id="headingOne2">
+                                    <button class="accordion-button bg-white-400 px-3 py-10px pointer-cursor" type="button">
+                                        <i class="fa fa-circle fa-fw text-blue me-2 fs-8px"></i> Thông tin xuất hiện vật
+                                    </button>
+                                </div>
+                                <div id="collapseOne2" class="accordion-collapse collapse show" >
+                                    <div class="accordion-body bg-white p-1">
+                                        <div class="row">
+                                            <div class="form-group col-sm-3"><label class="form-label mt-1">Số phiếu xuất<font color="red">(*)</font>:</label> <input type="text" placeholder="Nhập số phiếu xuất" class="form-control" id="SoPhieuXuat"></div>
+                                            <div class="form-group col-sm-3"><label class="form-label mt-1">Ngày xuất<font color="red">(*)</font>:</label> <input type="date" placeholder="" class="form-control" id="dtNgayXuat"></div>
+                                            <div class="form-group col-sm-3"><label class="form-label mt-1">Họ tên người giao<font color="red">(*)</font>:</label> <input type="text" placeholder="" class="form-control" id="HoTenNguoiGiao_xuat"></div>
+                                            <div class="form-group col-sm-3"><label class="form-label mt-1">Chức vụ người giao<font color="red">(*)</font>:</label> <input type="text" placeholder="" class="form-control" id="ChucVuNguoiGiao_xuat"></div>
+                                            <div class="form-group col-sm-6"><label class="form-label mt-1">Địa chỉ người giao<font color="red">(*)</font>:</label> <input type="text" placeholder="" class="form-control" id="DiaChiNguoiGiaoXuat"></div>
+                                            <div class="form-group col-sm-3"><label class="form-label mt-1">Họ tên người nhận:</label> <input type="text" placeholder="" class="form-control" id="HoTenNguoiNhan_xuat" readonly=""></div>
+                                            <div class="form-group col-sm-3"><label class="form-label mt-1">Chức vụ người nhận:</label> <input type="text" placeholder="" class="form-control" id="ChucVuNguoiNhan_xuat" readonly=""></div>
+                                            <div class="form-group col-sm-6"><label class="form-label mt-1">Địa chỉ người nhận:</label> <input type="text" placeholder="" class="form-control" id="DiaChiNguoiNhanXuat" readonly=""></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-0 p-0">
+                    <a class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="fa fa-arrow-rotate-left"></i> Thoát</a>
+                    <a class="btn btn-sm btn-success" id="btn_save_form"><i class="fa fa-save"></i> Cập nhập</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

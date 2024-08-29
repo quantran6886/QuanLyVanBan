@@ -62,7 +62,7 @@ namespace AppNetShop.Controllers
             try
             {
                 List<DateTime?> dates = C_GetDate.GetAllDates(txt_ngay_dau_thang, txt_ngay_cuoi_thang);
-                var lstData = _query.AspChamCongs.Where(c => c.ngay_lam >= txt_ngay_dau_thang && c.ngay_lam <= txt_ngay_cuoi_thang).Select(c => new
+                var lstData = _query.AspChamCong.Where(c => c.ngay_lam >= txt_ngay_dau_thang && c.ngay_lam <= txt_ngay_cuoi_thang).Select(c => new
                 {
                     c.ngay_lam,
                     c.IsLamNuaNgay,
@@ -123,7 +123,7 @@ namespace AppNetShop.Controllers
             try
             {
                 int stt = 1;
-                var data = _query.AspHoSoCanBoes.Where(c => ngay_lam <= DateTime.Now).AsEnumerable().Select(c => new
+                var data = _query.AspHoSoCanBo.Where(c => ngay_lam <= DateTime.Now).AsEnumerable().Select(c => new
                 {
                     stt = stt++,
                     c.IdCanBo,
@@ -182,7 +182,7 @@ namespace AppNetShop.Controllers
         {
             try
             {
-                var lstAccount = _query.AspHoSoCanBoes.Find(IdCanBo);
+                var lstAccount = _query.AspHoSoCanBo.Find(IdCanBo);
 
                 if (string.IsNullOrEmpty(lstAccount.so_tai_khoan) || string.IsNullOrEmpty(lstAccount.cb_ngan_hang))
                 {
@@ -250,7 +250,7 @@ namespace AppNetShop.Controllers
         {
             try
             {
-                var data = _query.AspChamCongs.Where(c => c.IdCanBo == IdCanBo && c.ngay_lam == ngay_lam).FirstOrDefault();
+                var data = _query.AspChamCong.Where(c => c.IdCanBo == IdCanBo && c.ngay_lam == ngay_lam).FirstOrDefault();
                 if (data != null)
                 {
                     if (check == 1)
@@ -282,7 +282,7 @@ namespace AppNetShop.Controllers
                     aspChamCong.IsLamCaNgay = IsLamCaNgay;
                     aspChamCong.IdCanBo = IdCanBo;
                     aspChamCong.ngay_lam = ngay_lam;
-                    _query.AspChamCongs.Add(aspChamCong);
+                    _query.AspChamCong.Add(aspChamCong);
                     _query.SaveChanges();
                 }
 
@@ -307,7 +307,7 @@ namespace AppNetShop.Controllers
             bool is_check = false;
             string ngay_lamx = string.Format("{0:yyyy-MM-dd}", ngay_lam);
 
-            var data = _query.AspChamCongs.Where(c => c.ngay_lam.ToString() == ngay_lamx && c.IdCanBo == IdCanBo).FirstOrDefault();
+            var data = _query.AspChamCong.Where(c => c.ngay_lam.ToString() == ngay_lamx && c.IdCanBo == IdCanBo).FirstOrDefault();
             if (data != null)
             {
                 is_check = data.IsLamNuaNgay == true ? true : false;
@@ -325,7 +325,7 @@ namespace AppNetShop.Controllers
             bool is_check = false;
             string ngay_lamx = string.Format("{0:yyyy-MM-dd}", ngay_lam);
 
-            var data = _query.AspChamCongs.Where(c => c.ngay_lam.ToString() == ngay_lamx && c.IdCanBo == IdCanBo).FirstOrDefault();
+            var data = _query.AspChamCong.Where(c => c.ngay_lam.ToString() == ngay_lamx && c.IdCanBo == IdCanBo).FirstOrDefault();
             if (data != null)
             {
                 is_check = data.IsLamCaNgay == true ? true : false;
@@ -345,7 +345,7 @@ namespace AppNetShop.Controllers
             var ngay_dau_thang = C_GetDate.FirstDayMonth(DateNow);
             var ngay_cuoi_thang = C_GetDate.LastDayMonth(DateNow);
 
-            var data = _query.AspChamCongs.Where(c => c.IdCanBo == IdCanBo && (c.ngay_lam >= ngay_dau_thang) && (c.ngay_lam <= ngay_cuoi_thang)).AsEnumerable().ToList();
+            var data = _query.AspChamCong.Where(c => c.IdCanBo == IdCanBo && (c.ngay_lam >= ngay_dau_thang) && (c.ngay_lam <= ngay_cuoi_thang)).AsEnumerable().ToList();
             if (data != null)
             {
                 foreach (var item in data)

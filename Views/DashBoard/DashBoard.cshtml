@@ -2,7 +2,102 @@
 @{
     ViewBag.Title = "Trang chủ";
 }
+<link href="../assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
 @section Scripts{
+    <script src="../assets/plugins/d3/d3.min.js"></script>
+    <script src="../assets/plugins/nvd3/build/nv.d3.min.js"></script>
+    <script>
+        var myControl = {
+            init: function () {
+                myControl.LoadData();
+                myControl.event();
+            },
+            event: function () {
+            },
+
+            LoadData: function () {
+                $.ajax({
+                    url: '/DashBoard/LoadData',
+                    type: 'GET',
+                    datatype: 'json',
+                    success: function (response) {
+                        if (response.code) {
+                            var countTHV = response.countTHV;
+                            var countHVCSDK = response.countHVCSDK;
+                            var countHVST = response.countHVST;
+                            var countHVXD = response.countHVXD;
+                            var countHVCXD = response.countHVCXD;
+                            var countHVDiVat = response.countHVDiVat;
+                            var countHVCoVat = response.countHVCoVat;
+                            var countHVKhangChien = response.countHVKhangChien;
+                            var countHVBaoVatQG = response.countHVBaoVatQG;
+
+                            $("#txtHV").html(countHVCSDK);
+                            setColumnChart(countTHV, countHVCSDK, countHVST, countHVXD, countHVCXD, countHVDiVat, countHVCoVat, countHVKhangChien, countHVBaoVatQG);
+                            setColumnPie(countHVCSDK, countHVST, countHVXD);
+                        }
+                    },
+                });
+            },
+        };
+
+        function setColumnPie(countHVCSDK, countHVST, countHVXD) {
+            var pieChartData = [
+                { 'label': 'Đã đăng ký', 'value': countHVCSDK, 'color': app.color.red },
+                { 'label': 'Sưu tầm', 'value': countHVST, 'color': app.color.orange },
+                { 'label': 'Xét duyệt', 'value': countHVXD, 'color': app.color.success },
+            ];
+
+            nv.addGraph(function () {
+                var pieChart = nv.models.pieChart()
+                    .x(function (d) { return d.label })
+                    .y(function (d) { return d.value })
+                    .showLabels(true)
+                    .labelThreshold(.05);
+
+                d3.select('#nv-pie-chart').append('svg')
+                    .datum(pieChartData)
+                    .transition().duration(350)
+                    .call(pieChart);
+
+                return pieChart;
+            });
+        };
+
+        function setColumnChart(countTHV, countHVCSDK, countHVST, countHVXD, countHVCXD, countHVDiVat, countHVCoVat, countHVKhangChien, countHVBaoVatQG) {
+            var barChartData = [{
+                key: 'Cumulative Return',
+                values: [
+                    { 'label': 'Đã đăng ký', 'value': countHVCSDK, 'color': app.color.red },
+                    { 'label': 'Sưu tầm', 'value': countHVST, 'color': app.color.orange },
+                    { 'label': 'Xét duyệt', 'value': countHVXD, 'color': app.color.success },
+                    { 'label': 'Chưa xét duyệt', 'value': countHVCXD, 'color': app.color.cyan },
+                    { 'label': 'Di vật', 'value': countHVDiVat, 'color': app.color.blue },
+                    { 'label': 'Cổ vật', 'value': countHVCoVat, 'color': app.color.purple },
+                    { 'label': 'Kháng chiến', 'value': countHVKhangChien, 'color': app.color.gray500 },
+                    { 'label': 'Bảo vật quốc gia', 'value': countHVBaoVatQG, 'color': app.color.componentColor }
+                ]
+            }];
+
+            nv.addGraph(function () {
+                var barChart = nv.models.discreteBarChart()
+                    .x(function (d) { return d.label })
+                    .y(function (d) { return d.value })
+                    .showValues(true)
+                    .duration(countTHV); // tổng hiện vật
+
+                barChart.yAxis.axisLabel("Tổng hiện vật");
+                barChart.xAxis.axisLabel('Thống kê hiện vật');
+
+                d3.select('#nv-bar-chart').append('svg').datum(barChartData).call(barChart);
+                nv.utils.windowResize(barChart.update);
+
+                return barChart;
+            });
+        };
+      
+        myControl.init();
+    </script>
 
 }
 <div class="col-sm-12">
@@ -13,15 +108,15 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-xl-3 col-md-6">
-                    <div class="widget widget-stats bg-teal">
-                        <div class="stats-icon stats-icon-lg"><i class="fa fa-globe fa-fw"></i></div>
+                    <div class="widget widget-stats bg-green">
+                        <div class="stats-icon stats-icon-lg"><i class="fa  fa-chess-rook fa-fw"></i></div>
                         <div class="stats-content">
-                            <div class="stats-title">Tổng số tiền thu</div>
-                            <div class="stats-number">7,842,900</div>
+                            <div class="stats-title">Tổng số hiện vật đăng ký</div>
+                            <div class="stats-number" id="txtHV">0</div>
                             <div class="stats-progress progress">
                                 <div class="progress-bar" style="width: 70.1%;"></div>
                             </div>
-                            <div class="stats-desc">Better than last week (70.1%)</div>
+                            <div class="stats-desc"></div>
                         </div>
                         <div class="stats-link">
                             <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
@@ -30,15 +125,15 @@
                 </div>
 
                 <div class="col-xl-3 col-md-6">
-                    <div class="widget widget-stats bg-blue">
-                        <div class="stats-icon stats-icon-lg"><i class="fa fa-dollar-sign fa-fw"></i></div>
+                    <div class="widget widget-stats bg-red">
+                        <div class="stats-icon stats-icon-lg"><i class="fa fa-gem fa-fw"></i></div>
                         <div class="stats-content">
-                            <div class="stats-title">Tổng số tiền chi trả</div>
-                            <div class="stats-number">180,200</div>
+                            <div class="stats-title">Hiện vật đã xuất</div>
+                            <div class="stats-number" id="txtHVX">0</div>
                             <div class="stats-progress progress">
                                 <div class="progress-bar" style="width: 40.5%;"></div>
                             </div>
-                            <div class="stats-desc">Better than last week (40.5%)</div>
+                            <div class="stats-desc"></div>
                         </div>
                         <div class="stats-link">
                             <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
@@ -48,15 +143,15 @@
 
 
                 <div class="col-xl-3 col-md-6">
-                    <div class="widget widget-stats bg-indigo">
-                        <div class="stats-icon stats-icon-lg"><i class="fa fa-credit-card fa-fw"></i></div>
+                    <div class="widget widget-stats bg-blue-400">
+                        <div class="stats-icon stats-icon-lg"><i class="fa fa-pagelines fa-fw"></i></div>
                         <div class="stats-content">
-                            <div class="stats-title">Số dự hiện có</div>
-                            <div class="stats-number">38,900</div>
+                            <div class="stats-title">Hồ sơ xét duyệt</div>
+                            <div class="stats-number" id="txtHVXD">0</div>
                             <div class="stats-progress progress">
                                 <div class="progress-bar" style="width: 76.3%;"></div>
                             </div>
-                            <div class="stats-desc">Better than last week (76.3%)</div>
+                            <div class="stats-desc"></div>
                         </div>
                         <div class="stats-link">
                             <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
@@ -66,15 +161,15 @@
 
 
                 <div class="col-xl-3 col-md-6">
-                    <div class="widget widget-stats bg-gray-900">
+                    <div class="widget widget-stats bg-yellow-600">
                         <div class="stats-icon stats-icon-lg"><i class="fa fa-comment-alt fa-fw"></i></div>
                         <div class="stats-content">
-                            <div class="stats-title">Thông báo cần sử lý</div>
-                            <div class="stats-number">3,988</div>
+                            <div class="stats-title">Thông báo </div>
+                            <div class="stats-number" id="txtTB">0</div>
                             <div class="stats-progress progress">
                                 <div class="progress-bar" style="width: 54.9%;"></div>
                             </div>
-                            <div class="stats-desc">Better than last week (54.9%)</div>
+                            <div class="stats-desc"></div>
                         </div>
                         <div class="stats-link">
                             <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
@@ -85,43 +180,90 @@
             </div>
             <!-- toggler -->
             <div class="col-sm-12">
-                <div class="panel panel-inverse">
-                    <div class="panel-heading bg-cyan-700 text-white">
-                        <h4 class="panel-title">Theo dõi chấm công</h4>
-                        <div class="panel-heading-btn">
-                            <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
-                            <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
-                            <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="alert p-2 mb-1 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                            <strong>Cán bộ & Lượt khách truy cập</strong>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="widget widget-stats bg-cyan">
+                                <div class="stats-icon stats-icon-lg"><i class="fa  fa-user fa-fw"></i></div>
+                                <div class="stats-content">
+                                    <div class="stats-title">Cán bộ bảo tảng</div>
+                                    <div class="stats-number" id="txtHV">0</div>
+                                    <div class="stats-progress progress">
+                                        <div class="progress-bar" style="width: 70.1%;"></div>
+                                    </div>
+                                    <div class="stats-desc"></div>
+                                </div>
+                                <div class="stats-link">
+                                    <a href="javascript:;">View Detail <i class="fa fa-user"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="card border-0 text-truncate mb-3 bg-gray-800 text-white">
+
+                                <div class="card-body">
+
+                                    <div class="mb-3 text-gray-500">
+                                        <b class="mb-3">Lượng khách tham quan truy cập</b>
+                                        <span class="ms-2"><i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-title="Conversion Rate" data-bs-placement="top" data-bs-content="Percentage of sessions that resulted in orders from total number of sessions." data-original-title="" title=""></i></span>
+                                    </div>
+
+                                    <div class="d-flex mb-2">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa fa-circle text-red fs-8px me-2"></i>
+                                            Theo ngày
+                                        </div>
+                                        <div class="d-flex align-items-center ms-auto">
+                                            <div class="w-50px text-end ps-2 fw-bold"><span data-animation="number" data-value="3.79">379</span></div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="d-flex mb-2">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa fa-circle text-warning fs-8px me-2"></i>
+                                            Theo tuần
+                                        </div>
+                                        <div class="d-flex align-items-center ms-auto">
+                                            <div class="w-50px text-end ps-2 fw-bold"><span data-animation="number" data-value="3.85">385</span></div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="d-flex">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fa fa-circle text-lime fs-8px me-2"></i>
+                                            Theo tháng
+                                        </div>
+                                        <div class="d-flex align-items-center ms-auto">
+                                            <div class="w-50px text-end ps-2 fw-bold"><span data-animation="number" data-value="2.19">219</span></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                         </div>
                     </div>
-                    <div class="panel-body">
-                        <table id="tblKeHoach"
-                               data-classes="table table-bordered align-middle text-nowrap table-hover"
-                               data-toggle="table"
-                               data-mobile-responsive="true"
-                               data-fixed-columns="true"
-                               data-show-export="true"
-                               data-search="false"
-                               data-pagination="true">
-                            <thead>
-                                <tr>
-                                    <th data-field="stt" data-width="5">TT</th>
-                                    <th data-field="don_vi_thu">Họ và tên</th>
-                                    <th data-field="ly_do_thu">Số tiền tri trả</th>
-                                    <th data-field="so_tien_thu_du_kien">Tạm ứng</th>
-                                    <th data-field="so_tien_thu">Chi tiền mặt</th>
-                                    <th data-field="">Chuyển khoản</th>
-                                    <th data-field="">Ghi chú</th>
-                                    <th data-field="">Công ty nộp</th>
-                                    <th data-field="">Phần gửi</th>
-                                    <th data-field="">Đã trả</th>
-                                </tr>
-                            </thead>
-                        </table>
+                    <div class="col-sm-9">
+                        <div class="alert p-2 mb-1 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                            <strong>Biểu đồ cột</strong>
+                        </div>
+                        <div id="nv-bar-chart" class="h-300px"></div>
                     </div>
+                    <div class="col-sm-12">
+                        <div class="alert p-2 mb-1 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                            <strong>Biểu đồ theo dõi tình trạng hiện vật</strong>
+                        </div>
+                        <div id="nv-pie-chart" class="h-250px ml-0"></div>
+                    </div>
+
                 </div>
             </div>
-
         </div>
     </div>
 </div>

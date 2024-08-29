@@ -23,7 +23,7 @@ namespace AppNetShop.Controllers
         {
             try
             {
-                var check_so_thu_tu = _query.AspDanhMucHeThongs.Where(c => Id == 0 ? (c.sap_xep == so_thu_tu && c.phan_loai == phan_loai) : (c.Id != Id && c.sap_xep == so_thu_tu && c.phan_loai == phan_loai)).Count();
+                var check_so_thu_tu = _query.AspDanhMucHeThong.Where(c => Id == 0 ? (c.sap_xep == so_thu_tu && c.phan_loai == phan_loai) : (c.Id != Id && c.sap_xep == so_thu_tu && c.phan_loai == phan_loai)).Count();
                 if (check_so_thu_tu > 0)
                 {
                     return Json(new
@@ -34,7 +34,7 @@ namespace AppNetShop.Controllers
                 }
                 if (Id == 0)
                 {
-                    _query.AspDanhMucHeThongs.Add(new AspDanhMucHeThong
+                    _query.AspDanhMucHeThong.Add(new AspDanhMucHeThong
                     {
                         sap_xep = so_thu_tu,
                         ten_goi = ten_goi,
@@ -45,7 +45,7 @@ namespace AppNetShop.Controllers
                 }
                 else
                 {
-                    var find_data = _query.AspDanhMucHeThongs.Find(Id);
+                    var find_data = _query.AspDanhMucHeThong.Find(Id);
                     if (find_data != null)
                     {
                         find_data.sap_xep = so_thu_tu;
@@ -74,7 +74,7 @@ namespace AppNetShop.Controllers
         {
             try
             {
-                var find_data = _query.AspDanhMucHeThongs.Find(Id);
+                var find_data = _query.AspDanhMucHeThong.Find(Id);
                 if (find_data != null)
                 {
                     if (check_lock == 1)
@@ -108,7 +108,7 @@ namespace AppNetShop.Controllers
         {
             try
             {
-                var find_data = _query.AspDanhMucHeThongs.Where(c => c.phan_loai == phan_loai).Select(c => new
+                var find_data = _query.AspDanhMucHeThong.Where(c => c.phan_loai == phan_loai).Select(c => new
                 {
                     c.Id,
                     c.ten_goi,

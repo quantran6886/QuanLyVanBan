@@ -72,7 +72,7 @@ namespace AppNetShop.Controllers
             {
                 using (XEntities _en = new XEntities())
                 {
-                    AspNetRole aspNetRole = new AspNetRole();
+                    AspNetRoles aspNetRole = new AspNetRoles();
                     aspNetRole.Id = Encrypt(NameRole);
                     aspNetRole.Name = NameRole;
 

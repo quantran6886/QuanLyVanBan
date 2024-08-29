@@ -1,0 +1,347 @@
+﻿
+@{
+    ViewBag.Title = "Tra cứu hiện vật";
+}
+
+<link href="../assets/css/UloadNhanSu.css" rel="stylesheet" />
+<link href="../assets/Farmwork/Chosen/chosen.css" rel="stylesheet" />
+
+<div class="col-sm-12">
+    <div class="panel panel-inverse">
+        <div class="panel-heading bg-gray-300 text-muted">
+            <h4 class="panel-title"><a href="#" class="text-decoration-none"><i class="fa fa-pen-to-square"></i> Tra cứu hiện vật</a></h4>
+        </div>
+        <div class="panel-body p-0">
+            <div id="content" class="app-content p-1 m-0 bg-component">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="form-group col-sm-3"><label class="form-label mt-1">Số đăng ký:</label> <input type="text" id="SoDangKy" class="form-control"></div>
+                        <div class="form-group col-sm-3"><label class="form-label mt-1">Tên hiện vật:</label> <input type="text" id="TenHienVat" class="form-control"></div>
+                        <div class="form-group col-sm-3" hidden="">
+                            <label class="form-label mt-1">Thuộc di tích:</label>
+                            <select type="text" id="IdDiTich" class="form-control chosen" style="display: none;"><option value="">---Chọn di tích---</option><option value="10">Thành Cổ Loa</option><option value="12">Cố đô Hoa Lư</option><option value="13">Điện Biên Phủ</option><option value="14">Văn Miếu Quốc Tử Giám</option><option value="17">Hồ Gươm</option></select><div class="chosen-container chosen-container-single" style="width: 100%;" title="" id="IdDiTich_chosen"><a class="chosen-single" tabindex="-1"><span>---Chọn di tích---</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results" style="font-size: 16px; font-family: FontAwesome;"></ul></div></div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label class="form-label mt-1">Thời kỳ:</label>
+                            <select type="text" id="cbThoiKy" class="form-control chosen" style="display: none;"><option value="">---Chọn thời kỳ---</option><option value="Hiện đại">1. Hiện đại</option><option value="Cận hiện đại">2. Cận hiện đại</option><option value="Nguyên">3. Nguyên</option><option value="Lê sơ">4. Lê sơ</option><option value="Hồ">5. Hồ</option><option value="Trần">6. Trần</option><option value="Lý">8. Lý</option><option value="Tiền lê">9. Tiền lê</option><option value="Đinh">10. Đinh</option><option value="Ngô">11. Ngô</option><option value="Tây Sơn">12. Tây Sơn</option><option value="Sau chiến thắng Điện Biên Phủ">13. Sau chiến thắng Điện Biên Phủ</option><option value="Thời kỳ khánh chiến chống Mỹ">14. Thời kỳ khánh chiến chống Mỹ</option><option value="Thời kỳ kháng chiến chống Pháp">15. Thời kỳ kháng chiến chống Pháp</option></select><div class="chosen-container chosen-container-single" style="width: 100%;" title="" id="cbThoiKy_chosen"><a class="chosen-single" tabindex="-1"><span>---Chọn thời kỳ---</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results" style="font-size: 16px; font-family: FontAwesome;"></ul></div></div>
+                        </div>
+                        <div class="form-group col-sm-3"><label class="form-label mt-1">Số quyết định:</label> <input type="text" id="SoQuyetDinh" class="form-control"></div>
+                        <div class="form-group col-sm-3"><label class="form-label mt-1">Ngày tiếp nhận hiện vật từ:</label> <input type="date" id="dtNgayQuyetDinhTu" class="form-control"></div>
+                        <div class="form-group col-sm-3"><label class="form-label mt-1">đến ngày:</label> <input type="date" id="dtNgayQuyetDinhDen" class="form-control"></div>
+                        <div class="form-group col-sm-3">
+                            <label class="form-label mt-1">Chất liệu:</label>
+                            <select type="text" id="txtChatLieu" class="form-control chosen" style="display: none;"><option value="">---Chọn chất liệu---</option><option value="Đồng">1. Đồng</option><option value="Gỗ">2. Gỗ</option><option value="Sơn dầu">3. Sơn dầu</option><option value="Da">4. Da</option><option value="Nhựa">5. Nhựa</option><option value="Ngà">6. Ngà</option><option value="Sừng">7. Sừng</option><option value="Xương">8. Xương</option><option value="Nứa">9. Nứa</option><option value="Tre">10. Tre</option><option value="Gốm">11. Gốm</option><option value="Chì">12. Chì</option><option value="Cao su">13. Cao su</option><option value="Nhôm">15. Nhôm</option><option value="Vải">16. Vải</option></select><div class="chosen-container chosen-container-single" style="width: 100%;" title="" id="txtChatLieu_chosen"><a class="chosen-single" tabindex="-1"><span>---Chọn chất liệu---</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off"></div><ul class="chosen-results" style="font-size: 16px; font-family: FontAwesome;"></ul></div></div>
+                        </div>
+                    </div>
+                    <div class="row pt-3 pb-2">
+                        <div class="form-group col-sm-4">
+                            <button class="btn btn-grd-info btn-mini waves-effect waves-light" data-toggle="modal" data-placement="top" title="Làm mới các bản ghi" id="btn_LamMoi"><i class="fas fa-spinner fa-spin"></i> Làm mới</button>
+                            <button class="btn btn-grd-success btn-mini waves-effect waves-light" data-toggle="modal" data-placement="top" title="Tìm các bản ghi đã thực hiện" id="btn_TimKiem"><i class="fa fa-search"></i> Tìm kiếm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="alert p-2 mb-1 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                            <strong>I. Danh sách hiện vật</strong>
+                        </div>
+                        <div class="form-group mt-2">
+                            <table id="tblPhieuGiaoNhan"
+                                   data-classes="table table-bordered align-middle text-nowrap table-hover"
+                                   data-toggle="table"
+                                   data-mobile-responsive="true"
+                                   data-fixed-columns="true"
+                                   data-show-export="true"
+                                   data-search="false"
+                                   data-pagination="true">
+                                <thead>
+                                    <tr>
+                                        <th data-field="sap_xep" data-width="5">TT</th>
+                                        <th data-field="ten_goi">Số đăng ký</th>
+                                        <th data-field="ghi_chu">Thời gian đăng ký</th>
+                                        <th data-field="is_lock" class="text-center">Tên hiện vật</th>
+                                        <th class="text-center">
+                                            Trạng thái
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="alert p-2 mb-1 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                            <strong>II. Thông tin hiện vật</strong>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-sm-4 bg-cyan-500 p-1">
+                                            <div class="avatar-wrapper mt-3">
+                                                <img class="profile-pic" id="image_HoSo" src="../assets/img/Avatar2.jpg" />
+                                                <div class="upload-button" id="btnUploadAvartar">
+                                                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                                                </div>
+                                                <input type="file" class="file-upload" id="duong_dan_tai_lieu" accept="image/png, image/jpeg,image/jpg" />
+                                                <input type="hidden" id="is_thay_doi" class="form-control">
+                                                <input type="hidden" id="IdCanBo" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <h6 class="text-primary">1. Tên gọi</h6>
+                                                    <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-label mt-1">1.1 Tên hiện vật:<font class="text-danger">*</font></label>
+                                                    <input class="form-control" placeholder="Tên hiện vật ..." id="" type="text" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-label mt-1">1.2 Tên gọi khác:</label>
+                                                    <input class="form-control" placeholder="Tên gọi khác ..." id="" type="text" />
+                                                </div>
+                                                <div class="col-sm-12 mt-3">
+                                                    <h6 class="text-primary">2. Số đăng ký</h6>
+                                                    <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label class="form-label mt-1">2.1 Số đăng ký:<font class="text-danger">*</font></label>
+                                                    <input class="form-control" placeholder="Số đăng ký ..." id="" type="text" />
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <label class="form-label mt-1">2.2 Đường dẫn hình ảnh 3D:</label>
+                                                    <input class="form-control" placeholder="Đường dẫn hình ảnh 3D ..." id="" type="text" />
+                                                </div>
+                                                <div class="col-sm-12 mt-3">
+                                                    <h6 class="text-primary">3. Số lượng</h6>
+                                                    <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <label class="form-label mt-1">3.1 Số lượng:<font class="text-danger">*</font></label>
+                                                    <input class="form-control" placeholder="Số lượng ..." id="" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-12 mt-3">
+                                                <h6 class="text-primary">4. Thời kỳ/niên đại</h6>
+                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label class="form-label mt-1">4.1 Thời kỳ:</label>
+                                                <select class="form-control chosen" id="">
+                                                    <option value="">Chọn thời kỳ</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-12 mt-3">
+                                                <h6 class="text-primary">5. Loại hiện vật</h6>
+                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                            </div>
+                                            <div class="col-sm-12 row">
+                                                <div class="form-check col-sm-6 mb-3">
+                                                    <input type="radio" class="form-check-input" id="IsCoVat" name="radiorequired">
+                                                    <label class="form-check-label" for="IsCoVat">Cổ vật</label>
+                                                </div>
+                                                <div class="form-check col-sm-6">
+                                                    <input type="radio" class="form-check-input" id="IsDiVat" name="radiorequired">
+                                                    <label class="form-check-label" for="IsDiVat">Di vật</label>
+                                                </div>
+                                                <div class="form-check col-sm-6">
+                                                    <input type="radio" class="form-check-input" id="IsBaoVatQuocGia" name="radiorequired">
+                                                    <label class="form-check-label" for="IsBaoVatQuocGia">Bảo vật quốc gia</label>
+                                                </div>
+                                                <div class="form-check col-sm-6">
+                                                    <input type="radio" class="form-check-input" id="IsHienVat" name="radiorequired">
+                                                    <label class="form-check-label" for="IsHienVat">Hiện vật kháng chiến</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-12 mt-3">
+                                                <h6 class="text-primary">6. Bổ sưu tập</h6>
+                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label class="form-label mt-1">6.1 Bộ sưu tập:</label>
+                                                <select class="form-control chosen" id="">
+                                                    <option value="">Chọn bộ sưu tập</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-12 mt-3">
+                                                <h6 class="text-primary">7. Chất liệu</h6>
+                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label class="form-label mt-1">7.1 Chất liệu:</label>
+                                                <select class="form-control chosen" id="">
+                                                    <option value="">Chọn chất liệu</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-12 mt-3">
+                                                <h6 class="text-primary">8. Kích thước</h6>
+                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label class="form-label mt-1">8.1 Chiều dài (m):</label>
+                                                    <input class="form-control" placeholder="Chiều dài ..." id="" type="text" />
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label class="form-label mt-1">8.2 Chiều rộng (m):</label>
+                                                    <input class="form-control" placeholder="Chiều rộng ..." id="" type="text" />
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label class="form-label mt-1">8.3 Chiều cao (m):</label>
+                                                    <input class="form-control" placeholder="Chiều cao ..." id="" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-12 mt-3">
+                                                <h6 class="text-primary">9. Trọng lượng</h6>
+                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <label class="form-label mt-1">9.1 Trọng lượng (g,kg):</label>
+                                                    <input class="form-control" placeholder="Trọng lượng ..." id="" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-12 mt-3">
+                                                <h6 class="text-primary">10. Màu sắc</h6>
+                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <label class="form-label mt-1">10.1 Màu sắc:</label>
+                                                    <select class="form-control chosen" id="">
+                                                        <option value="">Chọn màu sắc</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-12 mt-3">
+                                                <h6 class="text-primary">11. Miêu tả</h6>
+                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label class="form-label mt-1">11.1 Miêu tả hiện vật:</label>
+                                                    <input class="form-control" placeholder="Miêu tả hiện vật ..." id="" type="text" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-label mt-1">11.2 Dấu tích đặc biệt:</label>
+                                                    <input class="form-control" placeholder="Dấu tích đặc biệt ..." id="" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert p-2 m-2 alert-dismissible fade show" style=" border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818;">
+                                            <strong>II. Xuất xứ</strong>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-12 mt-3">
+                                                <h6 class="text-primary">15. Địa chỉ sưu tầm</h6>
+                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <label class="form-label mt-1">15.1 Địa chỉ sưu tầm:</label>
+                                                    <input class="form-control" placeholder="Địa chỉ sưu tầm ..." id="" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="col-sm-12 mt-3">
+                                                <h6 class="text-primary">16. Thời gian hiện vật</h6>
+                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <label class="form-label mt-1">16.1 Thời gian hiện vật:</label>
+                                                    <input class="form-control" id="" type="date" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-12 mt-3">
+                                                <h6 class="text-primary">17. Thời gian đăng ký hiện vật</h6>
+                                                <hr class="mb-10px mt-0 bg-gray-600 text-danger">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label class="form-label mt-1">17.1 Số quyết định:</label>
+                                                    <input class="form-control" id="" type="text" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-label mt-1">17.2 Ngày quyết định:</label>
+                                                    <input class="form-control" id="" type="date" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-label mt-1">17.3 Thời gian tiếp nhận hiện vật:</label>
+                                                    <input class="form-control" id="" type="date" />
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label class="form-label mt-1">17.4 Thời gian đăng ký di vật, cổ vật quốc gia:</label>
+                                                    <input class="form-control" id="" type="date" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert p-2 m-2 alert-dismissible fade show" style="border-bottom: 2px solid #30a4ff; border-top: 2px solid #30a4ff; color: #bf1818; ">
+                                            <strong>III. Quản lý</strong>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-12 mt-3">
+                                                <h6 class="text-primary">18. Tình trạng bảo quản</h6>
+                                                <hr class="mb-0 mt-0 bg-gray-600 text-danger">
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-sm-12">
+                                                    <table id="tableBaoQuan"
+                                                           data-toggle="table"
+                                                           data-classes="table table-bordered table-hover reponsive"
+                                                           data-unique-id="IdTinhTrangBQ"
+                                                           data-mobile-responsive="true"
+                                                           data-fixed-columns="true"
+                                                           data-show-export="true"
+                                                           data-toolbar="#toolbarBaoQuan"
+                                                           data-pagination="true"
+                                                           data-page-size="15"
+                                                           data-page-list="[15, 25, 35, all]">
+                                                        <thead>
+                                                            <tr class="trTable">
+                                                                <th data-field="cbTinhTrangBaoQuan" class="text-center">Tình trạng bảo quản</th>
+                                                                <th data-field="cbLoaiBaoQuan" class="text-center">Loại bảo quản</th>
+                                                                <th data-field="dtNgayBaoQuan" class="text-center">Ngày bảo quản</th>
+                                                                <th data-field="SoHSLienQuan" data-width="5">Số hồ sơ liên quan</th>
+                                                                <th data-formatter="operateFormatter_XoaBaoQuan" data-field="XoaBaoQuan" data-width="5"><strong>#</strong></th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  

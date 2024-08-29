@@ -1,0 +1,73 @@
+﻿<div class="fab-wrapper">
+    <input id="fabCheckbox" type="checkbox" class="fab-checkbox">
+    <label class="fab" for="fabCheckbox">
+        <i class="icon-cps-fab-menu"></i>
+        <!-- <i class="icon-cps-close"></i> -->
+    </label>
+    <div class="fab-wheel">
+        <a class="fab-action fab-action-2" href="tel:0903123456" rel="nofollow">
+            <span class="fab-title">Gọi trực tiếp</span>
+            <div class="fab-button fab-button-2"><i class="icon-cps-phone"></i></div>
+        </a>
+        <a class="fab-action fab-action-3" href="#" onclick="openForm()" rel="nofollow">
+            <span class="fab-title">Chat ngay</span>
+            <div class="fab-button fab-button-3"><i class="icon-cps-chat"></i></div>
+        </a>
+        <a class="fab-action fab-action-4" href="#" onclick="openFormZalo()" rel="nofollow">
+            <span class="fab-title">Chat trên Zalo</span>
+            <div class="fab-button fab-button-4"><i class="icon-cps-chat-zalo"></i></div>
+        </a>
+    </div>
+</div>
+<div class="modal fade" id="modal-message-support">
+    <div class="modal-dialog" style="max-width:40%">
+        <div class="modal-content">
+            <div class="panel panel-inverse m-0">
+                <div class="panel-heading  bg-blue-400 text-white">
+                    <h4 class="panel-title"><i class="fa fa-headphones-simple"></i> Liên hệ hỗ trợ</h4>
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body" style="background-image: url(../assets/img/bgChat.jpg); background-size: contain; ">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label class="form-label mt-1 text-white">Số điện thoại cần hỗ trợ:</label>
+                            <input class="form-control" placeholder="(+84) VietNam" id="" type="text" />
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="form-label mt-1 text-white">Nội dung cần hỗ trợ:</label>
+                            <textarea class="form-control" placeholder="Nhập nội dung" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer m-0 p-0" style="display:block">
+                    <a class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="fa fa-arrow-rotate-left"></i> Thoát</a>
+                    <a class="btn btn-sm btn-info col-sm-10" id=""><i class="fa fa-location-arrow"></i> Gửi tin nhắn</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-zalo-support">
+    <div class="modal-dialog" style="max-width:70%">
+        <div class="modal-content">
+            <div class="panel panel-inverse m-0">
+                <div class="panel-heading  bg-blue-400 text-white">
+                    <h4 class="panel-title"><i class="fa fa-headphones-simple"></i> Chat Zalo</h4>
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body p-0" style="background-image: url(../assets/img/bgChat.jpg); background-size: contain; ">
+                    <div class="row">
+                        <iframe src="https://zalo.me/0876583925" title="" style="height:500px"></iframe>
+                    </div>
+                </div>
+                <div class="modal-footer m-0 pb-0 pt-0" style="display:block">
+                    <a class="btn btn-sm btn-danger col-sm-12" data-bs-dismiss="modal"><i class="fa fa-arrow-rotate-left"></i> Thoát</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

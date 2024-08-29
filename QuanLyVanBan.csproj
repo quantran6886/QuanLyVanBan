@@ -441,6 +441,7 @@
     <Compile Include="Controllers\C_ChamCongController.cs" />
     <Compile Include="Controllers\C_DanhSachKhachHangController.cs" />
     <Compile Include="Controllers\C_DanhSachTaiKhoanController.cs" />
+    <Compile Include="Controllers\C_GetDanhMucController.cs" />
     <Compile Include="Controllers\C_HoSoCanBoController.cs" />
     <Compile Include="Controllers\C_KhoiPhucDuLieuController.cs" />
     <Compile Include="Controllers\C_NhapHienVatController.cs" />
@@ -448,6 +449,8 @@
     <Compile Include="Controllers\C_PhieuGiaoNhanController.cs" />
     <Compile Include="Controllers\C_PhieuThuController.cs" />
     <Compile Include="Controllers\C_PhongTrungBayController.cs" />
+    <Compile Include="Controllers\C_SearchHienVatController.cs" />
+    <Compile Include="Controllers\C_XetDuyetHoSoController.cs" />
     <Compile Include="Controllers\C_XuatHienVatController.cs" />
     <Compile Include="Controllers\DanhMucHeThongController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
@@ -463,6 +466,9 @@
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DomainModal\AspDanhMucHeThong.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModal\AspDeNghiXetDuyet.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DomainModal\AspDetailUser.cs">
@@ -483,22 +489,37 @@
     <Compile Include="DomainModal\AspKeHoachThu.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DomainModal\AspNetRole.cs">
+    <Compile Include="DomainModal\AspNetRoles.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DomainModal\AspNetUser.cs">
+    <Compile Include="DomainModal\AspNetUserClaims.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DomainModal\AspNetUserClaim.cs">
+    <Compile Include="DomainModal\AspNetUserLogins.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DomainModal\AspNetUserLogin.cs">
+    <Compile Include="DomainModal\AspNetUsers.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModal\AspNhapXuatHienVat.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModal\AspNoiLuuTruHienTai.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModal\AspPhieuGiaoNhan.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModal\AspQuanLyHienVat.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DomainModal\AspStoreDocument.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DomainModal\AspThuThucTe.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModal\AspTinhTrangBaoQuan.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DomainModal\DomainModel.Context.cs">
@@ -516,7 +537,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DomainModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="DomainModal\sysdiagram.cs">
+    <Compile Include="DomainModal\sp_GetDanhMuc_Result.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModal\sp_GetDataDM_Result.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DomainModal\sysdiagrams.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DomainModal\View_Online.cs">
@@ -541,6 +568,7 @@
   <ItemGroup>
     <Content Include="assets\css\border.css" />
     <Content Include="assets\css\Support.css" />
+    <Content Include="assets\Farmwork\CutomModal\fixmodal.js" />
     <Content Include="assets\img\Avatar2.jpg" />
     <Content Include="assets\cdn-cgi\scripts\5c5dd728\cloudflare-static\email-decode.min.js" />
     <Content Include="assets\cdn-cgi\scripts\7d0fa10a\cloudflare-static\rocket-loader.min.js" />
@@ -1028,7 +1056,9 @@
     <Content Include="assets\js\demo\ui-modal-notification.demo.js" />
     <Content Include="assets\js\demo\ui-tree.demo.js" />
     <Content Include="assets\js\demo\widget.demo.js" />
+    <Content Include="assets\js\jquery-3.4.1.min.js" />
     <Content Include="assets\js\vendor.min.js" />
+    <Content Include="assets\Support.js" />
     <Content Include="assets\Logout.js" />
     <Content Include="assets\Farmwork\photo-gallery\css\lightbox.css" />
     <Content Include="assets\Farmwork\photo-gallery\css\normalize.css" />
@@ -1285,6 +1315,7 @@
   <ItemGroup>
     <Folder Include="FilesUploads\" />
     <Folder Include="Scripts\" />
+    <Folder Include="Views\C_GetDanhMuc\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\plugins\bootstrap-icons\font\fonts\bootstrap-icons0107.woff" />
@@ -1296,6 +1327,9 @@
     <Content Include="assets\Farmwork\bootstrap-table\dist\themes\bootstrap-table\fonts\bootstrap-table.eot" />
     <Content Include="assets\Farmwork\bootstrap-table\dist\themes\bootstrap-table\fonts\bootstrap-table.ttf" />
     <Content Include="assets\Farmwork\bootstrap-table\dist\themes\bootstrap-table\fonts\bootstrap-table.woff" />
+    <Content Include="assets\Farmwork\Chosen\composer.json" />
+    <Content Include="assets\Farmwork\photo-gallery\css\styles.css.map" />
+    <Content Include="assets\css\ButtonHover.css" />
     <EntityDeploy Include="DomainModal\DomainModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DomainModel.Designer.cs</LastGenOutput>
@@ -1303,9 +1337,6 @@
     <Content Include="DomainModal\DomainModel.edmx.diagram">
       <DependentUpon>DomainModel.edmx</DependentUpon>
     </Content>
-    <Content Include="assets\Farmwork\Chosen\composer.json" />
-    <Content Include="assets\Farmwork\photo-gallery\css\styles.css.map" />
-    <Content Include="assets\css\ButtonHover.css" />
     <None Include="packages.config" />
     <Content Include="Views\TrungTamTinNhan\TrungTamTinNhan.cshtml" />
     <Content Include="Views\C_HoSoCanBo\C_HoSoCanBo.cshtml" />
@@ -1321,6 +1352,10 @@
     <Content Include="Views\C_PhieuGiaoNhan\C_PhieuGiaoNhan.cshtml" />
     <Content Include="Views\C_XuatHienVat\C_XuatHienVat.cshtml" />
     <Content Include="Views\C_PhongTrungBay\C_PhongTrungBay.cshtml" />
+    <Content Include="Views\C_XetDuyetHoSo\C_XetDuyetHoSo.cshtml" />
+    <Content Include="Views\C_SearchHienVat\C_SearchHienVat.cshtml" />
+    <Content Include="Views\Shared\CssRender.cshtml" />
+    <Content Include="Views\Shared\Support.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -58,7 +58,7 @@ namespace AppNetShop.Controllers
                         document.ten_file = ten_file;
                         document.duoi_file = extention;
                         document.ngay_tao = DateTime.Now;
-                        _query.AspStoreDocuments.Add(document);
+                        _query.AspStoreDocument.Add(document);
                     }
                 }
                 _query.SaveChanges();
@@ -83,7 +83,7 @@ namespace AppNetShop.Controllers
             {
                 var user = GetUserSession.getInfo();
 
-                var data = _query.AspStoreDocuments.AsEnumerable().Select(c => new
+                var data = _query.AspStoreDocument.AsEnumerable().Select(c => new
                 {
                     c.IdDocument,
                     c.url_file,
@@ -109,6 +109,32 @@ namespace AppNetShop.Controllers
         }
 
 
+        [HttpPost]
+        public JsonResult DeleteFile(Int64? IdDocument)
+        {
+            try
+            {
+                var data = _query.AspStoreDocument.Find(IdDocument);
+                if (data != null)
+                {
+                    _query.AspStoreDocument.Remove(data);
+                    _query.SaveChanges();
+                }
+
+                return Json(new
+                {
+                    code = true,
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    code = false,
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
 
     }
